@@ -227,13 +227,7 @@ Protipper.UpdatePriorities = function(spec)
 end
 
 Protipper.SetTexture = function(texturePath)
-	if (p.SPELL == nil) then
-		p.SPELL = CreateFrame("Button", nil, p.FRAME);
-		p.SPELL:SetPoint("TOPLEFT", p.FRAME, "TOPLEFT", p.PADDING, -1*p.PADDING
-			- p.LABEL_HEIGHT);
-		p.SPELL:SetWidth(Protipper.ICON_SIZE);
-		p.SPELL:SetHeight(Protipper.ICON_SIZE);
-	end
+	p.CreateButton();
 	p.SPELL:SetNormalTexture(texturePath);
 end
 
@@ -242,17 +236,33 @@ Protipper.SetNextSpell = function(spellName, parent)
 		p.SPELL:Hide();
 		return;
 	end
-	if (p.SPELL == nil) then
-		p.SPELL = CreateFrame("Button", nil, parent);
-		p.SPELL:SetPoint("TOPLEFT", parent, "TOPLEFT", p.PADDING, -1*p.PADDING
-			- p.LABEL_HEIGHT);
-		p.SPELL:SetWidth(Protipper.ICON_SIZE);
-		p.SPELL:SetHeight(Protipper.ICON_SIZE);
-	end
+	p.CreateButton();
 	local b = p.SPELL;
 	name, rank, icon, powerCost, isFunnel, powerType,
 	castingTime, minRange, maxRange = GetSpellInfo(spellName);
 	b:SetNormalTexture(icon);
+end
+
+Protipper.CreateButton = function()
+	if (p.SPELL == nil) then
+		p.SPELL = CreateFrame("Button", nil, p.FRAME);
+		p.SPELL:SetPoint("TOPLEFT", p.FRAME, "TOPLEFT", 0, 0);
+		p.SPELL:SetWidth(Protipper.ICON_SIZE);
+		p.SPELL:SetHeight(Protipper.ICON_SIZE);
+		p.SPELL:RegisterForDrag("LeftButton");
+		p.SPELL:SetScript("OnDragStart", p.StartDragFrame);
+		p.SPELL:SetScript("OnDragStop", p.StopDragFrame);
+	end
+end
+
+Protipper.StartDragFrame = function()
+	p.FRAME:SetMovable(true);
+	p.FRAME:StartMoving();
+end
+
+Protipper.StopDragFrame = function()
+	p.FRAME:SetMovable(false);
+	p.FRAME:StopMovingOrSizing();
 end
 
 Protipper.SetNextSpellName = function(spellName)
@@ -281,19 +291,13 @@ Protipper.CreateFrame = function()
 	}
 	local pt = CreateFrame("Frame", "ptFrame", UIParent);
 	p.FRAME = pt;
-	pt:SetBackdrop(backdrop);
+	pt:SetBackdrop(nil);
 	pt:SetPoint("CENTER", 0, 0);
-	pt:SetWidth(p.ICON_SIZE + 2 * p.PADDING);
-	pt:SetHeight(p.ICON_SIZE + 2 * p.PADDING + p.LABEL_HEIGHT);
+	pt:SetWidth(p.ICON_SIZE);
+	pt:SetHeight(p.ICON_SIZE);
 	pt:SetMovable(true);
-	pt:EnableMouse(true);
-	pt:RegisterForDrag("LeftButton");
-	pt:SetScript("OnDragStart", pt.StartMoving);
-	pt:SetScript("OnDragStop", pt.StopMovingOrSizing);
 
-	pt.Text = pt:CreateFontString(nil, "STRATA", "GameFontNormal");
-	pt.Text:SetPoint("Top", 0, -1*p.PADDING);
-	pt.Text:SetText(p.L["CAST_NEXT"]);
+	p.CreateButton();
 
 	local desc = CreateFrame("Frame", nil, pt);
 	p.DESCRIPTION = desc;
