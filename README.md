@@ -18,11 +18,11 @@ Priority list? Conditions? I don't get it.
 Perhaps an example will explain how it works. Consider the following priority
 list:
 
-* `'Dark Soul' if AbilityReady('Dark Soul')`
-* `'Summon Doomguard' if AbilityReady('Summon Doomguard')`
-* `'Agony' if DotRefresh('Agony')`
+* `'Dark Soul'` if `AbilityReady('Dark Soul')`
+* `'Summon Doomguard'` if `AbilityReady('Summon Doomguard')`
+* `'Agony'` if `DotRefresh('Agony')`
 * ...
-* `'Malefic Grasp' if true`
+* `'Malefic Grasp'` if `true`
 
 The decision about which spell to display would go as follows:
 
@@ -33,4 +33,17 @@ The decision about which spell to display would go as follows:
   (when considering [Pandemic](http://www.wowhead.com/spell=131973))? Yes:
   show that icon; no: proceed down.
 * ...
-* If everything else fails its condition, show `Malefic Grasp`.
+* If everything else fails its condition, show `Malefic Grasp`. This is why
+  the condition is trivially `true`.
+
+Do I have to write such lists on my own?
+----------------------------------------
+
+More or less sensible defaults are included and they should work well for
+raiding. If your purpose is not raiding at level 90, then you may have to write
+your own lists or modify the default lists. However, the goal is for the
+default priority lists to express the very best ability to use in order to
+maximize your DPS, and this should really be the ability you want to use in
+most situations where DPS matter in the first place.
+
+I would be surprised if the majority of people do not find the defaults useful.
