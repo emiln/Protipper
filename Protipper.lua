@@ -25,7 +25,6 @@ Protipper.UpdatePlayer = function()
 	local currentSpec = GetSpecialization();
 	local currentSpecName = currentSpec and
 		select(2, GetSpecializationInfo(currentSpec)) or "None"
-	print("It seems you're now playing as '" .. currentSpecName .. "'.");
 	p.SPEC = currentSpecName;
 	p.PLAYER_NAME = GetUnitName("player");
 end
@@ -213,19 +212,29 @@ Protipper.GetNextSpell = function(spec)
 			return spell;
 		end
 	end
-	return "Dark Intent";
 end
 
 Protipper.UpdatePriorities = function(spec)
 	local enemy = UnitCanAttack("player", "target");
 	if (enemy == nil) then
-		p.SetNextSpell("Auto Attack", p.FRAME);
+		p.SetTexture("Interface\\ICONS\\INV_Misc_QuestionMark");
 		p.SetNextSpellName(p.L["ACQUIRE_TARGET"]);
 	else
 		spell = p.GetNextSpell(spec);
 		p.SetNextSpellName(spell);
 		p.SetNextSpell(spell, p.FRAME);
 	end
+end
+
+Protipper.SetTexture = function(texturePath)
+	if (p.SPELL == nil) then
+		p.SPELL = CreateFrame("Button", nil, p.FRAME);
+		p.SPELL:SetPoint("TOPLEFT", p.FRAME, "TOPLEFT", p.PADDING, -1*p.PADDING
+			- p.LABEL_HEIGHT);
+		p.SPELL:SetWidth(Protipper.ICON_SIZE);
+		p.SPELL:SetHeight(Protipper.ICON_SIZE);
+	end
+	p.SPELL:SetNormalTexture(texturePath);
 end
 
 Protipper.SetNextSpell = function(spellName, parent)
