@@ -8,6 +8,14 @@ specs["Affliction"] = {
           p.SelfBuffDown('Burning Wrath') and
           p.SelfBuffDown('Still Water')]] },
 
+    {   "Summon Felhunter",
+        [[(not p.SelfBuffUp('Grimoire of Sacrifice')) and
+          (not p.ActivePet())]] },
+
+    {   "Grimoire of Sacrifice",
+        [[p.HasTalent('Grimoire of Sacrifice') and
+          p.ActivePet() and p.SelfBuffDown('Grimoire of Sacrifice')]] },
+
     {   "Curse of the Elements",
         [[p.DebuffDown('Curse of the Elements') and 
           p.DebuffDown('Lightning Breath') and 
@@ -24,10 +32,12 @@ specs["Affliction"] = {
 
     {   "Haunt",
         [[p.DebuffRefresh('Haunt') and p.AbilityReady('Haunt') and
-          (not p.IsTraveling('Haunt'))]] },
+          (not p.IsTraveling('Haunt')) and (not p.IsCasting('Haunt')) and
+          (not p.TargetSoonDead())]] },
 
     {   "Soulburn",
         [[p.AbilityReady('Soulburn') and
+          (not p.TargetSoonDead()) and
           (p.DotRefresh('Agony') or
            p.DotRefresh('Corruption') or
            p.DotRefresh('Unstable Affliction'))]] },

@@ -2,7 +2,7 @@ Protipper = {};
 local L = {};
 Protipper.L = L;
 
-L["CAST_NEXT"] = "Click:"
+L["CAST_NEXT"] = "Use me:"
 
 if GetLocale() == "ptBR" then
 end

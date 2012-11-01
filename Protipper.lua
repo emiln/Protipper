@@ -10,6 +10,7 @@ Protipper.COOLDOWN_DELTA = 0.75;
 Protipper.SPEC = "None";
 Protipper.TRAVELING_SPELLS = {};
 Protipper.CASTING_SPELLS = {};
+Protipper.TRIVIAL_HEALTH = 45000;
 
 Protipper.OnLoad = function() 
 	Protipper.CreateFrame();
@@ -50,6 +51,13 @@ Protipper.OnEvent = function(self, event, ...)
 	if event == "PLAYER_TALENT_UPDATE" or
 		event == "PLAYER_ENTERING_WORLD" then
 		p.UpdatePlayer();
+
+		local talents = {};
+		Protipper.TALENTS = talents;
+		for i = 1, GetNumTalents() do
+			local tName, _, _, _, tStatus = GetTalentInfo(i);
+		  	talents[tName] = tStatus;
+		end
 	end
 	if event == "UNIT_SPELLCAST_SUCCEEDED" then
 		local unit, name, rank, lineId, id = ...;
@@ -60,6 +68,24 @@ Protipper.OnEvent = function(self, event, ...)
 		end
 	end
 	p.UpdatePriorities(p.SPEC);
+end
+
+Protipper.ActivePet = function()
+	return UnitExists("pet");
+end
+
+Protipper.HasTalent = function(talentName)
+	return p.TALENTS[talentName] == true;
+end
+
+Protipper.TargetSoonDead = function()
+	local health = UnitHealth("target");
+	return (health <= p.TRIVIAL_HEALTH);
+end
+
+Protipper.IsCasting = function(spellName)
+	local spell = UnitCastingInfo("player");
+	return (not (spell == nil)) and (spell == spellName);
 end
 
 Protipper.IsTraveling = function(spellName)
