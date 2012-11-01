@@ -237,6 +237,11 @@ Protipper.SetNextSpell = function(spellName, parent)
 	b:SetNormalTexture(icon);
 end
 
+Protipper.CenterFrame = function()
+	p.FRAME:ClearAllPoints();
+	p.FRAME:SetPoint("CENTER", 0, 0);
+end
+
 Protipper.CreateFrame = function()
 	local backdrop = {
 		bgFile = "Interface\\Tooltips\\ChatBubble-Background",
