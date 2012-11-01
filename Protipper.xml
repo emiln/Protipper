@@ -1,0 +1,9 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../FrameXML.old/UI.xsd">
+
+	<Frame name="ProtipperFrame">
+		<Scripts>
+			<OnLoad>Protipper.OnLoad();</OnLoad>
+			<OnEvent>Protipper.OnEvent(event, ...);</OnEvent>
+		</Scripts>
+	</Frame>
+</Ui>
