@@ -220,8 +220,11 @@ Protipper.UpdatePriorities = function(spec)
 	local enemy = UnitCanAttack("player", "target");
 	if (enemy == nil) then
 		p.SetNextSpell("Auto Attack", p.FRAME);
+		p.SetNextSpellName(p.L["ACQUIRE_TARGET"]);
 	else
-		p.SetNextSpell(p.GetNextSpell(spec), p.FRAME);
+		spell = p.GetNextSpell(spec);
+		p.SetNextSpellName(spell);
+		p.SetNextSpell(spell, p.FRAME);
 	end
 end
 
@@ -243,6 +246,11 @@ Protipper.SetNextSpell = function(spellName, parent)
 	b:SetNormalTexture(icon);
 end
 
+Protipper.SetNextSpellName = function(spellName)
+	p.DESCRIPTION.Text:SetText(spellName);
+	p.DESCRIPTION:SetWidth(p.DESCRIPTION.Text:GetStringWidth() + 2*p.PADDING);
+end
+
 Protipper.CenterFrame = function()
 	p.FRAME:ClearAllPoints();
 	p.FRAME:SetPoint("CENTER", 0, 0);
@@ -254,12 +262,12 @@ Protipper.CreateFrame = function()
 		edgeFile = "Interface\\Tooltips\\ChatBubble-Backdrop",
 		tile = true,
 		tileSize = 32,
-		edgeSize = 32,
+		edgeSize = 16,
 		insets = {
-			left = 5,
-			right = 6,
-			top = 6,
-			bottom = 5
+			left = 3,
+			right = 3,
+			top = 3,
+			bottom = 3
 		}
 	}
 	local pt = CreateFrame("Frame", "ptFrame", UIParent);
@@ -277,6 +285,16 @@ Protipper.CreateFrame = function()
 	pt.Text = pt:CreateFontString(nil, "STRATA", "GameFontNormal");
 	pt.Text:SetPoint("Top", 0, -1*p.PADDING);
 	pt.Text:SetText(p.L["CAST_NEXT"]);
+
+	local desc = CreateFrame("Frame", nil, pt);
+	p.DESCRIPTION = desc;
+	desc:SetBackdrop(backdrop);
+	desc:SetPoint("BOTTOM", 0, -1*(p.LABEL_HEIGHT + 2*p.PADDING));
+	desc:SetWidth(120);
+	desc:SetHeight(p.LABEL_HEIGHT + 2*p.PADDING);
+	desc.Text = desc:CreateFontString(nil, "STRATA", "GameFontNormal");
+	desc.Text:SetPoint("TOP", 0, -1*p.PADDING);
+	desc.Text:SetText(p.L["ACQUIRE_TARGET"]);
 
 	pt:RegisterEvent("PLAYER_ENTERING_WORLD", pt);
 	pt:RegisterEvent("PLAYER_TALENT_UPDATE", pt);

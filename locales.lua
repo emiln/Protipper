@@ -3,6 +3,7 @@ local L = {};
 Protipper.L = L;
 
 L["CAST_NEXT"] = "Use me:"
+L["ACQUIRE_TARGET"] = "Target an enemy."
 
 if GetLocale() == "ptBR" then
 end
