@@ -17,13 +17,14 @@ specs["Affliction"] = {
         "p.AbilityReady('Dark Soul')" },
 
     {   "Summon Doomguard",
-        "p.AbilityReady('Summon Doomguard')" },
+        "p.AbilityReady('Summon Doomguard') and (GetNumGroupMembers() > 0)" },
 
     {   "Soul Swap",
         "p.SelfBuffUp('Soulburn')" },
 
     {   "Haunt",
-        "p.DebuffRefresh('Haunt') and p.AbilityReady('Haunt')" },
+        [[p.DebuffRefresh('Haunt') and p.AbilityReady('Haunt') and
+          (not p.IsTraveling('Haunt'))]] },
 
     {   "Soulburn",
         [[p.AbilityReady('Soulburn') and

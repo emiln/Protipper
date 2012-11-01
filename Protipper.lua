@@ -8,35 +8,62 @@ Protipper.SPELL = nil;
 Protipper.INTERVAL = 0.1;
 Protipper.COOLDOWN_DELTA = 0.75;
 Protipper.SPEC = "None";
+Protipper.TRAVELING_SPELLS = {};
+Protipper.CASTING_SPELLS = {};
 
 Protipper.OnLoad = function() 
 	Protipper.CreateFrame();
-	p.FRAME:SetScript("OnUpdate", p.OnUpdate);
 end
 
 local total = 0;
 
-Protipper.UpdateSpec = function()
+Protipper.UpdatePlayer = function()
 	local currentSpec = GetSpecialization();
 	local currentSpecName = currentSpec and
 		select(2, GetSpecializationInfo(currentSpec)) or "None"
 	print("It seems you're now playing as '" .. currentSpecName .. "'.");
 	p.SPEC = currentSpecName;
-end
-
-Protipper.OnUpdate = function(self, elapsed)
-	total = total + elapsed;
-	if total >= p.INTERVAL then
-		p.UpdatePriorities(p.SPEC);
-		total = 0;
-	end
+	p.PLAYER_NAME = GetUnitName("player");
 end
 
 Protipper.OnEvent = function(self, event, ...)
+	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+		local timestamp, eventtype, hideCaster, srcGUID, srcName, srcFlags,
+		srcRaidFlags, dstGUID, dstName, dstFlags, dstRaidFlags = ...;
+
+		if srcName == p.PLAYER_NAME then
+			if eventtype == "SPELL_CAST_START" then
+				local spell = UnitCastingInfo("player");
+				if not (spell == nil) then
+					p.CASTING_SPELLS[spell] = true;
+				end
+			end
+			if eventtype == "SPELL_CAST_FAILED" then
+				p.CASTING_SPELLS = {};
+			end
+			if eventtype == "SPELL_DAMAGE" or eventtype == "SPELL_MISSED" then
+				local spell = select(13, ...);
+				p.TRAVELING_SPELLS[spell] = nil;
+			end
+		end
+	end
 	if event == "PLAYER_TALENT_UPDATE" or
 		event == "PLAYER_ENTERING_WORLD" then
-		p.UpdateSpec();
+		p.UpdatePlayer();
 	end
+	if event == "UNIT_SPELLCAST_SUCCEEDED" then
+		local unit, name, rank, lineId, id = ...;
+		if not (name == nil) then
+			if (unit == "player") then
+				p.TRAVELING_SPELLS[name] = true;
+			end
+		end
+	end
+	p.UpdatePriorities(p.SPEC);
+end
+
+Protipper.IsTraveling = function(spellName)
+	return not (p.TRAVELING_SPELLS[spellName] == nil);
 end
 
 Protipper.SelfBuffStack = function(spellName, minStack, maxStack)
@@ -131,7 +158,6 @@ end
 Protipper.TargetLowOnHealth = function()
 	local health = UnitHealth("target");
 	local max = UnitHealthMax("target");
-	--print(health .. "/" .. max .. ": " .. (health/max));
 	return (health/max < 0.2);
 end
 
@@ -155,8 +181,8 @@ Protipper.GetNextSpell = function(spec)
 end
 
 Protipper.UpdatePriorities = function(spec)
-	local health = UnitHealth("target");
-	if not (health > 0) then
+	local enemy = UnitCanAttack("player", "target");
+	if (enemy == nil) then
 		p.SetNextSpell("Auto Attack", p.FRAME);
 	else
 		p.SetNextSpell(p.GetNextSpell(spec), p.FRAME);
@@ -208,14 +234,23 @@ Protipper.CreateFrame = function()
 	pt:SetScript("OnDragStop", pt.StopMovingOrSizing);
 
 	pt.Text = pt:CreateFontString(nil, "STRATA", "GameFontNormal");
-	--pt.Text:SetAllPoints();
 	pt.Text:SetPoint("Top", 0, -1*p.PADDING);
 	pt.Text:SetText(p.L["CAST_NEXT"]);
-
-	--p.UpdatePriorities("Destruction");
 
 	pt:RegisterEvent("PLAYER_ENTERING_WORLD", pt);
 	pt:RegisterEvent("PLAYER_TALENT_UPDATE", pt);
 	pt:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", pt);
+
+	--[[ Make sure it updates priorities whenever something spell-related
+		 happens. ]]
+	pt:RegisterEvent("SPELL_UPDATE_COOLDOWN");
+	pt:RegisterEvent("SPELL_UPDATE_USABLE");
+	pt:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED");
+	pt:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
+	pt:RegisterEvent("UNIT_SPELLCAST_START");
+	pt:RegisterEvent("UNIT_SPELLCAST_STOP");
+	pt:RegisterEvent("PLAYER_TARGET_CHANGED");
+	pt:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+
 	pt:SetScript("OnEvent", p.OnEvent);
 end
