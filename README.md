@@ -50,4 +50,26 @@ I would be surprised if the majority of people do not find the defaults useful.
 
 Is there a list of all functions provided by Protipper?
 -------------------------------------------------------
-Nope.
+Assuming this is up to date (which is totally happening), the available functions are:
+
+* `AbilityReady(spellName)`: returns true if `spellName` is *not* on cooldown,
+  and you have the required resources to use it.
+* `ActivePet()`: returns true if you have an active pet.
+* `CenterFrame()`: returns the frame to the center of the screen if you happen
+  to misplace it.
+* `DebuffRefresh(spellName)`: returns true if `spellName` is expired on target
+  or will within your cast time.
+* `HasTalent(talentName)`: returns true if you currently have `talentName`.
+* `IsCasting(spellName)`: returns true if you are currently casting `spellName`.
+* `IsTraveling(spellName)`: returns true if you have successfully cast
+  `spellName`, but it has not hit (or missed) yet.
+* `LowOnMana()`: returns true if your mana is below `35%`.
+* `SelfBuffDown(spellName)`: returns true if you are currently *not* affected
+  by `spellName`.
+* `SelfBuffStack(spellName, minStack, maxStack)`: returns true if you are
+  currently affected by `spellName`, and `minStack <= stackCount <= maxStack`.
+* `SelfBuffUp(spellName)`: returns true if you are currently affected by
+  `spellName`.
+* `TargetLowOnHealth()`: returns true if target's health is below `20%`.
+* `TargetSoonDead()`: returns true if target's health is below any of
+  `TRIVIAL_HEALTH` and `5%`.
