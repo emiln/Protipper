@@ -199,6 +199,9 @@ end
 
 Protipper.GetNextSpell = function(spec)
 	local queue = p.SPEC_LIST[spec];
+	if queue == nil then
+		return "Auto Attack";
+	end
 	for i,v in ipairs(queue) do
 		local spell = v[1];
 		local cond = "local p = Protipper; return (" .. v[2] .. ");";

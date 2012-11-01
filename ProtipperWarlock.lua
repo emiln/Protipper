@@ -1,6 +1,10 @@
 local specs = {};
 Protipper.SPEC_LIST = specs;
 
+if not (UnitClass("player") == "Warlock") then
+    return
+end
+
 specs["Affliction"] = {
     {   "Dark Intent",
         [[p.SelfBuffDown('Dark Intent') and 
