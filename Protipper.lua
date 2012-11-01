@@ -14,6 +14,9 @@ Protipper.TRIVIAL_HEALTH = 45000;
 
 Protipper.OnLoad = function() 
 	Protipper.CreateFrame();
+	if Protipper.SPEC_LIST == nil then
+	   Protipper.SPEC_LIST = {};
+	end
 end
 
 local total = 0;
