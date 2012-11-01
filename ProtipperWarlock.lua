@@ -1,11 +1,8 @@
-local specs = {};
-Protipper.SPEC_LIST = specs;
-
 if not (UnitClass("player") == "Warlock") then
     return
 end
 
-specs["Affliction"] = {
+Protipper.SPEC_LIST["Affliction"] = {
     {   "Dark Intent",
         [[p.SelfBuffDown('Dark Intent') and 
           p.SelfBuffDown('Arcane Brilliance') and
@@ -65,7 +62,7 @@ specs["Affliction"] = {
         "true" }
 };
 
-specs["Demonology"] = {
+Protipper.SPEC_LIST["Demonology"] = {
     {   "Dark Intent",
         [[p.SelfBuffDown('Dark Intent') and
           p.SelfBuffDown('Arcane Brilliance') and
@@ -111,7 +108,7 @@ specs["Demonology"] = {
         "true" }
 };
 
-specs["Destruction"] = {
+Protipper.SPEC_LIST["Destruction"] = {
     {   "Dark Intent",
         [[p.SelfBuffDown('Dark Intent') and
           p.SelfBuffDown('Arcane Brilliance') and
