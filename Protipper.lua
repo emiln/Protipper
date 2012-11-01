@@ -80,7 +80,8 @@ end
 
 Protipper.TargetSoonDead = function()
 	local health = UnitHealth("target");
-	return (health <= p.TRIVIAL_HEALTH);
+	local max = UnitHealthMax("target");
+	return (health <= p.TRIVIAL_HEALTH and health/max < 0.05);
 end
 
 Protipper.IsCasting = function(spellName)
