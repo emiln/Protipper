@@ -47,3 +47,7 @@ maximize your DPS, and this should really be the ability you want to use in
 most situations where DPS matter in the first place.
 
 I would be surprised if the majority of people do not find the defaults useful.
+
+Is there a list of all functions provided by Protipper?
+-------------------------------------------------------
+Nope.
