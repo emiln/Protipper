@@ -43,6 +43,12 @@ Protipper.SPEC_LIST["Frost"] = {
     {	"Summon Water Elemental",
     	[[not p.ActivePet() and 
 	p.AbilityReady('Summon Water Elemental')]] },
+    
+    {	"Mirror Image",
+    	"p.AbilityReady('Mirror Image')"},
+
+    {	"Icy Veins",
+    	"p.AbilityReady('Icy Veins')" },
 
     {	"Frost Bomb",
     	"p.AbilityReady('Frost Bomb')" },
@@ -55,7 +61,9 @@ Protipper.SPEC_LIST["Frost"] = {
 	not p.DebuffStack('Frostbolt', 3, 3)]] },
 
     {	"Freeze",
-    	"p.PetAbilityReady('Freeze')" },
+    	[[not p.SelfBuffStack('Fingers of Frost', 2, 2) and
+	p.ActivePet() and 
+	p.PetAbilityReady('Freeze')]] },
 
     {	"Frostfire Bolt",
     	[[p.SelfBuffUp('Brain Freeze') and

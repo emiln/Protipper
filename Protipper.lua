@@ -151,8 +151,20 @@ Protipper.AbilityReady = function(spellName)
 
 	local currentPower = UnitPower("player", powerType);
 
-	return (start + duration - GetTime() <
-		p.COOLDOWN_DELTA and powerCost <= currentPower);
+	-- Information about current spell being cast.
+	local spell, rank, displayName, icon, startTime, endTime, 
+	      isTradeSkill, castID, interrupt = UnitCastingInfo("player")
+	
+	local remainingCooldown = start + duration - GetTime();
+	local remainingCastTime = 0;
+	if spell then
+	   remainingCastTime = endTime/1000 - GetTime();
+	end
+
+	
+	return ((remainingCooldown < p.COOLDOWN_DELTA or 
+	       remainingCooldown < remainingCastTime) and 
+	       powerCost <= currentPower);
 end
 
 Protipper.PetAbilityReady = function(spellName)
