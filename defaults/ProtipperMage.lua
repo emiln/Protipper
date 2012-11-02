@@ -5,9 +5,9 @@ end
 Protipper.SPEC_LIST["Arcane"] = {
     {   "Arcane Brilliance",
         [[not (p.BuffActive('Dark Intent', 'player') or
-          p.BuffActive('Arcane Brilliance', 'player') or
-          p.BuffActive('Burning Wrath', 'player') or
-          p.BuffActive('Still Water', 'player'))]] },
+               p.BuffActive('Arcane Brilliance', 'player') or
+               p.BuffActive('Burning Wrath', 'player') or
+               p.BuffActive('Still Water', 'player'))]] },
 
     {   "Mage Armor",
         "not p.BuffActive('Mage Armor', 'player')" },
