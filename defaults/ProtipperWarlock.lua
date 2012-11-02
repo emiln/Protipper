@@ -4,41 +4,40 @@ end
 
 Protipper.SPEC_LIST["Affliction"] = {
     {   "Dark Intent",
-        [[p.SelfBuffDown('Dark Intent') and 
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
+        [[not (p.BuffActive('Dark Intent', 'player') or
+               p.BuffActive('Arcane Brilliance', 'player') or
+               p.BuffActive('Burning Wrath', 'player') or
+               p.BuffActive('Still Water', 'player'))]] },
 
     {   "Summon Felhunter",
-        [[(not p.SelfBuffUp('Grimoire of Sacrifice')) and
-          (not p.ActivePet())]] },
+        [[(not p.BuffActive('Grimoire of Sacrifice', 'player')) and
+          (not p.PetActive())]] },
 
     {   "Grimoire of Sacrifice",
-        [[p.HasTalent('Grimoire of Sacrifice') and
-          p.ActivePet() and p.SelfBuffDown('Grimoire of Sacrifice')]] },
+        [[p.TalentActive('Grimoire of Sacrifice') and
+          p.PetActive() and
+          (not p.BuffActive('Grimoire of Sacrifice', 'player'))]] },
 
     {   "Curse of the Elements",
-        [[p.DebuffDown('Curse of the Elements') and 
-          p.DebuffDown('Lightning Breath') and 
-          p.DebuffDown('Master Poisoner')]] },
+        [[not (p.DebuffActive('Curse of the Elements', 'target') or 
+               p.DebuffActive('Lightning Breath', 'target') or
+               p.DebuffActive('Master Poisoner', 'target'))]] },
 
     {   "Dark Soul",
         "p.AbilityReady('Dark Soul')" },
 
     {   "Summon Doomguard",
-        "p.AbilityReady('Summon Doomguard') and (GetNumGroupMembers() > 0)" },
+        "p.AbilityReady('Summon Doomguard')" },
 
     {   "Soul Swap",
-        "p.SelfBuffUp('Soulburn')" },
+        "p.BuffActive('Soulburn', 'player')" },
 
     {   "Haunt",
         [[p.DebuffRefresh('Haunt') and p.AbilityReady('Haunt') and
-          (not p.IsTraveling('Haunt')) and (not p.IsCasting('Haunt')) and
-          (not p.TargetSoonDead())]] },
+          (not p.IsTraveling('Haunt')) and (not p.IsCasting('Haunt'))]] },
 
     {   "Soulburn",
         [[p.AbilityReady('Soulburn') and
-          (not p.TargetSoonDead()) and
           (p.DotRefresh('Agony') or
            p.DotRefresh('Corruption') or
            p.DotRefresh('Unstable Affliction'))]] },
@@ -53,10 +52,10 @@ Protipper.SPEC_LIST["Affliction"] = {
         "p.DotRefresh('Unstable Affliction')" },
 
     {   "Drain Soul",
-        "p.TargetLowOnHealth()" },
+        "p.LowOnHealth(0.2, 'target')" },
 
     {   "Life Tap",
-        "p.LowOnMana()" },
+        "p.LowOnMana(0.35, 'player')" },
 
     {   "Malefic Grasp",
         "true" }
@@ -64,15 +63,15 @@ Protipper.SPEC_LIST["Affliction"] = {
 
 Protipper.SPEC_LIST["Demonology"] = {
     {   "Dark Intent",
-        [[p.SelfBuffDown('Dark Intent') and
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
+        [[not (p.BuffActive('Dark Intent', 'player') or
+               p.BuffActive('Arcane Brilliance', 'player') or
+               p.BuffActive('Burning Wrath', 'player') or
+               p.BuffActive('Still Water', 'player'))]] },
 
     {   "Curse of the Elements",
-        [[p.DebuffDown('Curse of the Elements') and
-          p.DebuffDown('Lightning Breath') and
-          p.DebuffDown('Master Poisoner')]] },
+        [[not (p.DebuffActive('Curse of the Elements', 'target') or 
+               p.DebuffActive('Lightning Breath', 'target') or
+               p.DebuffActive('Master Poisoner', 'target'))]] },
 
     {   "Dark Soul",
         "p.AbilityReady('Dark Soul')" },
@@ -96,13 +95,13 @@ Protipper.SPEC_LIST["Demonology"] = {
         "p.AbilityReady('Metamorphosis')" },
 
     {   "Soul Fire",
-        "p.SelfBuffUp('Molten Core')" },
+        "p.BuffActive('Molten Core', 'player')" },
 
     {   "Touch of Chaos",
         "p.AbilityReady('Touch of Chaos')" },
 
     {   "Life Tap",
-        "p.LowOnMana()" },
+        "p.LowOnMana(0.35, 'player')" },
 
     {   "Shadow Bolt",
         "true" }
@@ -110,15 +109,15 @@ Protipper.SPEC_LIST["Demonology"] = {
 
 Protipper.SPEC_LIST["Destruction"] = {
     {   "Dark Intent",
-        [[p.SelfBuffDown('Dark Intent') and
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
+        [[not (p.BuffActive('Dark Intent', 'player') or
+               p.BuffActive('Arcane Brilliance', 'player') or
+               p.BuffActive('Burning Wrath', 'player') or
+               p.BuffActive('Still Water', 'player'))]] },
 
     {   "Curse of the Elements",
-        [[p.DebuffDown('Curse of the Elements') and
-          p.DebuffDown('Lightning Breath') and
-          p.DebuffDown('Master Poisoner')]] },
+        [[not (p.DebuffActive('Curse of the Elements', 'target') or 
+               p.DebuffActive('Lightning Breath', 'target') or
+               p.DebuffActive('Master Poisoner', 'target'))]] },
 
     {   "Dark Soul",
         "p.AbilityReady('Dark Soul')" },
@@ -127,7 +126,7 @@ Protipper.SPEC_LIST["Destruction"] = {
         "p.AbilityReady('Summon Doomguard')" },
 
     {   "Shadowburn",
-        "p.TargetLowOnHealth()" },
+        "p.LowOnHealth(0.2, 'target')" },
 
     {   "Immolate",
         "p.DotRefresh('Immolate')" },

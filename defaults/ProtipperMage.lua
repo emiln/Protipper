@@ -4,27 +4,27 @@ end
 
 Protipper.SPEC_LIST["Arcane"] = {
     {   "Arcane Brilliance",
-        [[p.SelfBuffDown('Dark Intent') and 
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
+        [[not (p.BuffActive('Dark Intent', 'player') or
+          p.BuffActive('Arcane Brilliance', 'player') or
+          p.BuffActive('Burning Wrath', 'player') or
+          p.BuffActive('Still Water', 'player'))]] },
 
     {   "Mage Armor",
-    	"p.SelfBuffDown('Mage Armor')" },
+        "not p.BuffActive('Mage Armor', 'player')" },
 
-    {	"Arcane Blast",
-    	"true" }
+    { "Arcane Blast",
+      "true" }
 };
 
 Protipper.SPEC_LIST["Fire"] = {
     {   "Arcane Brilliance",
-        [[p.SelfBuffDown('Dark Intent') and 
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
+        [[not (p.BuffActive('Dark Intent', 'player') or
+               p.BuffActive('Arcane Brilliance', 'player') or
+               p.BuffActive('Burning Wrath', 'player') or
+               p.BuffActive('Still Water', 'player'))]] },
 
     {   "Molten Armor",
-    	  "p.SelfBuffDown('Molten Armor')" },
+        "not p.BuffActive('Molten Armor', 'player')" },
 
     {   "Fireball",
         "true" }
@@ -32,46 +32,46 @@ Protipper.SPEC_LIST["Fire"] = {
 
 Protipper.SPEC_LIST["Frost"] = {
     {   "Arcane Brilliance",
-        [[p.SelfBuffDown('Dark Intent') and 
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
+        [[not (p.BuffActive('Dark Intent', 'player') or
+               p.BuffActive('Arcane Brilliance', 'player') or
+               p.BuffActive('Burning Wrath', 'player') or
+               p.BuffActive('Still Water', 'player'))]] },
 
     {   "Frost Armor",
-    	"p.SelfBuffDown('Frost Armor')" },
+        "not p.BuffActive('Frost Armor', 'player')" },
 
-    {	"Summon Water Elemental",
-    	[[not p.ActivePet() and 
-	      p.AbilityReady('Summon Water Elemental')]] },
+    {   "Summon Water Elemental",
+        [[not p.PetActive() and 
+          p.AbilityReady('Summon Water Elemental')]] },
     
-    {	"Mirror Image",
-    	"p.AbilityReady('Mirror Image')"},
+    {   "Mirror Image",
+        "p.AbilityReady('Mirror Image')"},
 
-    {	"Icy Veins",
-    	"p.AbilityReady('Icy Veins')" },
+    {   "Icy Veins",
+        "p.AbilityReady('Icy Veins')" },
 
-    {	"Frost Bomb",
-    	"p.AbilityReady('Frost Bomb')" },
+    {   "Frost Bomb",
+        "p.AbilityReady('Frost Bomb')" },
 
-    {	"Frozen Orb",
-	    "p.AbilityReady('Frozen Orb')" },
+    {   "Frozen Orb",
+        "p.AbilityReady('Frozen Orb')" },
 
-    { 	"Frostbolt",
-    	"p.DebuffRefresh('Frostbolt')" },
+    {   "Frostbolt",
+        "p.DebuffRefresh('Frostbolt')" },
 
-    {	"Freeze",
-    	[[not p.BuffStack('Fingers of Frost', 2, 2, 'player') and
-	      p.ActivePet() and 
-	      p.PetAbilityReady('Freeze')]] },
+    {   "Freeze",
+        [[not p.BuffStack('Fingers of Frost', 2, 2, 'player') and
+          p.PetActive() and 
+          p.PetAbilityReady('Freeze')]] },
 
-    {	"Frostfire Bolt",
-    	[[p.SelfBuffUp('Brain Freeze') and
-	      p.AbilityReady('Frostfire Bolt')]] },
+    {   "Frostfire Bolt",
+        [[p.BuffActive('Brain Freeze', 'player') and
+          p.AbilityReady('Frostfire Bolt')]] },
 
-    {	"Ice Lance",
-	    [[p.SelfBuffUp('Fingers of Frost') and
-	    p.AbilityReady('Ice Lance')]] },
-	
+    {   "Ice Lance",
+        [[p.BuffActive('Fingers of Frost', 'player') and
+          p.AbilityReady('Ice Lance')]] },
+  
     {   "Frostbolt",
         "true" }
 }
