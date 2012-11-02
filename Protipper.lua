@@ -11,15 +11,41 @@ Protipper.SPEC = "None";
 Protipper.TRAVELING_SPELLS = {};
 Protipper.CASTING_SPELLS = {};
 Protipper.TRIVIAL_HEALTH = 45000;
+Protipper.TOTEM_MAP = {};
 
 Protipper.OnLoad = function() 
 	Protipper.CreateFrame();
 	if Protipper.SPEC_LIST == nil then
 	   Protipper.SPEC_LIST = {};
 	end
+	Protipper.CreateTotemMap();
 end
 
-local total = 0;
+Protipper.CreateTotemMap = function()
+	p.TOTEM_MAP["Flametongue Totem"] = 1;
+	p.TOTEM_MAP["Fire Elemental Totem"] = 1;
+	p.TOTEM_MAP["Magma Totem"] = 1;
+	p.TOTEM_MAP["Searing Totem"] = 1;
+
+	p.TOTEM_MAP["Earth Elemental Totem"] = 2;
+	p.TOTEM_MAP["Earthbind Totem"] = 2;
+	p.TOTEM_MAP["Stoneclaw Totem"] = 2;
+	p.TOTEM_MAP["Stoneskin Totem"] = 2;
+	p.TOTEM_MAP["Strength of Earth Totem"] = 2;
+	p.TOTEM_MAP["Tremor Totem"] = 2;
+
+	p.TOTEM_MAP["Cleansing Totem"] = 3;
+	p.TOTEM_MAP["Fire Resistance Totem"] = 3;
+	p.TOTEM_MAP["Healing Stream Totem"] = 3;
+	p.TOTEM_MAP["Mana Spring Totem"] = 3;
+	p.TOTEM_MAP["Mana Tide Totem"] = 3;
+
+	p.TOTEM_MAP["Grounding Totem"] = 4;
+	p.TOTEM_MAP["Nature Resistance Totem"] = 4;
+	p.TOTEM_MAP["Sentry Totem"] = 4;
+	p.TOTEM_MAP["Windfury Totem"] = 4;
+	p.TOTEM_MAP["Wrath of Air Totem"] = 4;
+end
 
 Protipper.UpdatePlayer = function()
 	local currentSpec = GetSpecialization();
@@ -143,17 +169,27 @@ Protipper.DebuffDown = function(spellName)
 	return not p.DebuffUp(spellName);
 end
 
+Protipper.ActiveTotem = function(totemName)
+	local totemSlot = p.TOTEM_MAP[totemName];
+	local haveTotem, activeTotem, startTime, duration = GetTotemInfo(totemSlot);
+
+	return (activeTotem == totemName) and
+		(GetTime() - startTime + duration) >= p.COOLDOWN_DELTA;
+end
+
 Protipper.AbilityReady = function(spellName)
 	local start, duration, enable = GetSpellCooldown(spellName);
 
 	local name, rank, icon, powerCost, isFunnel, powerType, castingTime,
 		minRange, maxRange = GetSpellInfo(spellName);
 
+	if (name == nil) then return false end
+
 	local currentPower = UnitPower("player", powerType);
 
 	-- Information about current spell being cast.
 	local spell, rank, displayName, icon, startTime, endTime, 
-	      isTradeSkill, castID, interrupt = UnitCastingInfo("player")
+	      isTradeSkill, castID, interrupt = UnitCastingInfo("player");
 	
 	local remainingCooldown = start + duration - GetTime();
 	local remainingCastTime = 0;
