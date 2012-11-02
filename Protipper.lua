@@ -116,18 +116,12 @@ Protipper.OnEvent = function(self, event, ...)
 	p.UpdatePriorities(p.SPEC);
 end
 
-Protipper.ActivePet = function()
+Protipper.PetActive = function()
 	return UnitExists("pet");
 end
 
-Protipper.HasTalent = function(talentName)
+Protipper.TalentActive = function(talentName)
 	return p.TALENTS[talentName] == true;
-end
-
-Protipper.TargetSoonDead = function()
-	local health = UnitHealth("target");
-	local max = UnitHealthMax("target");
-	return (health <= p.TRIVIAL_HEALTH and health/max < 0.05);
 end
 
 Protipper.IsCasting = function(spellName)
@@ -163,31 +157,23 @@ Protipper.DebuffStack = function(spellName, minStack, maxStack, unit)
 	return (count >= minStack) and (count <= maxStack);
 end
 
-Protipper.SelfBuffUp = function(spellName)
+Protipper.BuffActive = function(spellName, unit)
 	local name, rank, icon, count, dispelType, duration, expires, caster,
 		isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
-		value1, value2, value3 = UnitAura("player", spellName);
+		value1, value2, value3 = UnitAura(unit, spellName);
 
 	return not (name == nil);
 end
 
-Protipper.SelfBuffDown = function(spellName)
-	return not p.SelfBuffUp(spellName);
-end
-
-Protipper.DebuffUp = function(spellName)
+Protipper.DebuffActive = function(spellName, unit)
 	local name, rank, icon, count, dispelType, duration, expires, caster,
 		isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
-		value1, value2, value3 = UnitDebuff("target", spellName);
+		value1, value2, value3 = UnitDebuff(unit, spellName);
 
 	return not (name == nil);
 end
 
-Protipper.DebuffDown = function(spellName)
-	return not p.DebuffUp(spellName);
-end
-
-Protipper.ActiveTotem = function(totemName)
+Protipper.TotemActive = function(totemName)
 	local totemSlot = p.TOTEM_MAP[totemName];
 	local haveTotem, activeTotem, startTime, duration = GetTotemInfo(totemSlot);
 
@@ -223,7 +209,7 @@ end
 
 Protipper.PetAbilityReady = function(spellName)
 	-- HARDCODED, PLS 2 FIX.
-        local spellIndex = 4;
+    local spellIndex = 4;
 
 	local start, duration, enable = GetPetActionCooldown(spellIndex);
 
@@ -280,16 +266,16 @@ Protipper.DotRefresh = function(spellName)
 		powerCost <= currentPower);
 end
 
-Protipper.TargetLowOnHealth = function()
-	local health = UnitHealth("target");
-	local max = UnitHealthMax("target");
-	return (health/max < 0.2);
+Protipper.LowOnHealth = function(healthFraction, unit)
+	local health = UnitHealth(unit);
+	local max = UnitHealthMax(unit);
+	return (health/max < healthFraction);
 end
 
-Protipper.LowOnMana = function()
-	local mana = UnitMana("player");
-	local max = UnitManaMax("player");
-	return (mana/max < 0.35);
+Protipper.LowOnMana = function(manaFraction, unit)
+	local mana = UnitMana(unit);
+	local max = UnitManaMax(unit);
+	return (mana/max < manaFraction);
 end
 
 Protipper.GetNextSpell = function(spec)

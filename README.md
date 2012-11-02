@@ -50,28 +50,43 @@ I would be surprised if the majority of people do not find the defaults useful.
 
 Is there a list of all functions provided by Protipper?
 -------------------------------------------------------
-Assuming this is up to date (which is totally happening), the available functions are:
+The API available to conditions is listed below. All occurences of the
+parameter `unit` take on the following values: `{pet,player,target}`.
 
-* `AbilityReady(spellName)`: returns true if `spellName` is *not* on cooldown,
-  and you have the required resources to use it.
-* `ActivePet()`: returns true if you have an active pet.
+* `AbilityReady(abilityName)`: returns true if `abilityName` is *not* on
+  cooldown, and you have the required resources to use it.
+
+* `BuffActive(buffName, unit)`: returns true if `unit` is currently affected by
+  a buff called `buffName`.
+
+* `BuffStack(buffName, minStack, maxStack, unit)`: returns true if `unit` is
+  currently affected by `buffName`, and `minStack <= buffCount <= maxStack`.
+
 * `CenterFrame()`: returns the frame to the center of the screen if you happen
   to misplace it.
-* `DebuffRefresh(spellName)`: returns true if `spellName` is expired on target
+
+* `DebuffActive(debuffName, unit)`: returns true if `unit` is currently
+  affected by a debuff called `debuffName`.
+
+* `DebuffRefresh(debuffName)`: returns true if `debuffName` is expired on target
   or will within your cast time.
-* `DebuffStack(spellName, minStack, maxStack)`: returns true if your target is
-  currently affected by `spellName`, and `minStack <= stackCount <= maxStack`.
-* `HasTalent(talentName)`: returns true if you currently have `talentName`.
-* `IsCasting(spellName)`: returns true if you are currently casting `spellName`.
+
+* `DebuffStack(spellName, minStack, maxStack, unit)`: returns true if `unit` is
+  currently affected by `spellName` at `stackCount` stacks, and
+  `minStack <= stackCount <= maxStack`.
+
+* `IsCasting(spellName)`: returns true if you are currently casting
+  `spellName`.
+
 * `IsTraveling(spellName)`: returns true if you have successfully cast
   `spellName`, but it has not hit (or missed) yet.
-* `LowOnMana()`: returns true if your mana is below `35%`.
-* `SelfBuffDown(spellName)`: returns true if you are currently *not* affected
-  by `spellName`.
-* `SelfBuffStack(spellName, minStack, maxStack)`: returns true if you are
-  currently affected by `spellName`, and `minStack <= stackCount <= maxStack`.
-* `SelfBuffUp(spellName)`: returns true if you are currently affected by
-  `spellName`.
-* `TargetLowOnHealth()`: returns true if target's health is below `20%`.
-* `TargetSoonDead()`: returns true if target's health is below any of
-  `TRIVIAL_HEALTH` and `5%`.
+
+* `LowOnHealth(healthFraction, unit)`: returns true if `unit`'s' health is
+  below `healthFraction`, where `0 <= healthFraction <= 1`.
+
+* `LowOnMana(manaFraction, unit)`: returns true if `unit`'s' mana is below
+  `manaFraction`, where `0 <= manaFraction <= 1`.
+
+* `PetActive()`: returns true if you have an active pet.
+
+* `TalentActive(talentName)`: returns true if you currently have `talentName`.
