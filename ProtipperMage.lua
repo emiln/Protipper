@@ -55,7 +55,13 @@ Protipper.SPEC_LIST["Frost"] = {
 	not p.DebuffStack('Frostbolt', 3, 3)]] },
 
     {	"Freeze",
-    	"p.AbilityReady('Freeze')" },
+    	"p.PetAbilityReady('Freeze')" },
+
+    {	"Frostfire Bolt",
+    	"p.SelfBuffUp('Brain Freeze')" },
+
+    {	"Ice Lance",
+	"p.SelfBuffUp('Fingers of Frost')" },
 	
     {   "Frostbolt",
         "true" }

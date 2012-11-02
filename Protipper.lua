@@ -155,6 +155,21 @@ Protipper.AbilityReady = function(spellName)
 		p.COOLDOWN_DELTA and powerCost <= currentPower);
 end
 
+Protipper.PetAbilityReady = function(spellName)
+	-- HARDCODED, PLS 2 FIX.
+        local spellIndex = 4;
+
+	local start, duration, enable = GetPetActionCooldown(spellIndex);
+
+	local name, rank, icon, powerCost, isFunnel, powerType, castingTime,
+		minRange, maxRange = GetSpellInfo(spellName);
+
+	local currentPower = UnitPower("pet", powerType);
+
+	return (start + duration - GetTime() < p.COOLDOWN_DELTA and 
+	       powerCost <= currentPower);	
+end
+
 Protipper.DebuffRefresh = function(spellName)
 	local name, rank, icon, powerCost, isFunnel, powerType, castingTime,
 		minRange, maxRange = GetSpellInfo(spellName);
