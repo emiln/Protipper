@@ -30,7 +30,7 @@ Protipper.SPEC_LIST["Elemental"] = {
 
     {   "Earth Shock",
         [[p.AbilityReady('Earth Shock') and
-          p.SelfBuffStack('Lightning Shield', 6, 100)]] },
+          p.BuffStack('Lightning Shield', 6, 100, 'player')]] },
 
     {   "Lightning Bolt",
         "true" }

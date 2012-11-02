@@ -139,10 +139,10 @@ Protipper.IsTraveling = function(spellName)
 	return not (p.TRAVELING_SPELLS[spellName] == nil);
 end
 
-Protipper.SelfBuffStack = function(spellName, minStack, maxStack)
+Protipper.BuffStack = function(spellName, minStack, maxStack, unit)
 	local name, rank, icon, count, dispelType, duration, expires, caster,
 		isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
-		value1, value2, value3 = UnitAura("player", spellName);
+		value1, value2, value3 = UnitAura(unit, spellName);
 
 	if (name == nil or count == nil) then
 		return (minStack == 0);
@@ -151,10 +151,10 @@ Protipper.SelfBuffStack = function(spellName, minStack, maxStack)
 	return (count >= minStack) and (count <= maxStack);
 end
 
-Protipper.DebuffStack = function(spellName, minStack, maxStack)
+Protipper.DebuffStack = function(spellName, minStack, maxStack, unit)
 	local name, rank, icon, count, debuffType, duration, expirationTime, 
 	      unitCaster, isStealable, shouldConsolidate, spellId  = 
-	      UnitDebuff("target", spellName);
+	      UnitDebuff(unit, spellName);
 
 	if (name == nil or count == nil) then
 		return (minStack == 0);

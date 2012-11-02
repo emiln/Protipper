@@ -24,7 +24,7 @@ Protipper.SPEC_LIST["Fire"] = {
           p.SelfBuffDown('Still Water')]] },
 
     {   "Molten Armor",
-    	"p.SelfBuffDown('Molten Armor')" },
+    	  "p.SelfBuffDown('Molten Armor')" },
 
     {   "Fireball",
         "true" }
@@ -42,7 +42,7 @@ Protipper.SPEC_LIST["Frost"] = {
 
     {	"Summon Water Elemental",
     	[[not p.ActivePet() and 
-	p.AbilityReady('Summon Water Elemental')]] },
+	      p.AbilityReady('Summon Water Elemental')]] },
     
     {	"Mirror Image",
     	"p.AbilityReady('Mirror Image')"},
@@ -54,23 +54,23 @@ Protipper.SPEC_LIST["Frost"] = {
     	"p.AbilityReady('Frost Bomb')" },
 
     {	"Frozen Orb",
-	"p.AbilityReady('Frozen Orb')" },
+	    "p.AbilityReady('Frozen Orb')" },
 
     { 	"Frostbolt",
     	"p.DebuffRefresh('Frostbolt')" },
 
     {	"Freeze",
-    	[[not p.SelfBuffStack('Fingers of Frost', 2, 2) and
-	p.ActivePet() and 
-	p.PetAbilityReady('Freeze')]] },
+    	[[not p.BuffStack('Fingers of Frost', 2, 2, 'player') and
+	      p.ActivePet() and 
+	      p.PetAbilityReady('Freeze')]] },
 
     {	"Frostfire Bolt",
     	[[p.SelfBuffUp('Brain Freeze') and
-	p.AbilityReady('Frostfire Bolt')]] },
+	      p.AbilityReady('Frostfire Bolt')]] },
 
     {	"Ice Lance",
-	[[p.SelfBuffUp('Fingers of Frost') and
-	p.AbilityReady('Ice Lance')]] },
+	    [[p.SelfBuffUp('Fingers of Frost') and
+	    p.AbilityReady('Ice Lance')]] },
 	
     {   "Frostbolt",
         "true" }

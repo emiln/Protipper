@@ -134,7 +134,7 @@ Protipper.SPEC_LIST["Destruction"] = {
 
     {   "Chaos Bolt",
         [[p.AbilityReady('Chaos Bolt') and
-         p.SelfBuffStack('Backdraft', 0, 2)]] },
+          p.BuffStack('Backdraft', 0, 2, 'player')]] },
 
     {   "Conflagrate",
         "p.AbilityReady('Conflagrate')" },
