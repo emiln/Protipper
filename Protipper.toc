@@ -10,6 +10,6 @@
 locales.lua
 Protipper.lua
 Protipper.xml
-ProtipperMage.lua
-ProtipperShaman.lua
-ProtipperWarlock.lua
+defaults\ProtipperMage.lua
+defaults\ProtipperShaman.lua
+defaults\ProtipperWarlock.lua
