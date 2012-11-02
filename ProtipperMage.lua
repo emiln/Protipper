@@ -57,8 +57,7 @@ Protipper.SPEC_LIST["Frost"] = {
 	"p.AbilityReady('Frozen Orb')" },
 
     { 	"Frostbolt",
-    	[[p.DebuffRefresh('Frostbolt') or
-	not p.DebuffStack('Frostbolt', 3, 3)]] },
+    	"p.DebuffRefresh('Frostbolt')" },
 
     {	"Freeze",
     	[[not p.SelfBuffStack('Fingers of Frost', 2, 2) and
