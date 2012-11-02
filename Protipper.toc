@@ -1,11 +1,12 @@
 ## Interface: 50001
 ## Title: Protipper
-## Notes: Informs the DPS-interested warlock of which spell to cast next.
+## Notes: A World of Warcraft Addon for the DPS-engrossed damage dealer.
 ## Author: Ethrain of Defias Brotherhood
-## LastUpdate: 2012-09-22T20:15:16Z
+## LastUpdate: 2012-11-02T17:00:00Z
 ## Version: 1.0.0
 
-## X-Category: Inventory
+## X-Category: Buffs & Debuffs, Combat
+## X-Licence: GPLv3
 
 locales.lua
 Protipper.lua
