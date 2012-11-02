@@ -40,6 +40,12 @@ Protipper.SPEC_LIST["Frost"] = {
     {   "Frost Armor",
     	"p.SelfBuffDown('Frost Armor')" },
 
+    {	"Frost Bomb",
+    	"p.AbilityReady('Frost Bomb')" },
+
+    {	"Frozen Orb",
+	"p.AbilityReady('Frozen Orb')" },
+	
     {   "Frostbolt",
         "true" }
 }
