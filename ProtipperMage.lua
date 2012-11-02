@@ -40,11 +40,22 @@ Protipper.SPEC_LIST["Frost"] = {
     {   "Frost Armor",
     	"p.SelfBuffDown('Frost Armor')" },
 
+    {	"Summon Water Elemental",
+    	[[not p.ActivePet() and 
+	p.AbilityReady('Summon Water Elemental')]] },
+
     {	"Frost Bomb",
     	"p.AbilityReady('Frost Bomb')" },
 
     {	"Frozen Orb",
 	"p.AbilityReady('Frozen Orb')" },
+
+    { 	"Frostbolt",
+    	[[p.DebuffRefresh('Frostbolt') or
+	not p.DebuffStack('Frostbolt', 3, 3)]] },
+
+    {	"Freeze",
+    	"p.AbilityReady('Freeze')" },
 	
     {   "Frostbolt",
         "true" }
