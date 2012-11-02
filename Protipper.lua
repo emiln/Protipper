@@ -107,6 +107,18 @@ Protipper.SelfBuffStack = function(spellName, minStack, maxStack)
 	return (count >= minStack) and (count <= maxStack);
 end
 
+Protipper.DebuffStack = function(spellName, minStack, maxStack)
+	local name, rank, icon, count, dispelType, duration, expires, caster,
+		isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
+		value1, value2, value3 = UnitAura("target", spellName);
+
+	if (name == nil or count == nil) then
+		return (minStack == 0);
+	end
+
+	return (count >= minStack) and (count <= maxStack);
+end
+
 Protipper.SelfBuffUp = function(spellName)
 	local name, rank, icon, count, dispelType, duration, expires, caster,
 		isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,

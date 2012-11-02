@@ -59,6 +59,8 @@ Assuming this is up to date (which is totally happening), the available function
   to misplace it.
 * `DebuffRefresh(spellName)`: returns true if `spellName` is expired on target
   or will within your cast time.
+* `DebuffStack(spellName, minStack, maxStack)`: returns true if your target is
+  currently affected by `spellName`, and `minStack <= stackCount <= maxStack`.
 * `HasTalent(talentName)`: returns true if you currently have `talentName`.
 * `IsCasting(spellName)`: returns true if you are currently casting `spellName`.
 * `IsTraveling(spellName)`: returns true if you have successfully cast
