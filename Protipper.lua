@@ -177,7 +177,7 @@ Protipper.DotRefresh = function(spellName)
 	if dotDuration == nil then
 		return true;
 	end
-	if (not p.HasTalent('Pandemic')) then
+	if not (p.AbilityReady('Pandemic')) then
 		dotDuration = 0;
 	end
 
