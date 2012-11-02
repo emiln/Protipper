@@ -60,7 +60,8 @@ parameter `unit` take on the following values: `{pet,player,target}`.
   a buff called `buffName`.
 
 * `BuffStack(buffName, minStack, maxStack, unit)`: returns true if `unit` is
-  currently affected by `buffName`, and `minStack <= buffCount <= maxStack`.
+  currently affected by `buffName` at `stackCount` stacks, and
+  `minStack <= stackCount <= maxStack`.
 
 * `CenterFrame()`: returns the frame to the center of the screen if you happen
   to misplace it.
@@ -71,8 +72,8 @@ parameter `unit` take on the following values: `{pet,player,target}`.
 * `DebuffRefresh(debuffName)`: returns true if `debuffName` is expired on target
   or will within your cast time.
 
-* `DebuffStack(spellName, minStack, maxStack, unit)`: returns true if `unit` is
-  currently affected by `spellName` at `stackCount` stacks, and
+* `DebuffStack(debuffName, minStack, maxStack, unit)`: returns true if `unit` is
+  currently affected by `debuffName` at `stackCount` stacks, and
   `minStack <= stackCount <= maxStack`.
 
 * `IsCasting(spellName)`: returns true if you are currently casting
@@ -81,10 +82,10 @@ parameter `unit` take on the following values: `{pet,player,target}`.
 * `IsTraveling(spellName)`: returns true if you have successfully cast
   `spellName`, but it has not hit (or missed) yet.
 
-* `LowOnHealth(healthFraction, unit)`: returns true if `unit`'s' health is
+* `LowOnHealth(healthFraction, unit)`: returns true if `unit`'s health is
   below `healthFraction`, where `0 <= healthFraction <= 1`.
 
-* `LowOnMana(manaFraction, unit)`: returns true if `unit`'s' mana is below
+* `LowOnMana(manaFraction, unit)`: returns true if `unit`'s mana is below
   `manaFraction`, where `0 <= manaFraction <= 1`.
 
 * `PetActive()`: returns true if you have an active pet.
