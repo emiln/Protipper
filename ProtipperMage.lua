@@ -58,10 +58,12 @@ Protipper.SPEC_LIST["Frost"] = {
     	"p.PetAbilityReady('Freeze')" },
 
     {	"Frostfire Bolt",
-    	"p.SelfBuffUp('Brain Freeze')" },
+    	[[p.SelfBuffUp('Brain Freeze') and
+	p.AbilityReady('Frostfire Bolt')]] },
 
     {	"Ice Lance",
-	"p.SelfBuffUp('Fingers of Frost')" },
+	[[p.SelfBuffUp('Fingers of Frost') and
+	p.AbilityReady('Ice Lance')]] },
 	
     {   "Frostbolt",
         "true" }
