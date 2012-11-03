@@ -18,6 +18,8 @@
 
 local p = Protipper;
 
+Protipper.HP_COLOR_LOW = {235,26,26};
+Protipper.HP_COLOR_HIGH = {61,235,26};
 Protipper.BAR_WIDTH = 10;
 Protipper.ICON_SIZE = 50;
 Protipper.LABEL_HEIGHT = 12;
@@ -382,7 +384,13 @@ Protipper.UpdatePlayerHealth = function()
 	if (health > 0) then
 		local frac = health/max;
 		p.PLAYER_HP_BAR:SetHeight(frac*(p.ICON_SIZE - 4));
-		p.PLAYER_HP_BAR.Texture:SetTexture(1, 0, 0, p.HP_BAR_ALPHA);
+		local l = p.HP_COLOR_LOW;
+		local h = p.HP_COLOR_HIGH;
+		local r = (h[1]-l[1])*frac+l[1];
+		local g = (h[2]-l[2])*frac+l[2];
+		local b = (h[3]-l[3])*frac+l[3];
+		p.PLAYER_HP_BAR.Texture:SetTexture(r/255, g/255, b/255,
+			p.HP_BAR_ALPHA);
 	else
 		p.PLAYER_HP_BAR:SetHeight(p.ICON_SIZE - 4);
 		p.PLAYER_HP_BAR.Texture:SetTexture(0.2, 0.2, 0.2, p.HP_BAR_ALPHA);
@@ -395,7 +403,13 @@ Protipper.UpdateTargetHealth = function()
 	if (health > 0) then
 		local frac = health/max;
 		p.TARGET_HP_BAR:SetHeight(frac*(p.ICON_SIZE - 4));
-		p.TARGET_HP_BAR.Texture:SetTexture(1, 0, 0, p.HP_BAR_ALPHA);
+		local l = p.HP_COLOR_LOW;
+		local h = p.HP_COLOR_HIGH;
+		local r = (h[1]-l[1])*frac+l[1];
+		local g = (h[2]-l[2])*frac+l[2];
+		local b = (h[3]-l[3])*frac+l[3];
+		p.TARGET_HP_BAR.Texture:SetTexture(r/255, g/255, b/255,
+			p.HP_BAR_ALPHA);
 	else
 		p.TARGET_HP_BAR:SetHeight(p.ICON_SIZE - 4);
 		p.TARGET_HP_BAR.Texture:SetTexture(0.2, 0.2, 0.2, p.HP_BAR_ALPHA);
