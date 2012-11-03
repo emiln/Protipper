@@ -18,6 +18,7 @@
 
 local p = Protipper;
 
+Protipper.BAR_WIDTH = 10;
 Protipper.ICON_SIZE = 50;
 Protipper.LABEL_HEIGHT = 12;
 Protipper.PADDING = 8;
@@ -28,6 +29,9 @@ Protipper.COOLDOWN_DELTA = 0.75;
 Protipper.SPEC = "None";
 Protipper.TRAVELING_SPELLS = {};
 Protipper.CASTING_SPELLS = {};
+Protipper.HP_BAR_ALPHA = 0.6;
+Protipper.PLAYER_HP_BAR = nil;
+Protipper.TARGET_HP_BAR = nil;
 Protipper.TRIVIAL_HEALTH = 45000;
 Protipper.TOTEM_MAP = {};
 
@@ -98,6 +102,8 @@ Protipper.OnEvent = function(self, event, ...)
 	if event == "PLAYER_TALENT_UPDATE" or
 		event == "PLAYER_ENTERING_WORLD" then
 		p.UpdatePlayer();
+		p.UpdatePlayerHealth();
+		p.UpdateTargetHealth();
 
 		local talents = {};
 		Protipper.TALENTS = talents;
@@ -118,8 +124,17 @@ Protipper.OnEvent = function(self, event, ...)
 
 	if event == "PLAYER_TARGET_CHANGED" then
 	   p.UpdatePriorities(p.SPEC);
+	   p.UpdateTargetHealth();
 	end
 
+	if event == "UNIT_HEALTH" then
+		local unit = ...;
+		if unit == "player" then
+			p.UpdatePlayerHealth();
+		elseif unit == "target" then
+			p.UpdateTargetHealth();
+		end
+	end
 end
 
 Protipper.PetActive = function()
@@ -361,6 +376,32 @@ Protipper.CenterFrame = function()
 	p.FRAME:SetPoint("CENTER", 0, 0);
 end
 
+Protipper.UpdatePlayerHealth = function()
+	local health = UnitHealth("player");
+	local max = UnitHealthMax("player");
+	if (health > 0) then
+		local frac = health/max;
+		p.PLAYER_HP_BAR:SetHeight(frac*(p.ICON_SIZE - 4));
+		p.PLAYER_HP_BAR.Texture:SetTexture(1, 0, 0, p.HP_BAR_ALPHA);
+	else
+		p.PLAYER_HP_BAR:SetHeight(p.ICON_SIZE - 4);
+		p.PLAYER_HP_BAR.Texture:SetTexture(0.2, 0.2, 0.2, p.HP_BAR_ALPHA);
+	end
+end
+
+Protipper.UpdateTargetHealth = function()
+	local health = UnitHealth("target");
+	local max = UnitHealthMax("target");
+	if (health > 0) then
+		local frac = health/max;
+		p.TARGET_HP_BAR:SetHeight(frac*(p.ICON_SIZE - 4));
+		p.TARGET_HP_BAR.Texture:SetTexture(1, 0, 0, p.HP_BAR_ALPHA);
+	else
+		p.TARGET_HP_BAR:SetHeight(p.ICON_SIZE - 4);
+		p.TARGET_HP_BAR.Texture:SetTexture(0.2, 0.2, 0.2, p.HP_BAR_ALPHA);
+	end
+end
+
 Protipper.CreateFrame = function()
 	local backdrop = {
 		bgFile = "Interface\\Tooltips\\ChatBubble-Background",
@@ -395,6 +436,50 @@ Protipper.CreateFrame = function()
 	desc.Text:SetPoint("TOP", 0, -1*p.PADDING);
 	desc.Text:SetText(p.L["ACQUIRE_TARGET"]);
 
+	local backdropSmall = {
+		bgFile = "Interface\\Tooltips\\ChatBubble-Background",
+		edgeFile = "Interface\\Tooltips\\ChatBubble-Backdrop",
+		tile = true,
+		tileSize = 8,
+		edgeSize = 8,
+		insets = {
+			left = 1,
+			right = 1,
+			top = 1,
+			bottom = 1
+		}
+	};
+
+	local playerBar = CreateFrame("Frame", nil, p.SPELL);
+	local playerBarInner = CreateFrame("Frame", nil, playerBar);
+	local targetBar = CreateFrame("Frame", nil, p.SPELL);
+	local targetBarInner = CreateFrame("Frame", nil, targetBar);
+
+	playerBar:SetPoint("LEFT", -10, 0);
+	playerBar:SetBackdrop(backdropSmall);
+	playerBar:SetWidth(p.BAR_WIDTH);
+	playerBar:SetHeight(p.ICON_SIZE);
+
+	targetBar:SetPoint("RIGHT", 10, 0);
+	targetBar:SetBackdrop(backdropSmall);
+	targetBar:SetWidth(p.BAR_WIDTH);
+	targetBar:SetHeight(p.ICON_SIZE);
+
+	playerBarInner:SetPoint("BOTTOM", playerBar, "BOTTOM", 0, 2);
+	playerBarInner.Texture = playerBarInner:CreateTexture();
+	playerBarInner.Texture:SetAllPoints(playerBarInner);
+	playerBarInner:SetWidth(p.BAR_WIDTH - 4);
+	playerBarInner:SetHeight(p.ICON_SIZE - 4);
+
+	p.PLAYER_HP_BAR = playerBarInner;
+	p.TARGET_HP_BAR = targetBarInner;
+
+	targetBarInner:SetPoint("BOTTOM", targetBar, "BOTTOM", 0, 2);
+	targetBarInner.Texture = targetBarInner:CreateTexture();
+	targetBarInner.Texture:SetAllPoints(targetBarInner);
+	targetBarInner:SetWidth(p.BAR_WIDTH - 4);
+	targetBarInner:SetHeight(p.ICON_SIZE - 4);
+
 	pt:RegisterEvent("PLAYER_ENTERING_WORLD", pt);
 	pt:RegisterEvent("PLAYER_TALENT_UPDATE", pt);
 	pt:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", pt);
@@ -409,7 +494,9 @@ Protipper.CreateFrame = function()
 	pt:RegisterEvent("UNIT_SPELLCAST_STOP");
 	pt:RegisterEvent("PLAYER_TARGET_CHANGED");
 	pt:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
-	
+
+	-- Update health bars.
+	pt:RegisterEvent("UNIT_HEALTH");	
 
 	pt:SetScript("OnEvent", p.OnEvent);
 end
