@@ -12,8 +12,8 @@ Protipper.SPEC_LIST["Arcane"] = {
     {   "Mage Armor",
         "not p.BuffActive('Mage Armor', 'player')" },
 
-    { "Arcane Blast",
-      "true" }
+    { 	"Arcane Blast",
+      	"true" }
 };
 
 Protipper.SPEC_LIST["Fire"] = {

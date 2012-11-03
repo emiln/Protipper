@@ -78,7 +78,7 @@ Protipper.OnEvent = function(self, event, ...)
 		local timestamp, eventtype, hideCaster, srcGUID, srcName, srcFlags,
 		srcRaidFlags, dstGUID, dstName, dstFlags, dstRaidFlags = ...;
 
-		if srcName == p.PLAYER_NAME then
+		if srcName == p.PLAYER_NAME or srcName == GetUnitName("pet") then
 			if eventtype == "SPELL_CAST_START" then
 				local spell = UnitCastingInfo("player");
 				if not (spell == nil) then
@@ -92,6 +92,7 @@ Protipper.OnEvent = function(self, event, ...)
 				local spell = select(13, ...);
 				p.TRAVELING_SPELLS[spell] = nil;
 			end
+			p.UpdatePriorities(p.SPEC);
 		end
 	end
 	if event == "PLAYER_TALENT_UPDATE" or
@@ -104,6 +105,7 @@ Protipper.OnEvent = function(self, event, ...)
 			local tName, _, _, _, tStatus = GetTalentInfo(i);
 		  	talents[tName] = tStatus;
 		end
+		p.UpdatePriorities(p.SPEC);
 	end
 	if event == "UNIT_SPELLCAST_SUCCEEDED" then
 		local unit, name, rank, lineId, id = ...;
@@ -113,7 +115,11 @@ Protipper.OnEvent = function(self, event, ...)
 			end
 		end
 	end
-	p.UpdatePriorities(p.SPEC);
+
+	if event == "PLAYER_TARGET_CHANGED" then
+	   p.UpdatePriorities(p.SPEC);
+	end
+
 end
 
 Protipper.PetActive = function()
@@ -204,7 +210,7 @@ Protipper.AbilityReady = function(spellName)
 	
 	return ((remainingCooldown < p.COOLDOWN_DELTA or 
 	       remainingCooldown < remainingCastTime) and 
-	       powerCost <= currentPower);
+	       powerCost <= currentPower) and not (name == displayName);
 end
 
 Protipper.PetAbilityReady = function(spellName)
@@ -291,6 +297,7 @@ Protipper.GetNextSpell = function(spec)
 			return spell;
 		end
 	end
+	return "Auto Attack";
 end
 
 Protipper.UpdatePriorities = function(spec)
@@ -402,6 +409,7 @@ Protipper.CreateFrame = function()
 	pt:RegisterEvent("UNIT_SPELLCAST_STOP");
 	pt:RegisterEvent("PLAYER_TARGET_CHANGED");
 	pt:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+	
 
 	pt:SetScript("OnEvent", p.OnEvent);
 end
