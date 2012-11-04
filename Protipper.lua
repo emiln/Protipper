@@ -116,6 +116,7 @@ Protipper.OnEvent = function(self, event, ...)
 		p.UpdatePriorities(p.SPEC);
 	end
 	if event == "UNIT_SPELLCAST_SUCCEEDED" then
+		p.UpdatePriorities(p.SPEC);
 		local unit, name, rank, lineId, id = ...;
 		if not (name == nil) then
 			if (unit == "player") then
@@ -133,8 +134,24 @@ Protipper.OnEvent = function(self, event, ...)
 		local unit = ...;
 		if unit == "player" then
 			p.UpdatePlayerHealth();
+			p.UpdatePriorities(p.SPEC);
 		elseif unit == "target" then
 			p.UpdateTargetHealth();
+		end
+	end
+
+	if event == "ADDON_LOADED" then
+		if (... == "Protipper") then
+			if (ProtipperOptions == nil) then
+				ProtipperOptions = {};
+				ProtipperOptions.x = 0;
+				ProtipperOptions.y = 0;
+			end
+			local x = ProtipperOptions.x;
+			local y = ProtipperOptions.y;
+			if (x and y) then
+				p.FRAME:SetPoint("CENTER", x, y);
+			end
 		end
 	end
 end
@@ -366,6 +383,9 @@ end
 Protipper.StopDragFrame = function()
 	p.FRAME:SetMovable(false);
 	p.FRAME:StopMovingOrSizing();
+	point, relTo, relPoint, x, y = p.FRAME:GetPoint(1);
+	ProtipperOptions.x = x;
+	ProtipperOptions.y = y;
 end
 
 Protipper.SetNextSpellName = function(spellName)
@@ -508,6 +528,8 @@ Protipper.CreateFrame = function()
 	pt:RegisterEvent("UNIT_SPELLCAST_STOP");
 	pt:RegisterEvent("PLAYER_TARGET_CHANGED");
 	pt:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+
+	pt:RegisterEvent("ADDON_LOADED");
 
 	-- Update health bars.
 	pt:RegisterEvent("UNIT_HEALTH");	

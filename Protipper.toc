@@ -2,8 +2,10 @@
 ## Title: Protipper
 ## Notes: A World of Warcraft Addon for the DPS-engrossed damage dealer.
 ## Author: Ethrain of Defias Brotherhood
-## LastUpdate: 2012-11-02T17:00:00Z
+## LastUpdate: 2012-11-03T22:00:00Z
 ## Version: 1.0.0
+
+## SavedVariables: ProtipperOptions
 
 ## X-Category: Buffs & Debuffs, Combat
 ## X-Licence: GPLv3
