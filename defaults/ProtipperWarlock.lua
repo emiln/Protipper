@@ -2,6 +2,8 @@ if not (UnitClass("player") == "Warlock") then
     return
 end
 
+Protipper.COOLDOWN_FREE_SPELL["Affliction"] = "Malefic Grasp";
+
 Protipper.SPEC_LIST["Affliction"] = {
     {   "Dark Intent",
         [[not (p.BuffActive('Dark Intent', 'player') or

@@ -18,7 +18,9 @@
 
 local p = Protipper;
 
+Protipper.COOLDOWN_FREE_SPELL = {};
 Protipper.HP_COLOR_LOW = {235,26,26};
+Protipper.GCD = 1.5;
 Protipper.HP_COLOR_HIGH = {61,235,26};
 Protipper.BAR_WIDTH = 10;
 Protipper.ICON_SIZE = 50;
@@ -116,13 +118,17 @@ Protipper.OnEvent = function(self, event, ...)
 		p.UpdatePriorities(p.SPEC);
 	end
 	if event == "UNIT_SPELLCAST_SUCCEEDED" then
-		p.UpdatePriorities(p.SPEC);
 		local unit, name, rank, lineId, id = ...;
 		if not (name == nil) then
 			if (unit == "player") then
 				p.TRAVELING_SPELLS[name] = true;
 			end
 		end
+		p.UpdatePriorities(p.SPEC);
+	end
+
+	if event == "SPELL_UPDATE_COOLDOWN" then
+		p.UpdatePriorities(p.SPEC);
 	end
 
 	if event == "PLAYER_TARGET_CHANGED" then
@@ -221,6 +227,13 @@ Protipper.TotemActive = function(totemName)
 		(GetTime() - startTime + duration) >= p.COOLDOWN_DELTA;
 end
 
+Protipper.GCDActive = function()
+	local spell = p.COOLDOWN_FREE_SPELL[p.SPEC];
+	local start, duration, enable = GetSpellCooldown(spell);
+	local remainingCooldown = start + duration - GetTime();
+	return remainingCooldown > 0;
+end
+
 Protipper.AbilityReady = function(spellName)
 	local start, duration, enable = GetSpellCooldown(spellName);
 
@@ -236,11 +249,16 @@ Protipper.AbilityReady = function(spellName)
 	      isTradeSkill, castID, interrupt = UnitCastingInfo("player");
 	
 	local remainingCooldown = start + duration - GetTime();
+
+	-- Deal with GCD. We'll consider a spell prevented only by the GCD "ready".
+	if p.GCDActive() and remainingCooldown < p.GCD then
+		return (powerCost <= currentPower and not (name == displayName));
+	end
+
 	local remainingCastTime = 0;
 	if spell then
 	   remainingCastTime = endTime/1000 - GetTime();
 	end
-
 	
 	return ((remainingCooldown < p.COOLDOWN_DELTA or 
 	       remainingCooldown < remainingCastTime) and 
