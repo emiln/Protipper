@@ -13,6 +13,14 @@
 locales.lua
 Protipper.lua
 Protipper.xml
+defaults\ProtipperDeathKnight.lua
+defaults\ProtipperDruid.lua
+defaults\ProtipperHunter.lua
 defaults\ProtipperMage.lua
+defaults\ProtipperMonk.lua
+defaults\ProtipperPaladin.lua
+defaults\ProtipperPriest.lua
+defaults\ProtipperRogue.lua
 defaults\ProtipperShaman.lua
 defaults\ProtipperWarlock.lua
+defaults\ProtipperWarrior.lua
