@@ -21,7 +21,7 @@ Protipper.SPEC_LIST["Combat"] = {
         "p.AbilityReady('Shadow Blades')" },
 
     {   "Ambush",
-        "p.AbilityReady('Ambush')" },
+        "p.AbilityReady('Ambush') and IsStealthed()" },
 
     {   "Slice and Dice",
         [[(not p.BuffActive('Slice and Dice', 'player')) and
