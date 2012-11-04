@@ -306,6 +306,11 @@ Protipper.DotRefresh = function(spellName)
 		powerCost <= currentPower);
 end
 
+Protipper.ComboPoints = function(minPoints, maxPoints)
+	local points = GetComboPoints("player", "target");
+	return (points >= minPoints and points <= maxPoints);
+end
+
 Protipper.LowOnHealth = function(healthFraction, unit)
 	local health = UnitHealth(unit);
 	local max = UnitHealthMax(unit);
