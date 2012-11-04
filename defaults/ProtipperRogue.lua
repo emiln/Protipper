@@ -8,15 +8,27 @@ Protipper.SPEC_LIST["Assassination"] = {
 };
 
 Protipper.SPEC_LIST["Combat"] = {
+    {   "Deadly Poison",
+        "not p.BuffActive('Deadly Poison', 'player')" },
+
+    {   "Killing Spree",
+        "p.AbilityReady('Killing Spree')" },
+
+    {   "Adrenaline Rush",
+        "p.AbilityReady('Adrenaline Rush')" },
+
+    {   "Shadow Blades",
+        "p.AbilityReady('Shadow Blades')" },
+
     {   "Ambush",
         "p.AbilityReady('Ambush')" },
-
-    {   "Revealing Strike",
-        "not p.DebuffActive('Revealing Strike', 'target')" },
 
     {   "Slice and Dice",
         [[(not p.BuffActive('Slice and Dice', 'player')) and
           p.ComboPoints(1, 5)]] },
+
+    {   "Revealing Strike",
+        "not p.DebuffActive('Revealing Strike', 'target')" },
 
     {   "Eviscerate",
         [[p.AbilityReady('Eviscerate') and
