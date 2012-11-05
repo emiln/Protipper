@@ -6,23 +6,29 @@ Protipper.SPEC_LIST["Assassination"] = {
     {   "Deadly Poison",
         "not p.BuffActive('Deadly Poison', 'player')" },
 
-    {   "Vendetta",
-        "p.AbilityReady('Vendetta')" },
+    {   "Ambush",
+        "p.AbilityReady('Ambush') and IsStealthed()" },
 
-    {   "Shadow Blades",
-        "p.AbilityReady('Shadow Blades')" },
+    {   "Garotte",
+        "p.AbilityReady('Garotte') and IsStealthed()" },
 
     {   "Slice and Dice",
         [[(not p.BuffActive('Slice and Dice', 'player')) and
           p.ComboPoints(1, 5)]] },
 
+    {   "Envenom",
+        [[(not p.BuffActive('Envenom', 'player')) and
+          p.ComboPoints(4, 5)]] },
+
     {   "Rupture",
         [[(not p.DebuffActive('Rupture', 'target')) and
           p.ComboPoints(4, 5)]] },
 
-    {   "Envenom",
-        [[(not p.BuffActive('Envenom', 'player')) and
-          p.ComboPoints(4, 5)]] },
+    {   "Vendetta",
+        "p.AbilityReady('Vendetta')" },
+
+    {   "Shadow Blades",
+        "p.AbilityReady('Shadow Blades')" },
 
     {   "Dispatch",
         "p.AbilityReady('Dispatch')" },
@@ -38,21 +44,23 @@ Protipper.SPEC_LIST["Combat"] = {
     {   "Deadly Poison",
         "not p.BuffActive('Deadly Poison', 'player')" },
 
-    {   "Killing Spree",
-        "p.AbilityReady('Killing Spree')" },
-
-    {   "Adrenaline Rush",
-        "p.AbilityReady('Adrenaline Rush')" },
-
-    {   "Shadow Blades",
-        "p.AbilityReady('Shadow Blades')" },
-
     {   "Ambush",
         "p.AbilityReady('Ambush') and IsStealthed()" },
 
     {   "Slice and Dice",
         [[(not p.BuffActive('Slice and Dice', 'player')) and
           p.ComboPoints(1, 5)]] },
+
+    {   "Killing Spree",
+        "p.AbilityReady('Killing Spree')" },
+
+    {   "Adrenaline Rush",
+        [[p.AbilityReady('Adrenaline Rush') and
+          (not (p.BuffActive('Heroism', 'player') or
+                p.BuffActive('Timewarp', 'player')))]] },
+
+    {   "Shadow Blades",
+        "p.AbilityReady('Shadow Blades') and p.BuffActive('Adrenaline Rush')" },
 
     {   "Revealing Strike",
         "not p.DebuffActive('Revealing Strike', 'target')" },
