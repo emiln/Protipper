@@ -63,6 +63,8 @@ Protipper.SPEC_LIST["Affliction"] = {
         "true" }
 };
 
+Protipper.COOLDOWN_FREE_SPELL["Demonology"] = "Shadow Bolt";
+
 Protipper.SPEC_LIST["Demonology"] = {
     {   "Dark Intent",
         [[not (p.BuffActive('Dark Intent', 'player') or
@@ -108,6 +110,8 @@ Protipper.SPEC_LIST["Demonology"] = {
     {   "Shadow Bolt",
         "true" }
 };
+
+Protipper.COOLDOWN_FREE_SPELL["Destruction"] = "Incinerate";
 
 Protipper.SPEC_LIST["Destruction"] = {
     {   "Dark Intent",

@@ -2,10 +2,13 @@ if not (UnitClass("player") == "Mage") then
     return
 end
 
+Protipper.COOLDOWN_FREE_SPELL["Arcane"] = "Arcane Blast";
+
 Protipper.SPEC_LIST["Arcane"] = {
     {   "Arcane Brilliance",
         [[not (p.BuffActive('Dark Intent', 'player') or
                p.BuffActive('Arcane Brilliance', 'player') or
+	       p.BuffActive('Dalaran Brilliance', 'player') or
                p.BuffActive('Burning Wrath', 'player') or
                p.BuffActive('Still Water', 'player'))]] },
 
@@ -16,24 +19,60 @@ Protipper.SPEC_LIST["Arcane"] = {
       	"true" }
 };
 
+Protipper.COOLDOWN_FREE_SPELL["Fire"] = "Fireball";
+
 Protipper.SPEC_LIST["Fire"] = {
     {   "Arcane Brilliance",
         [[not (p.BuffActive('Dark Intent', 'player') or
                p.BuffActive('Arcane Brilliance', 'player') or
+	       p.BuffActive('Dalaran Brilliance', 'player') or
                p.BuffActive('Burning Wrath', 'player') or
                p.BuffActive('Still Water', 'player'))]] },
 
     {   "Molten Armor",
         "not p.BuffActive('Molten Armor', 'player')" },
 
+    {	"Mirror Image",
+	"p.AbilityReady('Mirror Image')" },
+
+    {	"Presence of Mind",
+    	[[p.TalentActive('Presence of Mind') and
+	p.AbilityReady('Presence of Mind')]]},
+
+    { 	"Pyroblast",
+    	[[p.BuffActive('Pyroblast!', 'player') or 
+	p.BuffActive('Presence of Mind', 'player')]] },
+
+    {	"Inferno Blast",
+    	[[p.BuffActive('Heating Up', 'player') and
+	p.AbilityReady('Inferno Blast')]] },
+
+    {	"Nether Tempest",
+    	[[p.TalentActive('Nether Tempest') and 
+	p.DebuffRefresh('Nether Tempest') and
+	p.AbilityReady('Nether Tempest')]]},
+
+    {	"Frost Bomb",
+    	[[p.TalentActive('Frost Bomb') and 
+	p.DebuffRefresh('Frost Bomb') and
+	p.AbilityReady('Frost Bomb')]]},
+
+    {	"Living Bomb",
+    	[[p.TalentActive('Living Bomb') and 
+	p.DebuffRefresh('Living Bomb') and
+	p.AbilityReady('Living Bomb')]]},
+
     {   "Fireball",
         "true" }
 };
+
+Protipper.COOLDOWN_FREE_SPELL["Frost"] = "Frostbolt";
 
 Protipper.SPEC_LIST["Frost"] = {
     {   "Arcane Brilliance",
         [[not (p.BuffActive('Dark Intent', 'player') or
                p.BuffActive('Arcane Brilliance', 'player') or
+	       p.BuffActive('Dalaran Brilliance', 'player') or
                p.BuffActive('Burning Wrath', 'player') or
                p.BuffActive('Still Water', 'player'))]] },
 
@@ -50,8 +89,20 @@ Protipper.SPEC_LIST["Frost"] = {
     {   "Icy Veins",
         "p.AbilityReady('Icy Veins')" },
 
-    {   "Frost Bomb",
-        "p.AbilityReady('Frost Bomb')" },
+    {	"Nether Tempest",
+    	[[p.TalentActive('Nether Tempest') and 
+	p.DebuffRefresh('Nether Tempest') and
+	p.AbilityReady('Nether Tempest')]]},
+
+    {	"Frost Bomb",
+    	[[p.TalentActive('Frost Bomb') and 
+	p.DebuffRefresh('Frost Bomb') and
+	p.AbilityReady('Frost Bomb')]]},
+
+    {	"Living Bomb",
+    	[[p.TalentActive('Living Bomb') and 
+	p.DebuffRefresh('Living Bomb') and
+	p.AbilityReady('Living Bomb')]]},
 
     {   "Frozen Orb",
         "p.AbilityReady('Frozen Orb')" },
