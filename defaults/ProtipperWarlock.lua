@@ -82,7 +82,7 @@ Protipper.SPEC_LIST["Demonology"] = {
                p.BuffActive('Arcane Brilliance', 'player') or
                p.BuffActive('Dalaran Brilliance', 'player') or
                p.BuffActive('Burning Wrath', 'player') or
-               p.BuffActive('Still Water', 'player'))]] }
+               p.BuffActive('Still Water', 'player'))]] },
 
       { "Summon Wrathguard",
 	[[p.TalentActive('Grimoire of Supremacy') and 
@@ -99,7 +99,7 @@ Protipper.SPEC_LIST["Demonology"] = {
 	[[p.TalentActive('Grimoire of Sacrifice') and
           p.PetActive()
 	  (not p.BuffActive('Grimoire of Sacrifice', 'player'))]] }
-   }
+   },
    default = {
       { "Curse of the Elements",
 	[[not (p.DebuffActive('Curse of the Elements', 'target') or 
