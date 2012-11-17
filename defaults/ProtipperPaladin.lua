@@ -3,17 +3,25 @@ if not (UnitClass("player") == "Paladin") then
 end
 
 Protipper.SPEC_LIST["Holy"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
+   }
 };
 
 Protipper.SPEC_LIST["Protection"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
-        
+   }
 };
 
 Protipper.SPEC_LIST["Retribution"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
-}
+   }
+};

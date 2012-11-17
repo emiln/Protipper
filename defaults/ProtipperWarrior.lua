@@ -3,17 +3,25 @@ if not (UnitClass("player") == "Warrior") then
 end
 
 Protipper.SPEC_LIST["Arms"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
+   }
 };
 
 Protipper.SPEC_LIST["Fury"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
-        
+   }    
 };
 
 Protipper.SPEC_LIST["Protection"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
-}
+   }
+};

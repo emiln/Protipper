@@ -3,17 +3,26 @@ if not (UnitClass("player") == "Death Knight") then
 end
 
 Protipper.SPEC_LIST["Blood"] = {
-    {   "Auto Attack",
+   prepataion = {},
+   default = {
+      { "Auto Attack",
         "true" }
+   }
 };
 
 Protipper.SPEC_LIST["Frost"] = {
-    {   "Auto Attack",
+   prepataion = {},
+   default = {
+      { "Auto Attack",
         "true" }
+   }
         
 };
 
 Protipper.SPEC_LIST["Unholy"] = {
-    {   "Auto Attack",
+   prepataion = {},
+   default = {
+      { "Auto Attack",
         "true" }
-}
+   }
+};

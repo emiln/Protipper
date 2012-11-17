@@ -3,17 +3,25 @@ if not (UnitClass("player") == "Priest") then
 end
 
 Protipper.SPEC_LIST["Discipline"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
+   }
 };
 
 Protipper.SPEC_LIST["Holy"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
-        
+   }        
 };
 
 Protipper.SPEC_LIST["Shadow"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
-}
+   }
+};

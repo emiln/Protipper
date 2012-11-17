@@ -1,149 +1,196 @@
 if not (UnitClass("player") == "Warlock") then
-    return
+   return
 end
 
 Protipper.COOLDOWN_FREE_SPELL["Affliction"] = "Malefic Grasp";
 
 Protipper.SPEC_LIST["Affliction"] = {
-    {   "Dark Intent",
+   preparation = {
+      { "Dark Intent",
         [[not (p.BuffActive('Dark Intent', 'player') or
                p.BuffActive('Arcane Brilliance', 'player') or
                p.BuffActive('Burning Wrath', 'player') or
                p.BuffActive('Still Water', 'player'))]] },
 
-    {   "Summon Felhunter",
-        [[(not p.BuffActive('Grimoire of Sacrifice', 'player')) and
-          (not p.PetActive())]] },
+      { "Summon Observer",
+	[[p.TalentActive('Grimoire of Supremacy') and 
+          (not p.PetActive) and 
+          p.AbilityReady('Summon Observer')]] },
 
-    {   "Grimoire of Sacrifice",
-        [[p.TalentActive('Grimoire of Sacrifice') and
+      { "Summon Felhunter",
+	[[(not p.TalentActive('Grimoire of Supremacy')) and 
+          (not p.PetActive) and 
+          (not p.BuffActive('Grimoire of Sacrifice', 'player')) and
+          p.AbilityReady('Summon Felhunter')]] },
+
+      { "Grimoire of Sacrifice",
+	[[p.TalentActive('Grimoire of Sacrifice') and
           p.PetActive() and
-          (not p.BuffActive('Grimoire of Sacrifice', 'player'))]] },
-
-    {   "Curse of the Elements",
+          (not p.BuffActive('Grimoire of Sacrifice', 'player'))]] }
+   },
+   default = {
+      { "Curse of the Elements",
         [[not (p.DebuffActive('Curse of the Elements', 'target') or 
                p.DebuffActive('Lightning Breath', 'target') or
                p.DebuffActive('Master Poisoner', 'target'))]] },
 
-    {   "Dark Soul",
+      { "Dark Soul",
         "p.AbilityReady('Dark Soul')" },
 
-    {   "Summon Doomguard",
+      { "Summon Doomguard",
         "p.AbilityReady('Summon Doomguard')" },
 
-    {   "Soul Swap",
+      { "Soul Swap",
         "p.BuffActive('Soulburn', 'player')" },
 
-    {   "Haunt",
+      { "Haunt",
         [[p.DebuffRefresh('Haunt') and p.AbilityReady('Haunt') and
           (not p.IsTraveling('Haunt')) and (not p.IsCasting('Haunt'))]] },
 
-    {   "Soulburn",
+      { "Soulburn",
         [[p.AbilityReady('Soulburn') and
           (p.DotRefresh('Agony') or
            p.DotRefresh('Corruption') or
            p.DotRefresh('Unstable Affliction'))]] },
 
-    {   "Agony",
+      { "Agony",
         "p.DotRefresh('Agony')" },
 
-    {   "Corruption",
+      { "Corruption",
         "p.DotRefresh('Corruption')" },
 
-    {   "Unstable Affliction",
+      { "Unstable Affliction",
         "p.DotRefresh('Unstable Affliction')" },
 
-    {   "Drain Soul",
+      { "Drain Soul",
         "p.LowOnHealth(0.2, 'target')" },
 
-    {   "Life Tap",
+      { "Life Tap",
         "p.LowOnMana(0.35, 'player')" },
 
-    {   "Malefic Grasp",
+      { "Malefic Grasp",
         "true" }
+   }
 };
 
 Protipper.COOLDOWN_FREE_SPELL["Demonology"] = "Shadow Bolt";
 
 Protipper.SPEC_LIST["Demonology"] = {
-    {   "Dark Intent",
+   preparation = {
+      { "Dark Intent",
         [[not (p.BuffActive('Dark Intent', 'player') or
                p.BuffActive('Arcane Brilliance', 'player') or
+               p.BuffActive('Dalaran Brilliance', 'player') or
                p.BuffActive('Burning Wrath', 'player') or
-               p.BuffActive('Still Water', 'player'))]] },
+               p.BuffActive('Still Water', 'player'))]] }
 
-    {   "Curse of the Elements",
-        [[not (p.DebuffActive('Curse of the Elements', 'target') or 
+      { "Summon Wrathguard",
+	[[p.TalentActive('Grimoire of Supremacy') and 
+          (not p.PetActive) and 
+          p.AbilityReady('Summon Wrathguard')]] },
+
+      { "Summon Felguard",
+	[[(not p.TalentActive('Grimoire of Supremacy')) and 
+          (not p.PetActive) and 
+          (not p.BuffActive('Grimoire of Sacrifice', 'player')) and
+          p.AbilityReady('Summon Felguard')]] },
+
+      { "Grimoire of Sacrifice",
+	[[p.TalentActive('Grimoire of Sacrifice') and
+          p.PetActive()
+	  (not p.BuffActive('Grimoire of Sacrifice', 'player'))]] }
+   }
+   default = {
+      { "Curse of the Elements",
+	[[not (p.DebuffActive('Curse of the Elements', 'target') or 
                p.DebuffActive('Lightning Breath', 'target') or
                p.DebuffActive('Master Poisoner', 'target'))]] },
+      
+      { "Dark Soul",
+	"p.AbilityReady('Dark Soul')" },
 
-    {   "Dark Soul",
-        "p.AbilityReady('Dark Soul')" },
+      { "Felstorm",
+        [[p.PetActive and 
+	  p.PetAbilityReady('Felstorm')]] },
 
-    {   "Summon Doomguard",
+      { "Summon Doomguard",
         "p.AbilityReady('Summon Doomguard')" },
 
-    {   "Felstorm",
-        "p.AbilityReady('Felstorm')" },
-
-    {   "Summon Doomguard",
-        "p.AbilityReady('Summon Doomguard')" },
-
-    {   "Corruption",
+      { "Corruption",
         "p.DotRefresh('Corruption')" },
 
-    {   "Doom",
+      { "Doom",
         "p.DotRefresh('Doom')" },
 
-    {   "Metamorphosis",
+      { "Metamorphosis",
         "p.AbilityReady('Metamorphosis')" },
 
-    {   "Soul Fire",
+      { "Soul Fire",
         "p.BuffActive('Molten Core', 'player')" },
 
-    {   "Touch of Chaos",
+      { "Touch of Chaos",
         "p.AbilityReady('Touch of Chaos')" },
 
-    {   "Life Tap",
+      { "Life Tap",
         "p.LowOnMana(0.35, 'player')" },
 
-    {   "Shadow Bolt",
+      { "Shadow Bolt",
         "true" }
+   }
 };
 
 Protipper.COOLDOWN_FREE_SPELL["Destruction"] = "Incinerate";
 
 Protipper.SPEC_LIST["Destruction"] = {
-    {   "Dark Intent",
+   preparation = {
+      { "Dark Intent",
         [[not (p.BuffActive('Dark Intent', 'player') or
                p.BuffActive('Arcane Brilliance', 'player') or
                p.BuffActive('Burning Wrath', 'player') or
                p.BuffActive('Still Water', 'player'))]] },
+      
+      { "Summon Fel Imp",
+	[[p.TalentActive('Grimoire of Supremacy') and 
+	  (not p.PetActive) and 
+	  p.AbilityReady('Summon Fel Imp')]] },
 
-    {   "Curse of the Elements",
+      { "Summon Imp",
+	[[(not p.TalentActive('Grimoire of Supremacy')) and 
+          (not p.PetActive) and 
+          (not p.BuffActive('Grimoire of Sacrifice', 'player')) and
+          p.AbilityReady('Summon Imp')]] },
+
+      { "Grimoire of Sacrifice",
+	[[p.TalentActive('Grimoire of Sacrifice') and
+          p.PetActive()
+	  (not p.BuffActive('Grimoire of Sacrifice', 'player'))]] }
+   },
+   default = {
+      { "Curse of the Elements",
         [[not (p.DebuffActive('Curse of the Elements', 'target') or 
                p.DebuffActive('Lightning Breath', 'target') or
                p.DebuffActive('Master Poisoner', 'target'))]] },
 
-    {   "Dark Soul",
+      { "Dark Soul",
         "p.AbilityReady('Dark Soul')" },
 
-    {   "Summon Doomguard",
+      { "Summon Doomguard",
         "p.AbilityReady('Summon Doomguard')" },
 
-    {   "Shadowburn",
+      { "Shadowburn",
         "p.LowOnHealth(0.2, 'target')" },
 
-    {   "Immolate",
+      { "Immolate",
         "p.DotRefresh('Immolate')" },
 
-    {   "Chaos Bolt",
+      { "Chaos Bolt",
         [[p.AbilityReady('Chaos Bolt') and
           p.BuffStack('Backdraft', 0, 2, 'player')]] },
 
-    {   "Conflagrate",
+      { "Conflagrate",
         "p.AbilityReady('Conflagrate')" },
 
-    {   "Incinerate",
+      { "Incinerate",
         "true" }
-}
+   }
+};

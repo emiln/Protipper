@@ -3,46 +3,54 @@ if not (UnitClass("player") == "Shaman") then
 end
 
 Protipper.SPEC_LIST["Elemental"] = {
-    {   "Elemental Mastery",
+   preparation = {},
+   default = {
+    { "Elemental Mastery",
         "p.AbilityReady('Elemental Mastery')" },
 
-    {   "Fire Elemental Totem",
+    { "Fire Elemental Totem",
         [[p.AbilityReady('Fire Elemental Totem') and
           (not (p.ActiveTotem('Fire Elemental Totem') or
                 p.ActiveTotem('Earth Elemental Totem')))]] },
 
-    {   "Earth Elemental Totem",
+    { "Earth Elemental Totem",
         [[p.AbilityReady('Earth Elemental Totem') and
           (not (p.ActiveTotem('Fire Elemental Totem') or
                 p.ActiveTotem('Earth Elemental Totem')))]] },
 
-    {   "Flame Shock",
+    { "Flame Shock",
         [[p.AbilityReady('Flame Shock') and
           p.DebuffRefresh('Flame Shock')]] },
 
-    {   "Searing Totem",
+    { "Searing Totem",
         [[(not (p.ActiveTotem('Fire Elemental Totem') or
                 p.ActiveTotem('Earth Elemental Totem') or
                 p.ActiveTotem('Searing Totem')))]] },
 
-    {   "Lava Burst",
+    { "Lava Burst",
         "p.AbilityReady('Lava Burst')" },
 
-    {   "Earth Shock",
+    { "Earth Shock",
         [[p.AbilityReady('Earth Shock') and
           p.BuffStack('Lightning Shield', 6, 100, 'player')]] },
 
-    {   "Lightning Bolt",
+    { "Lightning Bolt",
         "true" }
+   }
 };
 
 Protipper.SPEC_LIST["Enhancement"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
-        
+   }
 };
 
 Protipper.SPEC_LIST["Restoration"] = {
-    {   "Auto Attack",
+   preparation = {},
+   default = {
+      { "Auto Attack",
         "true" }
-}
+   }
+};
