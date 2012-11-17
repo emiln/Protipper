@@ -357,25 +357,26 @@
    end
 
    Protipper.UpdatePriorities = function(spec)
+      if (spec == "None") then
+	 p.SetNextSpellName("Auto Attack");
+	 p.SetNextSpell("Auto Attack", p.FRAME);
+	 return;
+      end
       local enemy = UnitCanAttack("player", "target");
-      if (enemy == nil) then
-	 spell = GetNextSpell(Protipper.SPEC_LIST[spec].preparation);
-	 print(spell)
-	 if (spell == nil) then
-	    p.SetTexture("Interface\\ICONS\\INV_Misc_QuestionMark");
-	    p.SetNextSpellName(p.L["ACQUIRE_TARGET"]);
-	 else 
-	    p.SetNextSpellName(spell);
-	    p.SetNextSpell(spell, p.FRAME);
-	 end
-      else
+      spell = GetNextSpell(Protipper.SPEC_LIST[spec].preparation);
+      if (spell == nil and (not (enemy == nil))) then
 	 spell = GetNextSpell(Protipper.SPEC_LIST[spec].default);
 	 if (spell == nil) then
 	    spell = "Auto Attack";
 	 end
+      end
+      if (spell == nil) then
+	 p.SetTexture("Interface\\ICONS\\INV_Misc_QuestionMark");
+	 p.SetNextSpellName(p.L["ACQUIRE_TARGET"]);
+      else
 	 p.SetNextSpellName(spell);
 	 p.SetNextSpell(spell, p.FRAME);
-      end
+      end 
    end
 
    Protipper.SetTexture = function(texturePath)
