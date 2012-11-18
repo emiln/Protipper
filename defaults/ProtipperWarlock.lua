@@ -19,7 +19,7 @@ Protipper.SPEC_LIST["Affliction"] = {
 
       { "Summon Felhunter",
 	[[(not p.TalentActive('Grimoire of Supremacy')) and 
-          (not p.PetActive) and 
+          (not p.PetActive()) and 
           (not p.BuffActive('Grimoire of Sacrifice', 'player')) and
           p.AbilityReady('Summon Felhunter')]] },
 
@@ -91,7 +91,7 @@ Protipper.SPEC_LIST["Demonology"] = {
 
       { "Summon Felguard",
 	[[(not p.TalentActive('Grimoire of Supremacy')) and 
-          (not p.PetActive) and 
+          (not p.PetActive()) and 
           (not p.BuffActive('Grimoire of Sacrifice', 'player')) and
           p.AbilityReady('Summon Felguard')]] },
 
@@ -151,18 +151,18 @@ Protipper.SPEC_LIST["Destruction"] = {
       
       { "Summon Fel Imp",
 	[[p.TalentActive('Grimoire of Supremacy') and 
-	  (not p.PetActive) and 
+	  (not p.PetActive()) and 
 	  p.AbilityReady('Summon Fel Imp')]] },
 
       { "Summon Imp",
 	[[(not p.TalentActive('Grimoire of Supremacy')) and 
-          (not p.PetActive) and 
+          (not p.PetActive()) and 
           (not p.BuffActive('Grimoire of Sacrifice', 'player')) and
           p.AbilityReady('Summon Imp')]] },
 
       { "Grimoire of Sacrifice",
 	[[p.TalentActive('Grimoire of Sacrifice') and
-          p.PetActive()
+          p.PetActive() and
 	  (not p.BuffActive('Grimoire of Sacrifice', 'player'))]] }
    },
    default = {
@@ -181,7 +181,7 @@ Protipper.SPEC_LIST["Destruction"] = {
         "p.LowOnHealth(0.2, 'target')" },
 
       { "Immolate",
-        "p.DotRefresh('Immolate')" },
+        "p.DotRefresh('Immolate') and (not p.IsCasting('Immolate'))" },
 
       { "Chaos Bolt",
         [[p.AbilityReady('Chaos Bolt') and
