@@ -178,7 +178,7 @@ Protipper.SPEC_LIST["Destruction"] = {
         "p.AbilityReady('Summon Doomguard')" },
 
       { "Shadowburn",
-        "p.LowOnHealth(0.2, 'target')" },
+        "p.LowOnHealth(0.2, 'target') and p.AbilityReady('Shadowburn')" },
 
       { "Immolate",
         "p.DotRefresh('Immolate') and (not p.IsCasting('Immolate'))" },
