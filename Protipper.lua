@@ -1,5 +1,4 @@
---[[
-	Protipper: A World of Warcraft Addon for the DPS-engrossed damage dealer.
+--[[Protipper: A World of Warcraft Addon for the DPS-engrossed damage dealer.
 	Copyright © 2013 Emil Nauerby
 
 	This program is free software: you can redistribute it and/or modify
@@ -13,8 +12,7 @@
 	GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with this program. If not, see <http://www.gnu.org/licenses/>.
-	]]
+	along with this program. If not, see <http://www.gnu.org/licenses/>.]]
 
 local p = Protipper;
 
@@ -39,6 +37,7 @@ Protipper.TARGET_HP_BAR = nil;
 Protipper.TRIVIAL_HEALTH = 45000;
 Protipper.TOTEM_MAP = {};
 
+--  When loaded, create the fanciful frame.
 Protipper.OnLoad = function() 
 	Protipper.CreateFrame();
 	if Protipper.SPEC_LIST == nil then
@@ -47,6 +46,8 @@ Protipper.OnLoad = function()
 	Protipper.CreateTotemMap();
 end
 
+--[[Set up a mapping for totems. This makes determining whether a given totem
+	is active much easier.]]
 Protipper.CreateTotemMap = function()
 	p.TOTEM_MAP["Flametongue Totem"] = 1;
 	p.TOTEM_MAP["Fire Elemental Totem"] = 1;
@@ -73,6 +74,7 @@ Protipper.CreateTotemMap = function()
 	p.TOTEM_MAP["Wrath of Air Totem"] = 4;
 end
 
+--  Update the player, retrieving current spec and name.
 Protipper.UpdatePlayer = function()
 	local currentSpec = GetSpecialization();
 	local currentSpecName = currentSpec and
@@ -81,6 +83,8 @@ Protipper.UpdatePlayer = function()
 	p.PLAYER_NAME = GetUnitName("player");
 end
 
+--[[Huge event handler function. Takes care of updating priorities, health bars
+	travelling spells, and player info.]]
 Protipper.OnEvent = function(self, event, ...)
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		local timestamp, eventtype, hideCaster, srcGUID, srcName, srcFlags,
@@ -164,23 +168,33 @@ Protipper.OnEvent = function(self, event, ...)
 	end
 end
 
+--  Returns true if player currently has a pet.
 Protipper.PetActive = function()
 	return UnitExists("pet");
 end
 
+--  Returns true if player currently has a talent called `talentName`.
 Protipper.TalentActive = function(talentName)
 	return p.TALENTS[talentName] == true;
 end
 
+--  Returns true if player is currently casting a spell called `spellName`.
 Protipper.IsCasting = function(spellName)
 	local spell = UnitCastingInfo("player");
 	return (not (spell == nil)) and (spell == spellName);
 end
 
+--[[Returns true if player has cast a spell called `spellName`, but it hasn't
+	reached its target yet.
+	Returns false if the spell has never been cast or if it has already either
+	hit or missed its target.]]
 Protipper.IsTraveling = function(spellName)
 	return not (p.TRAVELING_SPELLS[spellName] == nil);
 end
 
+--[[Returns true if `unit` is affected by a buff called `spellName`, and the
+	number of stacks of this buff is between `minStack` and `maxStack`, both
+	inclusive.]]
 Protipper.BuffStack = function(spellName, minStack, maxStack, unit)
 	local name, rank, icon, count, dispelType, duration, expires, caster,
 		isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
@@ -193,6 +207,9 @@ Protipper.BuffStack = function(spellName, minStack, maxStack, unit)
 	return (count >= minStack) and (count <= maxStack);
 end
 
+--[[Returns true if `unit` is affected by a debuff called `spellName`, and the
+	number of stacks of this buff is between `minStack` and `maxStack`, both
+	inclusive.]]
 Protipper.DebuffStack = function(spellName, minStack, maxStack, unit)
 	local name, rank, icon, count, debuffType, duration, expirationTime, 
 		unitCaster, isStealable, shouldConsolidate, spellId  = 
@@ -205,6 +222,7 @@ Protipper.DebuffStack = function(spellName, minStack, maxStack, unit)
 	return (count >= minStack) and (count <= maxStack);
 end
 
+--  Returns true if `unit` is affected by a buff called `spellName`.
 Protipper.BuffActive = function(spellName, unit)
 	local name, rank, icon, count, dispelType, duration, expires, caster,
 		isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
@@ -213,6 +231,7 @@ Protipper.BuffActive = function(spellName, unit)
 	return not (name == nil);
 end
 
+--  Returns true if `unit` is affected by a debuff called `spellName`.
 Protipper.DebuffActive = function(spellName, unit)
 	local name, rank, icon, count, dispelType, duration, expires, caster,
 		isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
@@ -221,6 +240,7 @@ Protipper.DebuffActive = function(spellName, unit)
 	return not (name == nil);
 end
 
+--  Returns true if `totemName` is currently active.
 Protipper.TotemActive = function(totemName)
 	local totemSlot = p.TOTEM_MAP[totemName];
 	local haveTotem, activeTotem, startTime, duration = GetTotemInfo(totemSlot);
@@ -229,6 +249,7 @@ Protipper.TotemActive = function(totemName)
 		(GetTime() - startTime + duration) >= p.COOLDOWN_DELTA;
 end
 
+--  Returns true if glocal cooldown is preventing you from using abilities.
 Protipper.GCDActive = function()
 	local spell = p.COOLDOWN_FREE_SPELL[p.SPEC];
 	local start, duration, enable = GetSpellCooldown(spell);
@@ -236,6 +257,11 @@ Protipper.GCDActive = function()
 	return remainingCooldown > 0;
 end
 
+--[[Returns true if `spellName` can currently be cast, or if only the GCD
+	prevents it from being cast. The following criteria must be satisfied in
+	order for an ability to be ready:
+	- Ability must not be on cooldown.
+	- Ability cost (Mana, Rage, Burning Ember, etc.) must be payable.]]
 Protipper.AbilityReady = function(spellName)
 	local start, duration, enable = GetSpellCooldown(spellName);
 
@@ -282,6 +308,8 @@ Protipper.PetAbilityReady = function(spellName)
 		powerCost <= currentPower);	
 end
 
+--[[Returns true if it is time to refresh `spellName`. This takes cast time
+	into consideration.]]
 Protipper.DebuffRefresh = function(spellName)
 	local name, rank, icon, powerCost, isFunnel, powerType, castingTime,
 		minRange, maxRange = GetSpellInfo(spellName);
@@ -300,6 +328,8 @@ Protipper.DebuffRefresh = function(spellName)
 		powerCost <= currentPower);
 end
 
+--[[Returns true if it is time to refresh `spellName`. This takes cast time
+	and talents such as `Pandemic` into consideration.]]
 Protipper.DotRefresh = function(spellName)
 	local start, duration, enable = GetSpellCooldown(spellName);
 
@@ -323,23 +353,30 @@ Protipper.DotRefresh = function(spellName)
 		powerCost <= currentPower);
 end
 
+--[[Returns true if player has between `minPoints` and `maxPoints` combo points,
+	both inclusive.]]
 Protipper.ComboPoints = function(minPoints, maxPoints)
 	local points = GetComboPoints("player", "target");
 	return (points >= minPoints and points <= maxPoints);
 end
 
+--[[Returns true if the health of `unit` is lower than `healthFraction`, where
+	0 < `healthFraction` < 1.]]
 Protipper.LowOnHealth = function(healthFraction, unit)
 	local health = UnitHealth(unit);
 	local max = UnitHealthMax(unit);
 	return (health/max < healthFraction);
 end
 
+--[[Returns true if the mana of `unit` is lower than `manaFraction`, where
+	0 < `manaFraction` < 1.]]
 Protipper.LowOnMana = function(manaFraction, unit)
 	local mana = UnitMana(unit);
 	local max = UnitManaMax(unit);
 	return (mana/max < manaFraction);
 end
 
+--  Returns the next spell to cast.
 local function GetNextSpell (queue)
 	if queue == nil then
 		return nil;
@@ -355,6 +392,7 @@ local function GetNextSpell (queue)
 	return nil;
 end
 
+--  Updates the icon on the Protipper frame, showing the spell to cast next.
 Protipper.UpdatePriorities = function(spec)
 	if (spec == "None") then
 		p.SetNextSpellName("Auto Attack");
