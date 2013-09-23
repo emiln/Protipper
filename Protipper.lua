@@ -299,6 +299,8 @@ Protipper.PowerBetween = function(powerType, minPower, maxPower, unit)
     return (power >= minPower) and (power <= maxPower);
 end
 
+--[[Returns true if the player has a spell called `spellName` with a number of
+    charges between `minCharges` and `maxCharges`, both inclusive.]]
 Protipper.ChargesBetween = function(spellName, minCharges, maxCharges)
     local charges, maxCharges, start, duration = GetSpellCharges(spellName);
     if (charges == nil) then

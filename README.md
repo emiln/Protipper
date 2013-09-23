@@ -66,6 +66,10 @@ parameter `unit` take on the following values: `{pet,player,target}`.
 * `CenterFrame()`: returns the frame to the center of the screen if you happen
   to misplace it.
 
+* `ChargesBetween(spellName, minCharges, maxCharges)`: Returns true if the
+  player has a spell called `spellName` with a number of
+  charges between `minCharges` and `maxCharges`, both inclusive.
+
 * `DebuffActive(debuffName, unit)`: returns true if `unit` is currently
   affected by a debuff called `debuffName`.
 
@@ -89,5 +93,29 @@ parameter `unit` take on the following values: `{pet,player,target}`.
   `manaFraction`, where `0 <= manaFraction <= 1`.
 
 * `PetActive()`: returns true if you have an active pet.
+
+* `PowerBetween(powerType, minPower, maxPower, unit): Returns true if `unit` has
+  between `minPower` and `maxPower`of the power type of name `powerType`, both
+  inclusive. Valid power types:
+
+  * Alternate Power
+  * Burning Embers
+  * Dark Force
+  * Demonic Fury
+  * Eclipse
+  * Energy
+  * Focus
+  * Happiness
+  * Holy Power
+  * Light Force
+  * Mana
+  * Rage
+  * Runes
+  * Runic Power
+  * Shadow Orbs
+  * Soul Shards
+
+  Example: PowerBetween('Rage', 50, 60, 'player') is true, if the player has
+  between 50 and 60 Rage.
 
 * `TalentActive(talentName)`: returns true if you currently have `talentName`.
