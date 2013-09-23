@@ -94,7 +94,7 @@ parameter `unit` take on the following values: `{pet,player,target}`.
 
 * `PetActive()`: returns true if you have an active pet.
 
-* `PowerBetween(powerType, minPower, maxPower, unit): Returns true if `unit` has
+* `PowerBetween(powerType, minPower, maxPower, unit)`: Returns true if `unit` has
   between `minPower` and `maxPower`of the power type of name `powerType`, both
   inclusive. Valid power types:
 
