@@ -208,7 +208,7 @@ Protipper.SPEC_LIST["Destruction"] = {
         "p.AbilityReady('Conflagrate')" },
 
       { "Incinerate",
-        "p.AbilityReady('Conflagrate')" },
+        "p.AbilityReady('Incinerate') or p.IsCasting('Incinerate')" },
 
       { "Fel Flame",
         "true" },
