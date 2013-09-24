@@ -192,7 +192,9 @@ Protipper.SPEC_LIST["Destruction"] = {
            p.LowOnHealth(0.02, 'target'))]] },
 
       { "Immolate",
-        "p.DotRefresh('Immolate') and (not p.IsCasting('Immolate'))" },
+        [[p.DotRefresh('Immolate') and
+          (not p.IsCasting('Immolate')) and
+          (not p.IsTraveling('Immolate'))]] },
 
       { "Conflagrate",
         [[p.AbilityReady('Conflagrate') and
@@ -208,7 +210,7 @@ Protipper.SPEC_LIST["Destruction"] = {
         "p.AbilityReady('Conflagrate')" },
 
       { "Incinerate",
-        "p.AbilityReady('Conflagrate')" },
+        "p.AbilityReady('Incinerate') or p.IsCasting('Incinerate')" },
 
       { "Fel Flame",
         "true" },
