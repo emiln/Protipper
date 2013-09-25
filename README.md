@@ -80,6 +80,8 @@ parameter `unit` take on the following values: `{pet,player,target}`.
   currently affected by `debuffName` at `stackCount` stacks, and
   `minStack <= stackCount <= maxStack`.
 
+* `GetCastTime(spellName)` returns the cast time of `spellName` in seconds.
+
 * `IsCasting(spellName)`: returns true if you are currently casting
   `spellName`.
 
@@ -117,5 +119,9 @@ parameter `unit` take on the following values: `{pet,player,target}`.
 
   Example: PowerBetween('Rage', 50, 60, 'player') is true, if the player has
   between 50 and 60 Rage.
+
+* `RemainingDuration(spellName, unit)` returns the remaining duration of the `spellName` on `unit` in seconds.
+
+* `RemainingTotemDuration(totemName)` returns the remaining time before `totemName` is automatically destroyed. 
 
 * `TalentActive(talentName)`: returns true if you currently have `talentName`.
