@@ -453,6 +453,10 @@ Protipper.GetCastTime = function(spellName)
     return castingTime / 1000;
 end
 
+Protipper.RemainingTotemDuration = function()
+    
+end
+
 --  Returns the next spell to cast.
 local function GetNextSpell (queue)
     if queue == nil then
