@@ -405,7 +405,16 @@ Protipper.DotRefresh = function(spellName)
     local name, rank, icon, powerCost, isFunnel, powerType, castingTime,
         minRange, maxRange = GetSpellInfo(spellName);
 
+    if (castingTime == nil) then
+        castingTime = 0
+        powerCost = 0
+    end
+
     local currentPower = UnitPower("player", powerType);
+
+    if (currentPower == nil) then
+        currentPower = 0
+    end
 
     local _, _, _, count, _, dotDuration, expires, _,
         _, _, spellID, _, _,
