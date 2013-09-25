@@ -436,6 +436,23 @@ Protipper.LowOnMana = function(manaFraction, unit)
     return (mana/max < manaFraction);
 end
 
+-- [[Returns a double representing the time remaining for the buff `spellName` on `unit` in seconds]]
+Protipper.RemainingDuration = function(spellName, unit)
+    local name, rank, icon, count, dispelType, duration, expires, caster,
+        isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
+        value1, value2, value3 = UnitAura(unit, spellName);
+
+    return expires - GetTime();
+end
+
+-- [[Returns a double representing the time it would take the player to cast `spellName` in seconds]]
+Protipper.GetCastTime = function(spellName)
+    local name, rank, icon, powerCost, isFunnel, powerType, castingTime,
+        minRange, maxRange = GetSpellInfo(spellName);
+
+    return castingTime / 1000;
+end
+
 --  Returns the next spell to cast.
 local function GetNextSpell (queue)
     if queue == nil then
