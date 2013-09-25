@@ -44,30 +44,32 @@ Protipper.SPEC_LIST["Affliction"] = {
         "p.BuffActive('Soulburn', 'player')" },
 
       { "Soulburn",
-        [[p.PowerBetween('Soul Shards', 3, 4, 'player') and
+        [[p.PowerBetween('Soul Shards', 4, 4, 'player') and
           (p.DotRefresh('Agony') or
            p.DotRefresh('Corruption') or
            p.DotRefresh('Unstable Affliction'))]] },
 
       { "Agony",
-        [[p.DotRefresh('Agony') and
+        [[p.DebuffRefresh('Agony') and
           (not p.IsTraveling('Agony'))]] },
 
       { "Corruption",
-        [[p.DotRefresh('Corruption') and
+        [[p.DebuffRefresh('Corruption') and
           (not p.IsTraveling('Corruption'))]] },
 
       { "Unstable Affliction",
-        [[p.DotRefresh('Unstable Affliction') and
+        [[p.DebuffRefresh('Unstable Affliction') and
           (not p.IsCasting('Unstable Affliction')) and
           (not p.IsTraveling('Unstable Affliction'))]] },
 
       { "Haunt",
         [[p.DotRefresh('Haunt') and
+          (p.PowerBetween('Soul Shards', 1, 4, 'player')) and
           (not p.IsCasting('Haunt')) and
           (not p.IsTraveling('Haunt')) and
           (p.BuffActive('Dark Soul: Misery', 'player') or
-           p.PowerBetween('Soul Shards', 4, 4, 'player'))]] },
+           p.PowerBetween('Soul Shards', 4, 4, 'player') or
+           p.LowOnHealth(0.2, 'player'))]] },
 
       { "Drain Soul",
         "p.LowOnHealth(0.2, 'target')" },
