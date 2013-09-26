@@ -476,7 +476,7 @@ Protipper.RemainingDebuffDuration = function(spellName, unit)
 end
 
 -- Returns a double representing the time it would take the player to cast `spellName` in seconds.
-Protipper.GetCastTime = function(spellName)
+Protipper.CastTime = function(spellName)
     local name, rank, icon, powerCost, isFunnel, powerType, castingTime,
         minRange, maxRange = GetSpellInfo(spellName);
 
@@ -496,6 +496,26 @@ Protipper.RemainingTotemDuration = function(totemName)
         end
     end
     return 0;
+end
+
+-- Returns true if the temporary enchant on `weaponSlot` is expired or about to expire and should be recast.
+Protipper.WeaponEnchantRefresh = function (weaponSlot)
+    local hasMainHandEnchant, mainHandExpiration, mainHandCharges, 
+        hasOffHandEnchant, offHandExpiration, offHandCharges = GetWeaponEnchantInfo();
+    local slot = "";
+    if (weaponSlot ~= nil) then
+        slot = string.lower(weaponSlot);
+    end
+    if (slot == 'mainhand' or slot == 'mh') then
+        if (hasMainHandEnchant) then
+            return mainHandExpiration - GetTime() < p.COOLDOWN_DELTA;
+        end
+    elseif (slot == 'offhand' or slot == 'oh') then 
+        if (hasOffHandEnchant) then
+            return offHandExpiration - GetTime() < p.COOLDOWN_DELTA;
+        end
+    end
+    return true;
 end
 
 --  Returns the next spell to cast.

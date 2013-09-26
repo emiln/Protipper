@@ -65,6 +65,8 @@ parameter `unit` take on the following values: `{pet,player,target}`.
   currently affected by `buffName` at `stackCount` stacks, and
   `minStack <= stackCount <= maxStack`.
 
+* `CastTime(spellName)` returns the cast time of `spellName` in seconds.
+
 * `CenterFrame()`: returns the frame to the center of the screen if you happen
   to misplace it.
 
@@ -81,8 +83,6 @@ parameter `unit` take on the following values: `{pet,player,target}`.
 * `DebuffStack(debuffName, minStack, maxStack, unit)`: returns true if `unit` is
   currently affected by `debuffName` at `stackCount` stacks, and
   `minStack <= stackCount <= maxStack`.
-
-* `GetCastTime(spellName)` returns the cast time of `spellName` in seconds.
 
 * `IsCasting(spellName)`: returns true if you are currently casting
   `spellName`.
@@ -122,8 +122,19 @@ parameter `unit` take on the following values: `{pet,player,target}`.
   Example: PowerBetween('Rage', 50, 60, 'player') is true, if the player has
   between 50 and 60 Rage.
 
-* `RemainingDuration(spellName, unit)` returns the remaining duration of the `spellName` on `unit` in seconds.
+* `RemainingBuffDuration(spellName, unit)` returns the remaining duration of the 
+  buff `spellName` on `unit` in seconds.
 
-* `RemainingTotemDuration(totemName)` returns the remaining time before `totemName` is automatically destroyed. 
+* `RemainingDebuffDuration(spellName, unit)` returns the remaining duration of 
+  the debuff `spellName` on `unit` in seconds.
+
+* `RemainingTotemDuration(totemName)` returns the remaining time before `totemName` 
+  is automatically destroyed. 
 
 * `TalentActive(talentName)`: returns true if you currently have `talentName`.
+
+* `WeaponEnchantRefresh`: returns true if the temporary enchant on `weaponSlot` is 
+  expired or about to expire and should be recast.
+  Valid Weapon slots (Case insensitive):
+  * `MainHand` or `MH`: The main hand weapon slot.
+  * `OffHand` or `OH`: The offhand weapon slot.
