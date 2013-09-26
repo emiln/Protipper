@@ -12,6 +12,8 @@ prioritized list of abilities, each having a condition that will be evaluated
 to determine whether the ability in question should be shown or whether the
 program should progress to the next element in the priority list.
 
+![Protipper in action](http://i.imgur.com/qQMTkfh.png)
+
 Priority list? Conditions? I don't get it.
 ------------------------------------------
 
