@@ -455,18 +455,34 @@ Protipper.LowOnMana = function(manaFraction, unit)
 end
 
 -- Returns a double representing the time remaining for the buff `spellName` on `unit` in seconds.
-Protipper.RemainingDuration = function(spellName, unit)
+Protipper.RemainingBuffDuration = function(spellName, unit)
     local name, rank, icon, count, dispelType, duration, expires, caster,
         isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
         value1, value2, value3 = UnitAura(unit, spellName);
+    if (expires == nil) then
+        return 0;
+    end
+    return expires - GetTime();
+end
 
+-- Returns a double representing the time remaining for the debuff `spellName` on `unit` in seconds.
+Protipper.RemainingDebuffDuration = function(spellName, unit)
+    local name, rank, icon, count, debuffType, duration, expires, caster,
+        isStealable, shouldConsolidate, spellID = UnitDebuff(unit, spellName);
+    if (expires == nil or caster ~= 'player') then
+        return 0;
+    end
     return expires - GetTime();
 end
 
 -- Returns a double representing the time it would take the player to cast `spellName` in seconds.
-Protipper.GetCastTime = function(spellName)
+Protipper.CastTime = function(spellName)
     local name, rank, icon, powerCost, isFunnel, powerType, castingTime,
         minRange, maxRange = GetSpellInfo(spellName);
+
+    if (castingTime == nil) then
+        return 0; -- Might be more meaningful if this returns something excessively high on an invalid spellname.
+    end
 
     return castingTime / 1000;
 end
@@ -480,6 +496,26 @@ Protipper.RemainingTotemDuration = function(totemName)
         end
     end
     return 0;
+end
+
+-- Returns true if the temporary enchant on `weaponSlot` is expired or about to expire and should be recast.
+Protipper.WeaponEnchantRefresh = function (weaponSlot)
+    local hasMainHandEnchant, mainHandExpiration, mainHandCharges, 
+        hasOffHandEnchant, offHandExpiration, offHandCharges = GetWeaponEnchantInfo();
+    local slot = "";
+    if (weaponSlot ~= nil) then
+        slot = string.lower(weaponSlot);
+    end
+    if (slot == 'mainhand' or slot == 'mh') then
+        if (hasMainHandEnchant) then
+            return mainHandExpiration - GetTime() < p.COOLDOWN_DELTA;
+        end
+    elseif (slot == 'offhand' or slot == 'oh') then 
+        if (hasOffHandEnchant) then
+            return offHandExpiration - GetTime() < p.COOLDOWN_DELTA;
+        end
+    end
+    return true;
 end
 
 --  Returns the next spell to cast.
