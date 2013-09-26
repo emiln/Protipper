@@ -23,7 +23,8 @@ Protipper.HP_COLOR_HIGH = {27,224,50};
 Protipper.BAR_WIDTH = 10;
 Protipper.ICON_SIZE = 50;
 Protipper.LABEL_HEIGHT = 12;
-Protipper.PADDING = 8;
+Protipper.PADDING = 2;
+Protipper.MARGIN = 5;
 Protipper.FRAME = nil;
 Protipper.SPELL = nil;
 Protipper.INTERVAL = 0.1;
@@ -616,14 +617,14 @@ Protipper.CreateFrame = function()
     local backdrop = {
         bgFile = "Interface\\Tooltips\\ChatBubble-Background",
         edgeFile = "Interface\\Tooltips\\ChatBubble-Backdrop",
-        tile = true,
-        tileSize = 32,
-        edgeSize = 16,
+        tile = false,
+        tileSize = 1,
+        edgeSize = 1,
         insets = {
-            left = 3,
-            right = 3,
-            top = 3,
-            bottom = 3
+            left = 0,
+            right = 0,
+            top = 0,
+            bottom = 0
         }
     };
 
@@ -640,7 +641,9 @@ Protipper.CreateFrame = function()
     local desc = CreateFrame("Frame", nil, pt);
     p.DESCRIPTION = desc;
     desc:SetBackdrop(backdrop);
-    desc:SetPoint("BOTTOM", 0, -1*(p.LABEL_HEIGHT + 2*p.PADDING));
+    desc:SetBackdropBorderColor(0, 0, 0, 1);
+    desc:SetBackdropColor(0, 0, 0, 0.7);
+    desc:SetPoint("BOTTOM", 0,-p.MARGIN - 1*(p.LABEL_HEIGHT + 2*p.PADDING));
     desc:SetWidth(120);
     desc:SetHeight(p.LABEL_HEIGHT + 2*p.PADDING);
     desc.Text = desc:CreateFontString(nil, "STRATA", "GameFontNormal");
