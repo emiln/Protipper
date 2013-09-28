@@ -33,6 +33,8 @@ Protipper.SPEC = "None";
 Protipper.TRAVELING_SPELLS = {};
 Protipper.CASTING_SPELLS = {};
 Protipper.HP_BAR_ALPHA = 0.6;
+Protipper.DRAG_ALPHA = 0.5;
+Protipper.MASTER_ALPHA = 1;
 Protipper.PLAYER_HP_BAR = nil;
 Protipper.TARGET_HP_BAR = nil;
 Protipper.TRIVIAL_HEALTH = 45000;
@@ -602,6 +604,7 @@ Protipper.CreateButton = function()
         p.SPELL:RegisterForDrag("LeftButton");
         p.SPELL:SetScript("OnDragStart", p.StartDragFrame);
         p.SPELL:SetScript("OnDragStop", p.StopDragFrame);
+        p.SPELL:EnableMouse(true);
 
         p.SPELL.TEXTURE = p.SPELL:CreateTexture("ProtipperIconTexture");
         p.SPELL.TEXTURE:SetPoint("TOPLEFT", p.SPELL, "TOPLEFT", 1, -1);
@@ -612,11 +615,13 @@ Protipper.CreateButton = function()
 end
 
 Protipper.StartDragFrame = function()
+    p.FRAME:SetAlpha(p.DRAG_ALPHA);
     p.FRAME:SetMovable(true);
     p.FRAME:StartMoving();
 end
 
 Protipper.StopDragFrame = function()
+    p.FRAME:SetAlpha(p.MASTER_ALPHA);
     p.FRAME:SetMovable(false);
     p.FRAME:StopMovingOrSizing();
     point, relTo, relPoint, x, y = p.FRAME:GetPoint(1);
