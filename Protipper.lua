@@ -23,7 +23,8 @@ Protipper.HP_COLOR_HIGH = {27,224,50};
 Protipper.BAR_WIDTH = 10;
 Protipper.ICON_SIZE = 50;
 Protipper.LABEL_HEIGHT = 12;
-Protipper.PADDING = 8;
+Protipper.PADDING = 2;
+Protipper.MARGIN = 5;
 Protipper.FRAME = nil;
 Protipper.SPELL = nil;
 Protipper.INTERVAL = 0.1;
@@ -32,6 +33,8 @@ Protipper.SPEC = "None";
 Protipper.TRAVELING_SPELLS = {};
 Protipper.CASTING_SPELLS = {};
 Protipper.HP_BAR_ALPHA = 0.6;
+Protipper.DRAG_ALPHA = 0.5;
+Protipper.MASTER_ALPHA = 1;
 Protipper.PLAYER_HP_BAR = nil;
 Protipper.TARGET_HP_BAR = nil;
 Protipper.TRIVIAL_HEALTH = 45000;
@@ -577,7 +580,7 @@ end
 
 Protipper.SetTexture = function(texturePath)
     p.CreateButton();
-    p.SPELL:SetNormalTexture(texturePath);
+    p.SPELL.TEXTURE:SetTexture(texturePath);
 end
 
 Protipper.SetNextSpell = function(spellName, parent)
@@ -589,27 +592,53 @@ Protipper.SetNextSpell = function(spellName, parent)
     local b = p.SPELL;
     local name, rank, icon, powerCost, isFunnel, powerType,
         castingTime, minRange, maxRange = GetSpellInfo(spellName);
-    b:SetNormalTexture(icon);
+    p.SetTexture(icon);
 end
 
 Protipper.CreateButton = function()
     if (p.SPELL == nil) then
-        p.SPELL = CreateFrame("Button", nil, p.FRAME);
+        local backdrop = {
+            bgFile = "Interface\\Tooltips\\ChatBubble-Background",
+            edgeFile = "Interface\\Tooltips\\ChatBubble-Backdrop",
+            tile = false,
+            tileSize = 1,
+            edgeSize = 1,
+            insets = {
+                left = 0,
+                right = 0,
+                top = 0,
+                bottom = 0
+            }
+        };
+
+        p.SPELL = CreateFrame("Frame", nil, p.FRAME);
+        p.SPELL:SetHeight(p.ICON_SIZE);
+        p.SPELL:SetWidth(p.ICON_SIZE);
+        p.SPELL:SetBackdrop(backdrop);
+        p.SPELL:SetBackdropColor(0, 0, 0, 0.7)
+        p.SPELL:SetBackdropBorderColor(0, 0, 0, 1);
         p.SPELL:SetPoint("TOPLEFT", p.FRAME, "TOPLEFT", 0, 0);
-        p.SPELL:SetWidth(Protipper.ICON_SIZE);
-        p.SPELL:SetHeight(Protipper.ICON_SIZE);
         p.SPELL:RegisterForDrag("LeftButton");
         p.SPELL:SetScript("OnDragStart", p.StartDragFrame);
         p.SPELL:SetScript("OnDragStop", p.StopDragFrame);
+        p.SPELL:EnableMouse(true);
+
+        p.SPELL.TEXTURE = p.SPELL:CreateTexture("ProtipperIconTexture");
+        p.SPELL.TEXTURE:SetPoint("TOPLEFT", p.SPELL, "TOPLEFT", 1, -1);
+        p.SPELL.TEXTURE:SetHeight(p.ICON_SIZE - 2);
+        p.SPELL.TEXTURE:SetWidth(p.ICON_SIZE - 2);
+        p.SPELL.TEXTURE:SetTexCoord(0.08, 0.92, 0.08, 0.92);
     end
 end
 
 Protipper.StartDragFrame = function()
+    p.FRAME:SetAlpha(p.DRAG_ALPHA);
     p.FRAME:SetMovable(true);
     p.FRAME:StartMoving();
 end
 
 Protipper.StopDragFrame = function()
+    p.FRAME:SetAlpha(p.MASTER_ALPHA);
     p.FRAME:SetMovable(false);
     p.FRAME:StopMovingOrSizing();
     point, relTo, relPoint, x, y = p.FRAME:GetPoint(1);
@@ -632,7 +661,7 @@ Protipper.UpdatePlayerHealth = function()
     local max = UnitHealthMax("player");
     if (health > 0) then
         local frac = health/max;
-        p.PLAYER_HP_BAR:SetHeight(frac*(p.ICON_SIZE - 4));
+        p.PLAYER_HP_BAR:SetHeight(frac*(p.ICON_SIZE - 2));
         local l = p.HP_COLOR_LOW;
         local h = p.HP_COLOR_HIGH;
         local r = (h[1]-l[1])*frac+l[1];
@@ -641,7 +670,7 @@ Protipper.UpdatePlayerHealth = function()
         p.PLAYER_HP_BAR.Texture:SetTexture(r/255, g/255, b/255,
             p.HP_BAR_ALPHA);
     else
-        p.PLAYER_HP_BAR:SetHeight(p.ICON_SIZE - 4);
+        p.PLAYER_HP_BAR:SetHeight(p.ICON_SIZE - 2);
         p.PLAYER_HP_BAR.Texture:SetTexture(0.2, 0.2, 0.2, p.HP_BAR_ALPHA);
     end
 end
@@ -651,7 +680,7 @@ Protipper.UpdateTargetHealth = function()
     local max = UnitHealthMax("target");
     if (health > 0) then
         local frac = health/max;
-        p.TARGET_HP_BAR:SetHeight(frac*(p.ICON_SIZE - 4));
+        p.TARGET_HP_BAR:SetHeight(frac*(p.ICON_SIZE - 2));
         local l = p.HP_COLOR_LOW;
         local h = p.HP_COLOR_HIGH;
         local r = (h[1]-l[1])*frac+l[1];
@@ -660,7 +689,7 @@ Protipper.UpdateTargetHealth = function()
         p.TARGET_HP_BAR.Texture:SetTexture(r/255, g/255, b/255,
             p.HP_BAR_ALPHA);
     else
-        p.TARGET_HP_BAR:SetHeight(p.ICON_SIZE - 4);
+        p.TARGET_HP_BAR:SetHeight(p.ICON_SIZE - 2);
         p.TARGET_HP_BAR.Texture:SetTexture(0.2, 0.2, 0.2, p.HP_BAR_ALPHA);
     end
 end
@@ -669,14 +698,14 @@ Protipper.CreateFrame = function()
     local backdrop = {
         bgFile = "Interface\\Tooltips\\ChatBubble-Background",
         edgeFile = "Interface\\Tooltips\\ChatBubble-Backdrop",
-        tile = true,
-        tileSize = 32,
-        edgeSize = 16,
+        tile = false,
+        tileSize = 1,
+        edgeSize = 1,
         insets = {
-            left = 3,
-            right = 3,
-            top = 3,
-            bottom = 3
+            left = 0,
+            right = 0,
+            top = 0,
+            bottom = 0
         }
     };
 
@@ -693,56 +722,49 @@ Protipper.CreateFrame = function()
     local desc = CreateFrame("Frame", nil, pt);
     p.DESCRIPTION = desc;
     desc:SetBackdrop(backdrop);
-    desc:SetPoint("BOTTOM", 0, -1*(p.LABEL_HEIGHT + 2*p.PADDING));
+    desc:SetBackdropBorderColor(0, 0, 0, 1);
+    desc:SetBackdropColor(0, 0, 0, 0.7);
+    desc:SetPoint("BOTTOM", 0,-p.MARGIN - 1*(p.LABEL_HEIGHT + 2*p.PADDING));
     desc:SetWidth(120);
     desc:SetHeight(p.LABEL_HEIGHT + 2*p.PADDING);
     desc.Text = desc:CreateFontString(nil, "STRATA", "GameFontNormal");
+    desc.Text:SetTextColor(1, 1, 1, 1);
     desc.Text:SetPoint("TOP", 0, -1*p.PADDING);
     desc.Text:SetText(p.L["ACQUIRE_TARGET"]);
-
-    local backdropSmall = {
-        bgFile = "Interface\\Tooltips\\ChatBubble-Background",
-        edgeFile = "Interface\\Tooltips\\ChatBubble-Backdrop",
-        tile = true,
-        tileSize = 8,
-        edgeSize = 8,
-        insets = {
-            left = 1,
-            right = 1,
-            top = 1,
-            bottom = 1
-        }
-    };
 
     local playerBar = CreateFrame("Frame", nil, p.SPELL);
     local playerBarInner = CreateFrame("Frame", nil, playerBar);
     local targetBar = CreateFrame("Frame", nil, p.SPELL);
     local targetBarInner = CreateFrame("Frame", nil, targetBar);
 
-    playerBar:SetPoint("LEFT", -10, 0);
-    playerBar:SetBackdrop(backdropSmall);
+    playerBar:SetPoint("LEFT", -10 - p.MARGIN, 0);
+    playerBar:SetBackdrop(backdrop);
+    playerBar:SetBackdropBorderColor(0, 0, 0, 1);
+    playerBar:SetBackdropColor(0, 0, 0, 0.7);
     playerBar:SetWidth(p.BAR_WIDTH);
     playerBar:SetHeight(p.ICON_SIZE);
 
-    targetBar:SetPoint("RIGHT", 10, 0);
-    targetBar:SetBackdrop(backdropSmall);
+    targetBar:SetPoint("RIGHT", 10 + p.MARGIN, 0);
+    targetBar:SetBackdrop(backdrop);
+    targetBar:SetBackdropBorderColor(0, 0, 0, 1);
+    targetBar:SetBackdropColor(0, 0, 0, 0.7);
     targetBar:SetWidth(p.BAR_WIDTH);
     targetBar:SetHeight(p.ICON_SIZE);
 
-    playerBarInner:SetPoint("BOTTOM", playerBar, "BOTTOM", 0, 2);
+    playerBarInner:SetPoint("BOTTOM", playerBar, "BOTTOM", 0, 1);
     playerBarInner.Texture = playerBarInner:CreateTexture();
     playerBarInner.Texture:SetAllPoints(playerBarInner);
-    playerBarInner:SetWidth(p.BAR_WIDTH - 4);
-    playerBarInner:SetHeight(p.ICON_SIZE - 4);
+    playerBarInner:SetWidth(p.BAR_WIDTH - 2);
+    playerBarInner:SetHeight(p.ICON_SIZE - 2);
 
     p.PLAYER_HP_BAR = playerBarInner;
     p.TARGET_HP_BAR = targetBarInner;
 
-    targetBarInner:SetPoint("BOTTOM", targetBar, "BOTTOM", 0, 2);
+    targetBarInner:SetPoint("BOTTOM", targetBar, "BOTTOM", 0, 1);
     targetBarInner.Texture = targetBarInner:CreateTexture();
     targetBarInner.Texture:SetAllPoints(targetBarInner);
-    targetBarInner:SetWidth(p.BAR_WIDTH - 4);
-    targetBarInner:SetHeight(p.ICON_SIZE - 4);
+    targetBarInner:SetWidth(p.BAR_WIDTH - 2);
+    targetBarInner:SetHeight(p.ICON_SIZE - 2);
 
     pt:RegisterEvent("PLAYER_ENTERING_WORLD", pt);
     pt:RegisterEvent("PLAYER_TALENT_UPDATE", pt);
