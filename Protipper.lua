@@ -525,10 +525,27 @@ local function GetNextSpell (queue)
     end
     for i,v in ipairs(queue) do
         local spell = v[1];
-        local cond = "local p = Protipper; return (" .. v[2] .. ");";
-        local p, eor = loadstring(cond);
-        if p() then
-            return spell;
+        local conditionString = v[2];
+        local condition = "local p = Protipper; return (" .. conditionString ..
+            ");";
+        local sensible, conditionFunction, eor = pcall(loadstring, condition);
+        if sensible then
+            local valid, result = pcall(conditionFunction);
+            if valid then
+                if result then
+                    return spell;
+                end
+            else
+                error("Protipper encountered an error when trying to parse the"
+                    .. " condition for '" .. spell .. "'. The following is"
+                    .. " invalid Lua code:\n\n" .. conditionString .. "\n\n"
+                    .. "Please correct and type '/run ReloadUI()'"
+                    .. " or relog.");
+            end
+        else
+            print("FAILED: " .. v[1]);
+            error("Protipper couldn't parse the conditions for '" .. spell ..
+                "': " .. v[2]);
         end
     end
     return nil;
