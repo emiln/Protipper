@@ -651,6 +651,7 @@ Protipper.SetNextSpellKeybinding = function(spell)
         p.SPELL.TEXT:Hide();
         p.SPELL.KEYBINDING:Hide();
     else
+        key = string.gsub(key, "(%w)%w+(-%w+)", "%1%2");
         p.SPELL.TEXT:Show();
         p.SPELL.KEYBINDING:Show();
         p.SPELL.TEXT:SetText(key);
@@ -692,8 +693,8 @@ Protipper.CreateButton = function()
         p.SPELL.TEXTURE:SetTexCoord(0.08, 0.92, 0.08, 0.92);
 
         p.SPELL.KEYBINDING = CreateFrame("Frame", nil, p.SPELL);
-        p.SPELL.KEYBINDING:SetHeight(p.LABEL_HEIGHT);
-        p.SPELL.KEYBINDING:SetWidth(p.LABEL_HEIGHT);
+        p.SPELL.KEYBINDING:SetHeight(p.LABEL_HEIGHT + 2);
+        p.SPELL.KEYBINDING:SetWidth(p.ICON_SIZE - 4);
         p.SPELL.KEYBINDING:SetBackdrop(backdrop);
         p.SPELL.KEYBINDING:SetBackdropColor(0, 0, 0, 1)
         p.SPELL.KEYBINDING:SetBackdropBorderColor(0, 0, 0, 1);
@@ -701,6 +702,7 @@ Protipper.CreateButton = function()
             "BOTTOMRIGHT", -1, 1);
         p.SPELL.TEXT = p.SPELL.KEYBINDING:CreateFontString(nil,
             "STRATA", "GameFontHighlight");
+        p.SPELL.TEXT:SetTextHeight(12);
         p.SPELL.TEXT:SetAllPoints();
     end
 end
