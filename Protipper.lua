@@ -646,15 +646,19 @@ end
 
 -- Set the next spell to cast's keybinding, given the spell's name.
 Protipper.SetNextSpellKeybinding = function(spell)
-    local key = p.KeybindingForSpell(spell);
-    if (spell == nil or key == nil) then
-        p.SPELL.TEXT:Hide();
-        p.SPELL.KEYBINDING:Hide();
-    else
-        key = string.gsub(key, "(%w)%w+(-%w+)", "%1%2");
-        p.SPELL.TEXT:Show();
-        p.SPELL.KEYBINDING:Show();
-        p.SPELL.TEXT:SetText(key);
+    if (spell ~= p.SPELL.TEXT:GetText()) then
+        local key = p.KeybindingForSpell(spell);
+        if (spell == nil or key == nil) then
+            p.SPELL.TEXT:Hide();
+            p.SPELL.KEYBINDING:Hide();
+        else
+            key = string.gsub(key, "(%w)%w+(-.+)", "%1%2");
+            p.SPELL.TEXT:Show();
+            p.SPELL.KEYBINDING:Show();
+            p.SPELL.TEXT:SetText(key);
+            local width = p.SPELL.TEXT:GetStringWidth();
+            p.SPELL.KEYBINDING:SetWidth(width);
+        end
     end
 end
 
@@ -696,12 +700,13 @@ Protipper.CreateButton = function()
         p.SPELL.KEYBINDING:SetHeight(p.LABEL_HEIGHT + 2);
         p.SPELL.KEYBINDING:SetWidth(p.ICON_SIZE - 4);
         p.SPELL.KEYBINDING:SetBackdrop(backdrop);
-        p.SPELL.KEYBINDING:SetBackdropColor(0, 0, 0, 1)
-        p.SPELL.KEYBINDING:SetBackdropBorderColor(0, 0, 0, 1);
-        p.SPELL.KEYBINDING:SetPoint("BOTTOMRIGHT", p.SPELL.TEXTURE,
-            "BOTTOMRIGHT", -1, 1);
+        p.SPELL.KEYBINDING:SetBackdropColor(0, 0, 0, 0)
+        p.SPELL.KEYBINDING:SetBackdropBorderColor(0, 0, 0, 0);
+        p.SPELL.KEYBINDING:SetPoint("TOPRIGHT", p.SPELL.TEXTURE,
+            "TOPRIGHT", 0, 0);
         p.SPELL.TEXT = p.SPELL.KEYBINDING:CreateFontString(nil,
             "STRATA", "GameFontHighlight");
+        p.SPELL.TEXT:SetFont("Fonts\\ARIALN.TTF", p.LABEL_HEIGHT, "OUTLINE");
         p.SPELL.TEXT:SetTextHeight(12);
         p.SPELL.TEXT:SetAllPoints();
     end
