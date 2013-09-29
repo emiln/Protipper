@@ -41,21 +41,36 @@ Protipper.SPEC_LIST["Fire"] = {
    default = {      
       { "Mirror Image",
         "p.AbilityReady('Mirror Image')" },
-      
+
       { "Presence of Mind",
         [[p.TalentActive('Presence of Mind') and
-          p.AbilityReady('Presence of Mind')]]},
+          p.AbilityReady('Presence of Mind') and
+          not p.BuffActive('Presence of Mind', 'player') and
+          p.BuffActive('Pyroblast!', 'player') and
+          p.BuffActive('Heating Up', 'player')]] },
+
+      { "Alter Time",
+        [[p.AbilityReady('Alter Time') and
+        not p.BuffActive('Alter Time', 'player') and
+        p.BuffActive('Pyroblast!', 'player') and
+        p.BuffActive('Heating Up', 'player')]] },
       
       { "Pyroblast",
         [[(p.BuffActive('Pyroblast!', 'player') and 
            p.BuffActive('Heating Up', 'player') and
            p.IsCasting('Fireball')) or 
-          p.BuffActive('Presence of Mind', 'player')]] },
-      
+          p.BuffActive('Presence of Mind', 'player') or
+          (p.BuffActive('Pyroblast!', 'player') and 
+           (p.RemainingBuffDuration('Pyroblast!', 'player') < p.CastTime('Fireball')))]] },
+
       { "Inferno Blast",
         [[p.BuffActive('Heating Up', 'player') and
           p.AbilityReady('Inferno Blast')]] },
-      
+
+      { "Alter Time",
+        [[p.AbilityReady('Alter Time') and
+        p.BuffActive('Alter Time', 'player')]] },
+
       { "Nether Tempest",
         [[p.TalentActive('Nether Tempest') and 
           p.DebuffRefresh('Nether Tempest') and
