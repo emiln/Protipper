@@ -203,11 +203,15 @@ Protipper.SPEC_LIST["Destruction"] = {
           p.ChargesBetween('Conflagrate', 2, 2)]] },
 
       { "Chaos Bolt",
-        [[(p.AbilityReady('Chaos Bolt') or
-           p.IsCasting('Chaos Bolt')) and
+        [[(p.AbilityReady('Chaos Bolt') and
            (p.PowerBetween('Burning Embers', 4, 4, 'player') or
             p.BuffActive('Skull Banner', 'player') or
-            p.BuffActive('Dark Soul: Instability', 'player'))]] },
+            p.BuffActive('Dark Soul: Instability', 'player')))
+          or
+          (p.IsCasting('Chaos Bolt') and
+           p.PowerBetween('Burning Embers', 2, 4, 'player') and
+           (p.BuffActive('Skull Banner', 'player') or
+            p.BuffActive('Dark Soul: Instability', 'player')))]] },
 
       { "Conflagrate",
         "p.AbilityReady('Conflagrate')" },
