@@ -42,35 +42,7 @@ Protipper.SPEC_LIST["Fire"] = {
       { "Mirror Image",
         "p.AbilityReady('Mirror Image')" },
 
-      { "Presence of Mind",
-        [[p.TalentActive('Presence of Mind') and
-          p.AbilityReady('Presence of Mind') and
-          not p.BuffActive('Presence of Mind', 'player') and
-          p.BuffActive('Pyroblast!', 'player') and
-          p.BuffActive('Heating Up', 'player')]] },
-
-      { "Alter Time",
-        [[p.AbilityReady('Alter Time') and
-        not p.BuffActive('Alter Time', 'player') and
-        p.BuffActive('Pyroblast!', 'player') and
-        p.BuffActive('Heating Up', 'player')]] },
-      
-      { "Pyroblast",
-        [[(p.BuffActive('Pyroblast!', 'player') and 
-           p.BuffActive('Heating Up', 'player') and
-           p.IsCasting('Fireball')) or 
-          p.BuffActive('Presence of Mind', 'player') or
-          (p.BuffActive('Pyroblast!', 'player') and 
-           (p.RemainingBuffDuration('Pyroblast!', 'player') < p.CastTime('Fireball')))]] },
-
-      { "Inferno Blast",
-        [[p.BuffActive('Heating Up', 'player') and
-          p.AbilityReady('Inferno Blast')]] },
-
-      { "Alter Time",
-        [[p.AbilityReady('Alter Time') and
-        p.BuffActive('Alter Time', 'player')]] },
-
+-- Level 75 talents
       { "Nether Tempest",
         [[p.TalentActive('Nether Tempest') and 
           p.DebuffRefresh('Nether Tempest') and
@@ -85,6 +57,58 @@ Protipper.SPEC_LIST["Fire"] = {
         [[p.TalentActive('Living Bomb') and 
           p.DebuffRefresh('Living Bomb') and
           p.AbilityReady('Living Bomb')]]},
+
+-- Level 90 talents
+      { "Evocation",
+        [[p.TalentActive('Invocation') and
+          p.AbilityReady('Evocation') and
+          not p.BuffActive('Invoker\'s Energy', 'player')]]
+      },
+
+      { "Rune of Power",
+        [[p.TalentActive('Rune of Power') and
+          p.AbilityReady('Rune of Power') and
+          not p.BuffACtive('Rune of Power', 'player')]]},
+
+      { "Incanter's Ward"
+        [[p.TalentActive('Incanter\'s Ward') and
+          p.AbilityReady('Incanter\'s Ward')]]  },
+
+      { "Presence of Mind",
+        [[p.TalentActive('Presence of Mind') and
+          p.AbilityReady('Presence of Mind') and
+          not p.BuffActive('Presence of Mind', 'player') and
+          p.BuffActive('Pyroblast!', 'player') and
+          p.BuffActive('Heating Up', 'player') and
+          p.AbilityReady('Combustion')]] },
+
+      { "Alter Time",
+        [[p.AbilityReady('Alter Time') and
+          not p.BuffActive('Alter Time', 'player') and
+          p.BuffActive('Pyroblast!', 'player') and
+          p.BuffActive('Heating Up', 'player') and
+          p.AbilityReady('Combustion')]] },
+      
+      { "Pyroblast",
+        [[(p.BuffActive('Pyroblast!', 'player') and 
+           p.BuffActive('Heating Up', 'player') and
+           p.IsCasting('Fireball')) or 
+          p.BuffActive('Presence of Mind', 'player') or
+          (p.BuffActive('Pyroblast!', 'player') and 
+           (p.RemainingBuffDuration('Pyroblast!', 'player') < p.CastTime('Fireball')))]] },
+
+      { "Combustion", 
+        [[p.DebuffActive('Ignite', 'target') and 
+          p.DebuffActive('Pyroblast', 'target') and
+          p.AbilityReady('Combustion')]] },
+
+      { "Inferno Blast",
+        [[p.BuffActive('Heating Up', 'player') and
+          p.AbilityReady('Inferno Blast')]] },
+
+      { "Alter Time",
+        [[p.AbilityReady('Alter Time') and
+        p.BuffActive('Alter Time', 'player')]] },
       
       { "Fireball",
         "true" }
