@@ -24,7 +24,7 @@ Protipper.BAR_WIDTH = 10;
 Protipper.ICON_SIZE = 50;
 Protipper.LABEL_HEIGHT = 12;
 Protipper.PADDING = 2;
-Protipper.MARGIN = 5;
+Protipper.MARGIN = 1;
 Protipper.FRAME = nil;
 Protipper.SPELL = nil;
 Protipper.INTERVAL = 0.1;
@@ -501,6 +501,50 @@ Protipper.RemainingTotemDuration = function(totemName)
     return 0;
 end
 
+-- Returns a string representing the keybinding (if any) for the given spell.
+Protipper.KeybindingForSpell = function(spellName)
+    --[[Action buttons:
+        ACTIONBUTTON[1-12] <- First page in regular action bar.
+        ACTIONBUTTON[1-12] <- Second page in regular action bar.
+        BONUSACTIONBUTTON[1-10] <- Pet bar.
+        MULTIACTIONBAR1BUTTON[1-12] <- Right action bar.
+        MULTIACTIONBAR2BUTTON[1-12] <- Right action bar 2.
+        MULTIACTIONBAR3BUTTON[1-12] <- Lower right action bar.
+        MULTIACTIONBAR4BUTTON[1-12] <- Lower left action bar.]]
+    for idx = 1, 120 do
+        atype, id, subType, spellId = GetActionInfo(idx);
+        if (atype == "spell") then
+            local name, rank, icon, powerCost, isFunnel, powerType,
+                castingTime, minRange, maxRange = GetSpellInfo(id);
+            if (name ~= nil) then
+                if (name == spellName) then
+                    -- Calculate the COMMAND string.
+                    local page = math.floor(idx / 12);
+                    local slot = idx % 12;
+                    local command = "";
+                    if (page == 0) then
+                        command = "ACTIONBUTTON";
+                    elseif (page == 1) then
+                        command = "ACTIONBUTTON";
+                    elseif (page == 2) then
+                        command = "MULTIACTIONBAR3BUTTON";
+                    elseif (page == 3) then
+                        command = "MULTIACTIONBAR4BUTTON";
+                    elseif (page == 4) then
+                        command = "MULTIACTIONBAR2BUTTON";
+                    elseif (page == 5) then
+                        command = "MULTIACTIONBAR1BUTTON";
+                    end
+                    command = command .. slot;
+                    return GetBindingKey(command);
+                end
+            end
+        end
+    end
+
+    return nil;
+end
+
 -- Returns true if the temporary enchant on `weaponSlot` is expired or about to expire and should be recast.
 Protipper.WeaponEnchantRefresh = function (weaponSlot)
     local hasMainHandEnchant, mainHandExpiration, mainHandCharges, 
@@ -559,6 +603,7 @@ Protipper.UpdatePriorities = function(spec)
     if (spec == "None") then
         p.SetNextSpellName("Auto Attack");
         p.SetNextSpell("Auto Attack", p.FRAME);
+        p.SetNextSpellKeybinding(nil);
         return;
     end
     local enemy = UnitCanAttack("player", "target");
@@ -572,17 +617,21 @@ Protipper.UpdatePriorities = function(spec)
     if (spell == nil) then
         p.SetTexture("Interface\\ICONS\\INV_Misc_QuestionMark");
         p.SetNextSpellName(p.L["ACQUIRE_TARGET"]);
+        p.SetNextSpellKeybinding(nil);
     else
         p.SetNextSpellName(spell);
         p.SetNextSpell(spell, p.FRAME);
+        p.SetNextSpellKeybinding(spell);
     end 
 end
 
+-- Set the texture of the next spell to cast, given a texturePath.
 Protipper.SetTexture = function(texturePath)
     p.CreateButton();
     p.SPELL.TEXTURE:SetTexture(texturePath);
 end
 
+-- Set the next spell to cast, given the spell's name.
 Protipper.SetNextSpell = function(spellName, parent)
     if ((spellName == nil) and (not p.SPELL == nil)) then
         p.SPELL:Hide();
@@ -593,6 +642,24 @@ Protipper.SetNextSpell = function(spellName, parent)
     local name, rank, icon, powerCost, isFunnel, powerType,
         castingTime, minRange, maxRange = GetSpellInfo(spellName);
     p.SetTexture(icon);
+end
+
+-- Set the next spell to cast's keybinding, given the spell's name.
+Protipper.SetNextSpellKeybinding = function(spell)
+    if (spell ~= p.SPELL.TEXT:GetText()) then
+        local key = p.KeybindingForSpell(spell);
+        if (spell == nil or key == nil) then
+            p.SPELL.TEXT:Hide();
+            p.SPELL.KEYBINDING:Hide();
+        else
+            key = string.gsub(key, "(%w)%w+(-.+)", "%1%2");
+            p.SPELL.TEXT:Show();
+            p.SPELL.KEYBINDING:Show();
+            p.SPELL.TEXT:SetText(key);
+            local width = p.SPELL.TEXT:GetStringWidth();
+            p.SPELL.KEYBINDING:SetWidth(width);
+        end
+    end
 end
 
 Protipper.CreateButton = function()
@@ -628,6 +695,20 @@ Protipper.CreateButton = function()
         p.SPELL.TEXTURE:SetHeight(p.ICON_SIZE - 2);
         p.SPELL.TEXTURE:SetWidth(p.ICON_SIZE - 2);
         p.SPELL.TEXTURE:SetTexCoord(0.08, 0.92, 0.08, 0.92);
+
+        p.SPELL.KEYBINDING = CreateFrame("Frame", nil, p.SPELL);
+        p.SPELL.KEYBINDING:SetHeight(p.LABEL_HEIGHT + 2);
+        p.SPELL.KEYBINDING:SetWidth(p.ICON_SIZE - 4);
+        p.SPELL.KEYBINDING:SetBackdrop(backdrop);
+        p.SPELL.KEYBINDING:SetBackdropColor(0, 0, 0, 0)
+        p.SPELL.KEYBINDING:SetBackdropBorderColor(0, 0, 0, 0);
+        p.SPELL.KEYBINDING:SetPoint("TOPRIGHT", p.SPELL.TEXTURE,
+            "TOPRIGHT", 0, 0);
+        p.SPELL.TEXT = p.SPELL.KEYBINDING:CreateFontString(nil,
+            "STRATA", "GameFontHighlight");
+        p.SPELL.TEXT:SetFont("Fonts\\ARIALN.TTF", p.LABEL_HEIGHT, "OUTLINE");
+        p.SPELL.TEXT:SetTextHeight(12);
+        p.SPELL.TEXT:SetAllPoints();
     end
 end
 
