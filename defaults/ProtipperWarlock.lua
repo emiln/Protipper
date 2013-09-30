@@ -188,6 +188,7 @@ Protipper.SPEC_LIST["Destruction"] = {
 
       { "Shadowburn",
         [[p.LowOnHealth(0.2, 'target') and
+          p.PowerBetween('Burning Embers', 1, 4, 'player') and
           (p.PowerBetween('Burning Embers', 4, 4, 'player') or
            p.BuffActive('Dark Soul: Instability', 'player') or
            p.LowOnMana(0.2, 'player') or
