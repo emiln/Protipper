@@ -500,7 +500,6 @@ Protipper.RemainingTotemDuration = function(totemName)
     end
     return 0;
 end
-
 -- Returns a string representing the keybinding (if any) for the given spell.
 Protipper.KeybindingForSpell = function(spellName)
     --[[Action buttons:
@@ -642,6 +641,7 @@ Protipper.SetNextSpell = function(spellName, parent)
     local name, rank, icon, powerCost, isFunnel, powerType,
         castingTime, minRange, maxRange = GetSpellInfo(spellName);
     p.SetTexture(icon);
+
 end
 
 -- Set the next spell to cast's keybinding, given the spell's name.
@@ -709,6 +709,7 @@ Protipper.CreateButton = function()
         p.SPELL.TEXT:SetFont("Fonts\\ARIALN.TTF", p.LABEL_HEIGHT, "OUTLINE");
         p.SPELL.TEXT:SetTextHeight(12);
         p.SPELL.TEXT:SetAllPoints();
+
     end
 end
 
