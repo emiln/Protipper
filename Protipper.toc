@@ -1,9 +1,9 @@
-## Interface: 50001
+## Interface: 50400
 ## Title: Protipper
 ## Notes: A World of Warcraft Addon for the DPS-engrossed damage dealer.
 ## Author: Ethrain of Defias Brotherhood
-## LastUpdate: 2012-11-03T22:00:00Z
-## Version: 1.0.0
+## LastUpdate: 2013-10-27T18:26:00Z
+## Version: 0.1.0
 
 ## SavedVariables: ProtipperOptions
 
