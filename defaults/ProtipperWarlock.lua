@@ -180,7 +180,7 @@ Protipper.SPEC_LIST["Destruction"] = {
                p.DebuffActive('Lightning Breath', 'target') or
                p.DebuffActive('Master Poisoner', 'target'))]] },
 
-      { "Dark Soul",
+      { "Dark Soul: Instability",
         "p.AbilityReady('Dark Soul')" },
 
       { "Summon Doomguard",
@@ -188,10 +188,11 @@ Protipper.SPEC_LIST["Destruction"] = {
 
       { "Shadowburn",
         [[p.LowOnHealth(0.2, 'target') and
+          p.PowerBetween('Burning Embers', 1, 4, 'player') and
           (p.PowerBetween('Burning Embers', 4, 4, 'player') or
            p.BuffActive('Dark Soul: Instability', 'player') or
            p.LowOnMana(0.2, 'player') or
-           p.LowOnHealth(0.02, 'target'))]] },
+           p.LowOnHealth(0.05, 'target'))]] },
 
       { "Immolate",
         [[p.DotRefresh('Immolate') and
@@ -203,10 +204,15 @@ Protipper.SPEC_LIST["Destruction"] = {
           p.ChargesBetween('Conflagrate', 2, 2)]] },
 
       { "Chaos Bolt",
-        [[p.AbilityReady('Chaos Bolt') and
-          (p.PowerBetween('Burning Embers', 4, 4, 'player') or
-           p.BuffActive('Skull Banner', 'player') or
-           p.BuffActive('Dark Soul: Instability', 'player'))]] },
+        [[(p.AbilityReady('Chaos Bolt') and
+           (p.PowerBetween('Burning Embers', 4, 4, 'player') or
+            p.BuffActive('Skull Banner', 'player') or
+            p.BuffActive('Dark Soul: Instability', 'player')))
+          or
+          (p.IsCasting('Chaos Bolt') and
+           p.PowerBetween('Burning Embers', 2, 4, 'player') and
+           (p.BuffActive('Skull Banner', 'player') or
+            p.BuffActive('Dark Soul: Instability', 'player')))]] },
 
       { "Conflagrate",
         "p.AbilityReady('Conflagrate')" },
