@@ -12,11 +12,7 @@ prioritized list of abilities, each having a condition that will be evaluated
 to determine whether the ability in question should be shown or whether the
 program should progress to the next element in the priority list.
 
-<<<<<<< HEAD
-![Protipper in action](http://i.imgur.com/qQMTkfh.png)
-=======
 ![Protipper in action](http://i.imgur.com/fLXmMXl.png)
->>>>>>> origin/development
 
 Priority list? Conditions? I don't get it.
 ------------------------------------------
@@ -141,8 +137,4 @@ parameter `unit` take on the following values: `{pet,player,target}`.
   expired or about to expire and should be recast.
   Valid Weapon slots (Case insensitive):
   * `MainHand` or `MH`: The main hand weapon slot.
-<<<<<<< HEAD
   * `OffHand` or `OH`: The offhand weapon slot.
-=======
-  * `OffHand` or `OH`: The offhand weapon slot.
->>>>>>> origin/development
