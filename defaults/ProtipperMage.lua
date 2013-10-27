@@ -17,6 +17,65 @@ Protipper.SPEC_LIST["Arcane"] = {
         "not p.BuffActive('Mage Armor', 'player')" }
    },
    default = {
+      { "Mirror Image",
+        "p.AbilityReady('Mirror Image')" },
+
+      { "Arcane Power",
+        [[p.AbilityReady('Arcane Power') and
+          p.DebuffStack('Arcane Charge', 4, 4, 'player')]]},
+
+      { "Alter Time",
+        [[p.AbilityReady('Alter Time') and 
+          not p.BuffActive('Alter Time', 'player') and
+          p.BuffActive('Arcane Power', 'player')]]    },
+
+      { "Arcane Missiles",
+        [[p.AbilityReady('Arcane Missiles') and
+          p.BuffActive('Arcane Missiles!', 'player') and
+          p.DebuffStack('Arcane Charge', 4, 4, 'player')]] },
+
+      { "Arcane Barrage",
+        [[p.AbilityReady('Arcane Barrage') and 
+          p.DebuffStack('Arcane Charge', 4, 4, 'player') and
+          (not p.BuffActive('Alter Time', 'player') or
+           (p.RemainingBuffDuration('Alter Time', 'player') < p.CastTime('Arcane Blast')))]] },
+
+-- Level 75 talents.
+      { "Nether Tempest",
+        [[p.TalentActive('Nether Tempest') and 
+          p.DebuffRefresh('Nether Tempest') and
+          p.AbilityReady('Nether Tempest')]]},
+      
+      { "Frost Bomb",
+        [[p.TalentActive('Frost Bomb') and 
+          p.DebuffRefresh('Frost Bomb') and
+          p.AbilityReady('Frost Bomb')]]},
+      
+      { "Living Bomb",
+        [[p.TalentActive('Living Bomb') and 
+          p.DebuffRefresh('Living Bomb') and
+          p.AbilityReady('Living Bomb')]]},
+
+-- Level 90 talents
+      { "Rune of Power",
+        [[p.TalentActive('Rune of Power') and
+          p.AbilityReady('Rune of Power') and
+          not p.BuffActive('Rune of Power', 'player')]]},
+
+      { "Evocation",
+        [[p.TalentActive('Invocation') and
+          p.AbilityReady('Evocation') and
+          not p.BuffActive("Invoker\'s Energy", 'player')]]
+      },
+
+      { "Incanter\'s Ward",
+        [[p.TalentActive("Incanter\'s Ward") and
+          p.AbilityReady("Incanter\'s Ward")]]  },
+
+      { "Presence of Mind",
+        [[p.TalentActive('Presence of Mind') and
+          p.AbilityReady('Presence of Mind')]] },
+
       { "Arcane Blast",
         "true" }
    }
@@ -62,17 +121,17 @@ Protipper.SPEC_LIST["Fire"] = {
       { "Evocation",
         [[p.TalentActive('Invocation') and
           p.AbilityReady('Evocation') and
-          not p.BuffActive('Invoker\'s Energy', 'player')]]
+          not p.BuffActive("Invoker\'s Energy", 'player')]]
       },
 
       { "Rune of Power",
         [[p.TalentActive('Rune of Power') and
           p.AbilityReady('Rune of Power') and
-          not p.BuffACtive('Rune of Power', 'player')]]},
+          not p.BuffActive('Rune of Power', 'player')]]},
 
-      { "Incanter's Ward"
-        [[p.TalentActive('Incanter\'s Ward') and
-          p.AbilityReady('Incanter\'s Ward')]]  },
+      { "Incanter\'s Ward",
+        [[p.TalentActive("Incanter\'s Ward") and
+          p.AbilityReady("Incanter\'s Ward")]]  },
 
       { "Presence of Mind",
         [[p.TalentActive('Presence of Mind') and
