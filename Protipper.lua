@@ -706,8 +706,9 @@ Protipper.CreateButton = function()
             "TOPRIGHT", 0, 0);
         p.SPELL.TEXT = p.SPELL.KEYBINDING:CreateFontString(nil,
             "STRATA", "GameFontHighlight");
-        p.SPELL.TEXT:SetFont("Fonts\\ARIALN.TTF", p.LABEL_HEIGHT, "OUTLINE");
-        p.SPELL.TEXT:SetTextHeight(12);
+        local filename, height, flags = p.SPELL.TEXT:GetFont();
+        p.SPELL.TEXT:SetFont(filename, p.LABEL_HEIGHT, "OUTLINE");
+        p.SPELL.TEXT:SetTextHeight(p.LABEL_HEIGHT);
         p.SPELL.TEXT:SetAllPoints();
 
     end
