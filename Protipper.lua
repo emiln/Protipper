@@ -192,6 +192,12 @@ Protipper.OnEvent = function(self, event, ...)
     end
 end
 
+--[[Returns true if player currently has a pet of family `family`.
+    Examples: Felguard, Shivarra, Wrathguard ]]
+Protipper.PetFamily = function(family)
+    return family:lower() == UnitCreatureFamily("pet"):lower();
+end
+
 --  Returns true if player currently has a pet.
 Protipper.PetActive = function()
     return UnitExists("pet");
