@@ -1,35 +1,59 @@
 if not (UnitClass("player") == "Druid") then
-    return
+  return
 end
 
 Protipper.SPEC_LIST["Balance"] = {
-   preparation = {},
+   preparation = {
+     -- You need no preparation, your body should always be ready.
+     },
    default = {
-      { "Auto Attack",
-        "true" }
+     {
+       "Auto Attack",
+       function(api)
+         return true
+       end
+     }
    }
-};
+}
 
 Protipper.SPEC_LIST["Feral"] = {
-   preparation = {},
+   preparation = {
+     -- You need no preparation, your body should always be ready.
+     },
    default = {
-      { "Auto Attack",
-        "true" }
+     {
+       "Auto Attack",
+       function(api)
+         return true
+       end
+     }
    }
-};
+}
 
 Protipper.SPEC_LIST["Guardian"] = {
-   preparation = {},
+   preparation = {
+     -- You need no preparation, your body should always be ready.
+     },
    default = {
-      { "Auto Attack",
-        "true" }
+     {
+       "Auto Attack",
+       function(api)
+         return true
+       end
+     }
    }
-};
+}
 
 Protipper.SPEC_LIST["Restoration"] = {
-   preparation = {},
+   preparation = {
+     -- You need no preparation, your body should always be ready.
+     },
    default = {
-      { "Auto Attack",
-        "true" }
-   } 
-};
+     {
+       "Auto Attack",
+       function(api)
+         return true
+       end
+     }
+   }
+}
