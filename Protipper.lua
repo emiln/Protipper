@@ -202,6 +202,15 @@ end
 --------------------------
 
 --[[Returns the following:
+    current - A double representing the unit's current alternative power.
+    max - A double representing the unit's maximum alternative power.]]
+api.AlternativePower = function(type, unit)
+  local current = UnitPower(unit, p.POWER_MAP[type])
+  local max = UnitPowerMax(unit, p.POWER_MAP[type])
+  return {current = current, max = max}
+end
+
+--[[Returns the following:
     isActive - A boolean representing if the effect is applied to the unit.
     remainingDuration - A double representing the remaining duration of the effect on the unit. -1 if the effect is not applied to the unit.
     stacks - A double representing the number of stacks of the effect applied to the unit. -1 if the effect is not applied to the unit. 0 if this effect does not stack.]]
