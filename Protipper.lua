@@ -202,11 +202,12 @@ end
 --------------------------
 
 --[[Returns the following:
-    - A boolean representing if the effect is applied to the unit.
-    - A double representing the remaining duration of the effect on the unit. -1 if the effect is not applied to the unit.
-    - A double representing the number of stacks of the effect applied to the unit. -1 if the effect is not applied to the unit. 0 if this effect does not stack.]]
+    isActive - A boolean representing if the effect is applied to the unit.
+    remainingDuration - A double representing the remaining duration of the effect on the unit. -1 if the effect is not applied to the unit.
+    stacks - A double representing the number of stacks of the effect applied to the unit. -1 if the effect is not applied to the unit. 0 if this effect does not stack.]]
 api.Effect = function(spellName, unit)
-  local isActive, remainingDuration, stacks = false, -1, -1
+  local effect = {}
+  effect.isActive, effect.remainingDuration, effect.stacks = false, -1, -1
   local name, rank, icon, count, dispelType, duration, expires, caster,
         isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
         value1, value2, value3 = UnitAura(unit, spellName)
@@ -215,37 +216,39 @@ api.Effect = function(spellName, unit)
     isStealable, shouldConsolidate, spellID = UnitDebuff(unit, spellName)
   end
   if name ~= nil then
-    isActive = true
-    remainingDuration = expires - GetTime()
-    stacks = count
+    effect.isActive = true
+    effect.remainingDuration = expires - GetTime()
+    effect.stacks = count
   end
-  return isActive, remainingDuration, stacks
+  return effect
 end
 
 --[[Returns the following:
-    - A boolean representing whether or not a pet is active.
-    - A string representing which pet is active. nil if no pet is active.]]
+    isActive - A boolean representing whether or not a pet is active.
+    currentPet - A string representing which pet is active. nil if no pet is active.]]
 api.Pet = function()
-  local active, currentPet = UnitExists("pet"), nil
-  if (active) then
-    currentPet = UnitCreatureFamily("pet")
+  local pet = {}
+  pet.isActive, pet.currentPet = UnitExists("pet"), nil
+  if (pet.isActive) then
+    pet.currentPet = UnitCreatureFamily("pet")
   end
-  return active, currentPet
+  return pet
 end
 
 --[[Returns the following:
-    - A boolean representing if the spell is ready for use.
-    - A boolean representing if the spell is currently being cast.
-    - A boolean representing if the spell is currently traveling towards the target.
-    - A double representing the number of charges of the spell that is ready to use. nil if the spell does not use charges sytem
-    - A double representing the maximum number of charges available for the spell. nil if the spell does not use charges sytem
-    - A double representing the cast time of the spell.
-    - A double representing the remaining cooldown before the spell can be used, or if the spell has charges, before another charge is generated.]]
+    isReady - A boolean representing if the spell is ready for use.
+    isCasting - A boolean representing if the spell is currently being cast.
+    isTraveling - A boolean representing if the spell is currently traveling towards the target.
+    charges - A double representing the number of charges of the spell that is ready to use. nil if the spell does not use charges sytem
+    maxCharges - A double representing the maximum number of charges available for the spell. nil if the spell does not use charges sytem
+    casttime - A double representing the cast time of the spell.
+    remainingCooldown - A double representing the remaining cooldown before the spell can be used, or if the spell has charges, before another charge is generated.]]
 api.Spell = function(spellName)
-  local isReady, isCasting, isTraveling, charges, maxCharges, castTime,
-        remainingCooldown = false, false, false, -1, -1, -1, -1
+  local spell = {}
+  spell.isReady, spell.isCasting, spell.isTraveling, spell.charges, spell.maxCharges, spell.castTime,
+        spell.remainingCooldown = false, false, false, -1, -1, -1, -1
   if (spellName == nil) then
-    return isReady, isCasting, isTraveling, charges, maxCharges, castTime, remainingCooldown
+    return spell
   end
   -- Information about spell to cast.
   local name, rank, icon, castingTime,
@@ -256,76 +259,82 @@ api.Spell = function(spellName)
   local start, duration, enable = GetSpellCooldown(spellName)
 
   -- Information about current spell being cast.
-  local spell, rank, displayName, icon, startTime, endTime,
+  local currentCastingSpell, rank, displayName, icon, startTime, endTime,
       isTradeSkill, castID, interrupt = UnitCastingInfo("player")
 
   local remainingCastTime = 0
-  if spell then
+  if currentCastingSpell then
     remainingCastTime = endTime/1000 - GetTime()
   end
 
-  isCasting = (spell == name)
-  isTraveling = not p.TRAVELING_SPELLS[spellName] == nil
-  charges = spellCharges
-  maxCharges = spellMaxCharges
-  castTime = castingTime / 1000
+  spell.isCasting = (currentCastingSpell == name)
+  spell.isTraveling = not p.TRAVELING_SPELLS[spellName] == nil
+  spell.charges = spellCharges
+  spell.maxCharges = spellMaxCharges
+  spell.castTime = castingTime / 1000
   --[[Need to check if the recharge started at 2^32/1000 minus the duration of the recharge,
       because this is a sensible default, and as such we write quality code to accommodate it.]]
   if (spellMaxCharges ~= nil and chargeStart < (2^32/1000 - chargeDuration))  then
-    remainingCooldown = chargeDuration - (GetTime() - chargeStart)
+    spell.remainingCooldown = chargeDuration - (GetTime() - chargeStart)
   else
     if(start > 0) then
-      remainingCooldown = duration - (GetTime() - start)
+      spell.remainingCooldown = duration - (GetTime() - start)
     else
-      remainingCooldown = 0
+      spell.remainingCooldown = 0
     end
   end
 
-  isReady = (remainingCooldown < p.COOLDOWN_DELTA or remainingCooldown < remainingCastTime) or
-            (charges ~= nil and charges > 0) and
-            not isCasting
+  spell.isReady = (spell.remainingCooldown < p.COOLDOWN_DELTA or spell.remainingCooldown < remainingCastTime) or
+            (spell.charges ~= nil and spell.charges > 0) and
+            not spell.isCasting
 
-  return isReady, isCasting, isTraveling, charges, maxCharges, castTime, remainingCooldown
+  return spell
 end
 
---[[Returns the following:
-    - A double representing the units current health.
-    - A double representing the units maximum health.
-    - A double representing the units current primary power.
-    - A double representing the units maximum primary power.
+--[[Returns a map containing the following:
+    currentHealth - A double representing the units current health.
+    maxHealth - A double representing the units maximum health.
+    currentPower - A double representing the units current primary power.
+    maxPower - A double representing the units maximum primary power.
     Perhaps alternate powers?]]
 api.Status = function(unit)
-  local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
-  local power, maxPower = UnitPower(unit), UnitPowerMax(unit)
-  return health, maxHealth, power, maxPower
+  local status = {}
+  status.currentHealth, status.maxHealth = UnitHealth(unit), UnitHealthMax(unit)
+  status.currentPower, status.maxPower = UnitPower(unit), UnitPowerMax(unit)
+  return status
 end
 
---[[Returns the following:
-    - A boolean representing whether or not the talent is currently selected.]]
+--[[Returns a map containing the following:
+    isActive - A boolean representing whether or not the talent is currently selected.]]
 api.TalentActive = function(talentName)
+  local talent = {}
+  talent.isActive = false
   if talentName == nil then
-    return false
+    return talent
   end
-  local isActive = IsTalentSpell(talentName)
-  if isActive == nill then
-    isActive = false
+  talent.isActive = IsTalentSpell(talentName)
+  if talent.isActive == nil then
+    talent.isActive = false
   end
-  return isActive
+  return talent
 end
 
---[[Returns the following:
-    - A boolean representing if the totem is currently active
-    - A double representing the remaining duration of the totem. -1 if totem is inactive.]]
+--[[Returns a map containing the following:
+    isActive - A boolean representing if the totem is currently active
+    remainingDuration - A double representing the remaining duration of the totem. -1 if totem is inactive.]]
 api.Totem = function(totemName)
+  local totem = {}
+  totem.isActive = false
+  totem.remainingDuration = -1
   if totemName == nil then
-    return false, -1
+    return totem
   end
   local totemSlot = p.TOTEM_MAP[totemName]
   local haveTotem, activeTotem, startTime, duration = GetTotemInfo(totemSlot)
 
-  local isActive = (activeTotem == totemName)
-  local remainingDuration = (isActive) and (duration - (GetTime() - startTime)) or -1
-  return isActive, remainingDuration
+  totem.isActive = (activeTotem == totemName)
+  totem.remainingDuration = (isActive) and (duration - (GetTime() - startTime)) or -1
+  return totem
 end
 
 -------------------------
