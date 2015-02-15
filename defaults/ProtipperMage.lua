@@ -1,77 +1,45 @@
 if not (UnitClass("player") == "Mage") then
-    return
+  return
 end
 
+Protipper.COOLDOWN_FREE_SPELL["Arcane"] = "Arcane Blast"
+
 Protipper.SPEC_LIST["Arcane"] = {
-    {   "Arcane Brilliance",
-        [[p.SelfBuffDown('Dark Intent') and 
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
+   preparation = {},
+   default = {
+      {
+        "Arcane Blast",
+        function(api)
+          return true
+        end
+      }
+   }
+}
 
-    {   "Mage Armor",
-    	"p.SelfBuffDown('Mage Armor')" },
-
-    {	"Arcane Blast",
-    	"true" }
-};
+Protipper.COOLDOWN_FREE_SPELL["Fire"] = "Fireball"
 
 Protipper.SPEC_LIST["Fire"] = {
-    {   "Arcane Brilliance",
-        [[p.SelfBuffDown('Dark Intent') and 
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
+   preparation = {},
+   default = {
+      {
+        "Fireball",
+        function(api)
+          return true
+        end
+      }
+   }
+}
 
-    {   "Molten Armor",
-    	"p.SelfBuffDown('Molten Armor')" },
-
-    {   "Fireball",
-        "true" }
-};
+Protipper.COOLDOWN_FREE_SPELL["Frost"] = "Frostbolt"
 
 Protipper.SPEC_LIST["Frost"] = {
-    {   "Arcane Brilliance",
-        [[p.SelfBuffDown('Dark Intent') and 
-          p.SelfBuffDown('Arcane Brilliance') and
-          p.SelfBuffDown('Burning Wrath') and
-          p.SelfBuffDown('Still Water')]] },
-
-    {   "Frost Armor",
-    	"p.SelfBuffDown('Frost Armor')" },
-
-    {	"Summon Water Elemental",
-    	[[not p.ActivePet() and 
-	p.AbilityReady('Summon Water Elemental')]] },
-    
-    {	"Mirror Image",
-    	"p.AbilityReady('Mirror Image')"},
-
-    {	"Icy Veins",
-    	"p.AbilityReady('Icy Veins')" },
-
-    {	"Frost Bomb",
-    	"p.AbilityReady('Frost Bomb')" },
-
-    {	"Frozen Orb",
-	"p.AbilityReady('Frozen Orb')" },
-
-    { 	"Frostbolt",
-    	"p.DebuffRefresh('Frostbolt')" },
-
-    {	"Freeze",
-    	[[not p.SelfBuffStack('Fingers of Frost', 2, 2) and
-	p.ActivePet() and 
-	p.PetAbilityReady('Freeze')]] },
-
-    {	"Frostfire Bolt",
-    	[[p.SelfBuffUp('Brain Freeze') and
-	p.AbilityReady('Frostfire Bolt')]] },
-
-    {	"Ice Lance",
-	[[p.SelfBuffUp('Fingers of Frost') and
-	p.AbilityReady('Ice Lance')]] },
-	
-    {   "Frostbolt",
-        "true" }
+   preparation = {},
+   default = {
+      {
+        "Frostbolt",
+        function(api)
+          return true
+        end
+      }
+   }
 }

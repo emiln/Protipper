@@ -1,8 +1,8 @@
-if not (UnitClass("player") == "Shaman") then
+if not (UnitClass("player") == "Rogue") then
   return
 end
 
-Protipper.SPEC_LIST["Elemental"] = {
+Protipper.SPEC_LIST["Assassination"] = {
    preparation = {},
    default = {
      {
@@ -14,7 +14,7 @@ Protipper.SPEC_LIST["Elemental"] = {
    }
 }
 
-Protipper.SPEC_LIST["Enhancement"] = {
+Protipper.SPEC_LIST["Combat"] = {
    preparation = {},
    default = {
      {
@@ -26,7 +26,7 @@ Protipper.SPEC_LIST["Enhancement"] = {
    }
 }
 
-Protipper.SPEC_LIST["Restoration"] = {
+Protipper.SPEC_LIST["Subtlety"] = {
    preparation = {},
    default = {
      {

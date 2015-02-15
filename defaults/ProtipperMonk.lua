@@ -1,8 +1,10 @@
-if not (UnitClass("player") == "Shaman") then
+if not (UnitClass("player") == "Monk") then
   return
 end
 
-Protipper.SPEC_LIST["Elemental"] = {
+Protipper.COOLDOWN_FREE_SPELL["Brewmaster"] = "Jab"
+
+Protipper.SPEC_LIST["Brewmaster"] = {
    preparation = {},
    default = {
      {
@@ -14,7 +16,9 @@ Protipper.SPEC_LIST["Elemental"] = {
    }
 }
 
-Protipper.SPEC_LIST["Enhancement"] = {
+Protipper.COOLDOWN_FREE_SPELL["Mistweaver"] = "Jab"
+
+Protipper.SPEC_LIST["Mistweaver"] = {
    preparation = {},
    default = {
      {
@@ -26,7 +30,9 @@ Protipper.SPEC_LIST["Enhancement"] = {
    }
 }
 
-Protipper.SPEC_LIST["Restoration"] = {
+Protipper.COOLDOWN_FREE_SPELL["Windwalker"] = "Jab"
+
+Protipper.SPEC_LIST["Windwalker"] = {
    preparation = {},
    default = {
      {

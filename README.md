@@ -12,6 +12,8 @@ prioritized list of abilities, each having a condition that will be evaluated
 to determine whether the ability in question should be shown or whether the
 program should progress to the next element in the priority list.
 
+![Protipper in action](http://i.imgur.com/fLXmMXl.png)
+
 Priority list? Conditions? I don't get it.
 ------------------------------------------
 
@@ -50,28 +52,89 @@ I would be surprised if the majority of people do not find the defaults useful.
 
 Is there a list of all functions provided by Protipper?
 -------------------------------------------------------
-Assuming this is up to date (which is totally happening), the available functions are:
+The API available to conditions is listed below. All occurences of the
+parameter `unit` take on the following values: `{pet,player,target}`.
 
-* `AbilityReady(spellName)`: returns true if `spellName` is *not* on cooldown,
-  and you have the required resources to use it.
-* `ActivePet()`: returns true if you have an active pet.
+* `AbilityReady(abilityName)`: returns true if `abilityName` is *not* on
+  cooldown, and you have the required resources to use it.
+
+* `BuffActive(buffName, unit)`: returns true if `unit` is currently affected by
+  a buff called `buffName`.
+
+* `BuffStack(buffName, minStack, maxStack, unit)`: returns true if `unit` is
+  currently affected by `buffName` at `stackCount` stacks, and
+  `minStack <= stackCount <= maxStack`.
+
+* `CastTime(spellName)` returns the cast time of `spellName` in seconds.
+
 * `CenterFrame()`: returns the frame to the center of the screen if you happen
   to misplace it.
-* `DebuffRefresh(spellName)`: returns true if `spellName` is expired on target
+
+* `ChargesBetween(spellName, minCharges, maxCharges)`: Returns true if the
+  player has a spell called `spellName` with a number of
+  charges between `minCharges` and `maxCharges`, both inclusive.
+
+* `DebuffActive(debuffName, unit)`: returns true if `unit` is currently
+  affected by a debuff called `debuffName`.
+
+* `DebuffRefresh(debuffName)`: returns true if `debuffName` is expired on target
   or will within your cast time.
-* `DebuffStack(spellName, minStack, maxStack)`: returns true if your target is
-  currently affected by `spellName`, and `minStack <= stackCount <= maxStack`.
-* `HasTalent(talentName)`: returns true if you currently have `talentName`.
-* `IsCasting(spellName)`: returns true if you are currently casting `spellName`.
+
+* `DebuffStack(debuffName, minStack, maxStack, unit)`: returns true if `unit` is
+  currently affected by `debuffName` at `stackCount` stacks, and
+  `minStack <= stackCount <= maxStack`.
+
+* `IsCasting(spellName)`: returns true if you are currently casting
+  `spellName`.
+
 * `IsTraveling(spellName)`: returns true if you have successfully cast
   `spellName`, but it has not hit (or missed) yet.
-* `LowOnMana()`: returns true if your mana is below `35%`.
-* `SelfBuffDown(spellName)`: returns true if you are currently *not* affected
-  by `spellName`.
-* `SelfBuffStack(spellName, minStack, maxStack)`: returns true if you are
-  currently affected by `spellName`, and `minStack <= stackCount <= maxStack`.
-* `SelfBuffUp(spellName)`: returns true if you are currently affected by
-  `spellName`.
-* `TargetLowOnHealth()`: returns true if target's health is below `20%`.
-* `TargetSoonDead()`: returns true if target's health is below any of
-  `TRIVIAL_HEALTH` and `5%`.
+
+* `LowOnHealth(healthFraction, unit)`: returns true if `unit`'s health is
+  below `healthFraction`, where `0 <= healthFraction <= 1`.
+
+* `LowOnMana(manaFraction, unit)`: returns true if `unit`'s mana is below
+  `manaFraction`, where `0 <= manaFraction <= 1`.
+
+* `PetActive()`: returns true if you have an active pet.
+
+* `PowerBetween(powerType, minPower, maxPower, unit)`: Returns true if `unit` has
+  between `minPower` and `maxPower`of the power type of name `powerType`, both
+  inclusive. Valid power types:
+
+  * Alternate Power
+  * Burning Embers
+  * Dark Force
+  * Demonic Fury
+  * Eclipse
+  * Energy
+  * Focus
+  * Happiness
+  * Holy Power
+  * Light Force
+  * Mana
+  * Rage
+  * Runes
+  * Runic Power
+  * Shadow Orbs
+  * Soul Shards
+
+  Example: PowerBetween('Rage', 50, 60, 'player') is true, if the player has
+  between 50 and 60 Rage.
+
+* `RemainingBuffDuration(spellName, unit)` returns the remaining duration of the 
+  buff `spellName` on `unit` in seconds.
+
+* `RemainingDebuffDuration(spellName, unit)` returns the remaining duration of 
+  the debuff `spellName` on `unit` in seconds.
+
+* `RemainingTotemDuration(totemName)` returns the remaining time before `totemName` 
+  is automatically destroyed. 
+
+* `TalentActive(talentName)`: returns true if you currently have `talentName`.
+
+* `WeaponEnchantRefresh`: returns true if the temporary enchant on `weaponSlot` is 
+  expired or about to expire and should be recast.
+  Valid Weapon slots (Case insensitive):
+  * `MainHand` or `MH`: The main hand weapon slot.
+  * `OffHand` or `OH`: The offhand weapon slot.

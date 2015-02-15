@@ -1,8 +1,20 @@
-if not (UnitClass("player") == "Shaman") then
+if not (UnitClass("player") == "Hunter") then
   return
 end
 
-Protipper.SPEC_LIST["Elemental"] = {
+Protipper.SPEC_LIST["Beast Mastery"] = {
+   preparation = {},
+   default = {
+      {
+        "Auto Attack",
+        function(api)
+          return true
+        end
+      }
+   }
+}
+
+Protipper.SPEC_LIST["Marksmanship"] = {
    preparation = {},
    default = {
      {
@@ -14,19 +26,7 @@ Protipper.SPEC_LIST["Elemental"] = {
    }
 }
 
-Protipper.SPEC_LIST["Enhancement"] = {
-   preparation = {},
-   default = {
-     {
-       "Auto Attack",
-       function(api)
-         return true
-       end
-     }
-   }
-}
-
-Protipper.SPEC_LIST["Restoration"] = {
+Protipper.SPEC_LIST["Survival"] = {
    preparation = {},
    default = {
      {

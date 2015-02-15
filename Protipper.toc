@@ -1,9 +1,11 @@
-## Interface: 50001
+## Interface: 60300
 ## Title: Protipper
 ## Notes: A World of Warcraft Addon for the DPS-engrossed damage dealer.
 ## Author: Ethrain of Defias Brotherhood
-## LastUpdate: 2012-11-02T17:00:00Z
-## Version: 1.0.0
+## LastUpdate: 2013-10-27T18:26:00Z
+## Version: 0.1.0
+
+## SavedVariables: ProtipperOptions
 
 ## X-Category: Buffs & Debuffs, Combat
 ## X-Licence: GPLv3
@@ -11,6 +13,14 @@
 locales.lua
 Protipper.lua
 Protipper.xml
+defaults\ProtipperDeathKnight.lua
+defaults\ProtipperDruid.lua
+defaults\ProtipperHunter.lua
 defaults\ProtipperMage.lua
+defaults\ProtipperMonk.lua
+defaults\ProtipperPaladin.lua
+defaults\ProtipperPriest.lua
+defaults\ProtipperRogue.lua
 defaults\ProtipperShaman.lua
 defaults\ProtipperWarlock.lua
+defaults\ProtipperWarrior.lua

@@ -6,6 +6,8 @@ L["CAST_NEXT"] = "Use me:"
 L["ACQUIRE_TARGET"] = "Target an enemy."
 
 if GetLocale() == "ptBR" then
+  L["CAST_NEXT"] = "HUEHUHUE:"
+  L["ACQUIRE_TARGET"] = "GIBE MONIE P L S"
 end
 
 if GetLocale() == "frFR" then
