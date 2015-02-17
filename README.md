@@ -1,140 +1,29 @@
-Protipper
-=========
+# Protipper
 
-A World of Warcraft Addon for the DPS-engrossed damage dealer.
+A helping hand in keeping track of your DPS rotation.
 
-What does this thing do?
-----------------
+## Features
 
-The Addon will display the icon of the ability you should use next in order to
-maximize your DPS. In order to decide which ability to show, it will use a
-prioritized list of abilities, each having a condition that will be evaluated
-to determine whether the ability in question should be shown or whether the
-program should progress to the next element in the priority list.
+Protipper is built on one simple idea and provides one simple feature:
+
+* Displays the ability (by icon, name, and keybinding) you should use.
+
+That's it. You, in turn, try to keep up with Protipper's suggestions, while it keeps track of the game state for you and updates its suggestions in real-time.
+
+## FAQ
+
+> How does Protipper know what to suggest?
+
+Protipper relies on priority lists which can be expressed as:
+
+1. When `condition1` is true: display `ability1`.
+2. When `condition2` is true: display `ability2`.
+3. ...
+
+Protipper then traverses this list until it finds an ability with a true condition. Having found and displayed one, it starts all over again. While this may seem very simplistic and limiting, it makes for pretty good rotations if the conditions and ordering are chosen sensibly. Keeping priority lists for all specs up to date is hard work, and you should check the state of the spec you're intending to play to ensure we can actually help you, specifically. It is not currently possible for the two of us to keep all specs for all classes updated, but if we find people who can help out with the classes we do not master, it is definitely a future goal.
+
+> Doesn't this ruin the joy of the game by making it too easy?
+
+Why don't you find out? I personally really enjoy it, and "really enjoy" is quite far from "ruin the joy" by most standards. It only helps with your basic rotation (which doesn't include when to use raid-wide cooldowns), and you still have the arduous task of not standing in the fire. It's like having a seasoned player looking over your shoulder, whispering suggestions in your ear. You'll frequently have to disobey them, but having a fallback when the fights are stressful can be very helpful.
 
 ![Protipper in action](http://i.imgur.com/fLXmMXl.png)
-
-Priority list? Conditions? I don't get it.
-------------------------------------------
-
-Perhaps an example will explain how it works. Consider the following priority
-list:
-
-* `'Dark Soul'` if `AbilityReady('Dark Soul')`
-* `'Summon Doomguard'` if `AbilityReady('Summon Doomguard')`
-* `'Agony'` if `DotRefresh('Agony')`
-* ...
-* `'Malefic Grasp'` if `true`
-
-The decision about which spell to display would go as follows:
-
-* Is `Dark Soul` ready to be cast? Yes: Show that icon; no: proceed down.
-* Is `Summon Doomguard` ready to be cast? Yes: Show that icon; no: proceed
-  down.
-* Has `Agony` expired or does the currently ticking `Agony` need refreshing
-  (when considering [Pandemic](http://www.wowhead.com/spell=131973))? Yes:
-  show that icon; no: proceed down.
-* ...
-* If everything else fails its condition, show `Malefic Grasp`. This is why
-  the condition is trivially `true`.
-
-Do I have to write such lists on my own?
-----------------------------------------
-
-More or less sensible defaults are included and they should work well for
-raiding. If your purpose is not raiding at level 90, then you may have to write
-your own lists or modify the default lists. However, the goal is for the
-default priority lists to express the very best ability to use in order to
-maximize your DPS, and this should really be the ability you want to use in
-most situations where DPS matter in the first place.
-
-I would be surprised if the majority of people do not find the defaults useful.
-
-Is there a list of all functions provided by Protipper?
--------------------------------------------------------
-The API available to conditions is listed below. All occurences of the
-parameter `unit` take on the following values: `{pet,player,target}`.
-
-* `AbilityReady(abilityName)`: returns true if `abilityName` is *not* on
-  cooldown, and you have the required resources to use it.
-
-* `BuffActive(buffName, unit)`: returns true if `unit` is currently affected by
-  a buff called `buffName`.
-
-* `BuffStack(buffName, minStack, maxStack, unit)`: returns true if `unit` is
-  currently affected by `buffName` at `stackCount` stacks, and
-  `minStack <= stackCount <= maxStack`.
-
-* `CastTime(spellName)` returns the cast time of `spellName` in seconds.
-
-* `CenterFrame()`: returns the frame to the center of the screen if you happen
-  to misplace it.
-
-* `ChargesBetween(spellName, minCharges, maxCharges)`: Returns true if the
-  player has a spell called `spellName` with a number of
-  charges between `minCharges` and `maxCharges`, both inclusive.
-
-* `DebuffActive(debuffName, unit)`: returns true if `unit` is currently
-  affected by a debuff called `debuffName`.
-
-* `DebuffRefresh(debuffName)`: returns true if `debuffName` is expired on target
-  or will within your cast time.
-
-* `DebuffStack(debuffName, minStack, maxStack, unit)`: returns true if `unit` is
-  currently affected by `debuffName` at `stackCount` stacks, and
-  `minStack <= stackCount <= maxStack`.
-
-* `IsCasting(spellName)`: returns true if you are currently casting
-  `spellName`.
-
-* `IsTraveling(spellName)`: returns true if you have successfully cast
-  `spellName`, but it has not hit (or missed) yet.
-
-* `LowOnHealth(healthFraction, unit)`: returns true if `unit`'s health is
-  below `healthFraction`, where `0 <= healthFraction <= 1`.
-
-* `LowOnMana(manaFraction, unit)`: returns true if `unit`'s mana is below
-  `manaFraction`, where `0 <= manaFraction <= 1`.
-
-* `PetActive()`: returns true if you have an active pet.
-
-* `PowerBetween(powerType, minPower, maxPower, unit)`: Returns true if `unit` has
-  between `minPower` and `maxPower`of the power type of name `powerType`, both
-  inclusive. Valid power types:
-
-  * Alternate Power
-  * Burning Embers
-  * Dark Force
-  * Demonic Fury
-  * Eclipse
-  * Energy
-  * Focus
-  * Happiness
-  * Holy Power
-  * Light Force
-  * Mana
-  * Rage
-  * Runes
-  * Runic Power
-  * Shadow Orbs
-  * Soul Shards
-
-  Example: PowerBetween('Rage', 50, 60, 'player') is true, if the player has
-  between 50 and 60 Rage.
-
-* `RemainingBuffDuration(spellName, unit)` returns the remaining duration of the 
-  buff `spellName` on `unit` in seconds.
-
-* `RemainingDebuffDuration(spellName, unit)` returns the remaining duration of 
-  the debuff `spellName` on `unit` in seconds.
-
-* `RemainingTotemDuration(totemName)` returns the remaining time before `totemName` 
-  is automatically destroyed. 
-
-* `TalentActive(talentName)`: returns true if you currently have `talentName`.
-
-* `WeaponEnchantRefresh`: returns true if the temporary enchant on `weaponSlot` is 
-  expired or about to expire and should be recast.
-  Valid Weapon slots (Case insensitive):
-  * `MainHand` or `MH`: The main hand weapon slot.
-  * `OffHand` or `OH`: The offhand weapon slot.
