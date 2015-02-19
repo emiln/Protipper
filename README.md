@@ -151,13 +151,13 @@ Gets the status (health amounts, power amounts and combo points) of the specific
 
 **Parameters**:
 Parameter | Description
---: | --:
+:-- | :--
 `unit` | The unit you wish to query.
 
 **Returns** (table containing the following keys):
 
 Key | Value
---: | --:
+:-- | :--
 `comboPoints` | The current amount of combo points available to the unit
 `currentHealth` | The current health of the unit.
 `currentPower` | The current power of the unit.
@@ -183,13 +183,13 @@ Gets the current status of a specific talent.
 **Parameters**:
 
 Parameter | Description
---: | --:
+:-- | :--
 `talentName` | The name of the talent you wish to query.
 
 **Returns** (table containing the following keys):
 
 Key | Value
---: | --:
+:-- | :--
 `isActive` | A boolean representing if the specified talent is selected.
 
 **Example**:
@@ -207,13 +207,13 @@ Gets information about a specific totem.
 **Parameters**:
 
 Parameter | Description
---: | --:
+:-- | :--
 `totemName` | The name of the totem you wish to query.
 
 **Returns** (table containing the following keys):
 
 Key | Value
---: | --:
+:-- | :--
 `isActive` | A boolean representing if a totem with the specified name is currently summoned.
 `remainingDuration` | The remaining duration of the totem in seconds. `-1` if the totem is not summoned.
 
