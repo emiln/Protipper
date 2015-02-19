@@ -293,11 +293,13 @@ end
     maxHealth - A double representing the units maximum health.
     currentPower - A double representing the units current primary power.
     maxPower - A double representing the units maximum primary power.
+    comboPoints - An integer representing the current number of combo points on the target.
     Perhaps alternate powers?]]
 api.Status = function(unit)
   local status = {}
   status.currentHealth, status.maxHealth = UnitHealth(unit), UnitHealthMax(unit)
   status.currentPower, status.maxPower = UnitPower(unit), UnitPowerMax(unit)
+  status.comboPoints = GetComboPoints("player")
   return status
 end
 
