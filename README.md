@@ -150,6 +150,7 @@ end
 Gets the status (health amounts, power amounts and combo points) of the specificed unit.
 
 **Parameters**:
+
 Parameter | Description
 :-- | :--
 `unit` | The unit you wish to query.
