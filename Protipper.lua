@@ -298,6 +298,7 @@ api.Status = function(unit)
   local status = {}
   status.currentHealth, status.maxHealth = UnitHealth(unit), UnitHealthMax(unit)
   status.currentPower, status.maxPower = UnitPower(unit), UnitPowerMax(unit)
+  status.comboPoints = GetComboPoints("player")
   return status
 end
 
