@@ -236,9 +236,9 @@ end
     isReady - A boolean representing if the spell is ready for use.
     isCasting - A boolean representing if the spell is currently being cast.
     isTraveling - A boolean representing if the spell is currently traveling towards the target.
-    charges - A double representing the number of charges of the spell that is ready to use. nil if the spell does not use charges sytem
-    maxCharges - A double representing the maximum number of charges available for the spell. nil if the spell does not use charges sytem
-    casttime - A double representing the cast time of the spell.
+    charges - A double representing the number of charges of the spell that is ready to use. nil if the spell does not use charges.
+    maxCharges - A double representing the maximum number of charges available for the spell. nil if the spell does not use charges.
+    castTime - A double representing the cast time of the spell.
     remainingCooldown - A double representing the remaining cooldown before the spell can be used, or if the spell has charges, before another charge is generated.]]
 api.Spell = function(spellName)
   local spell = {}
@@ -303,7 +303,7 @@ end
 
 --[[Returns a map containing the following:
     isActive - A boolean representing whether or not the talent is currently selected.]]
-api.TalentActive = function(talentName)
+api.Talent = function(talentName)
   local talent = {}
   talent.isActive = false
   if talentName == nil then
