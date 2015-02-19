@@ -14,7 +14,9 @@ That's it. You, in turn, try to keep up with Protipper's suggestions, while it k
 
 > How does Protipper know what to suggest?
 
-Protipper relies on priority lists which can be expressed as:
+It's a wizard.
+
+No, in all seriousness Protipper relies on priority lists which can be expressed as:
 
 1. When `condition1` is true: display `ability1`.
 2. When `condition2` is true: display `ability2`.
