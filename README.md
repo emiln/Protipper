@@ -35,144 +35,193 @@ Why don't you find out? I personally really enjoy it, and "really enjoy" is quit
 
 The API contains the following functions that are accessible when specifying the priority lists.
 
-* `AlternativePower(type, unit)`
+### `AlternativePower(type, unit)`
 
-  Gets the alternative power of a specified type for a specified unit. (Alternative Power is stuff like Soul Shards and Eclipse, etc.)
+Gets the alternative power of a specified type for a specified unit. (Alternative Power is stuff like Soul Shards and Eclipse, etc.)
 
-  Parameters:
+**Parameters**:
 
-    <dl>
-      <dt>type</dt>
-      <dd>The type of alternative power you wish to query.</dd>
-      <dt>unit</dt>
-      <dd>The unit you want to know the amount of alternative power for.</dd>
-    </dl>
+Parameter | Description
+:-- | :--
+`type` | The type of alternative power you wish to query.
+`unit` | The unit you want to know the amount of alternative power for.
 
-  Returns a table containing the following fields:
-  <dl>
-      <dt>current</dt>
-      <dd>The current amount of alternative power for unit.</dd>
-      <dt>max</dt>
-      <dd>The maximum amount of alternative power for unit.</dd>  
-    </dl>
+**Returns** (table containing the following keys):
 
-* `Effect(spellName, unit)`
+Key | Value
+:-- | :--
+`current` | The current amount of alternative power for unit.
+`max` | The maximum amount of alternative power for unit.
 
-  Gets the buff or debuff effect from the specified unit.
+**Example**:
 
-  Parameters:
-    <dl>
-      <dt>spellName</dt>
-      <dd>The name of the buff or debuff effect you wish to query.</dd>
-      <dt>unit</dt>
-      <dd>The unit you want to search for the effect.</dd>
-    </dl>
+```lua
+function(api)
+  local shards = api.AlternativePower("Soul Shards", "player")
+  return shards.current > 3
+end
+```
 
-    Returns a table containing the following:
-    <dl>
-      <dt>isActive</dt>
-      <dd>A boolean value representing if the effect is active on the unit.</dd>
-      <dt>remainingDuration</dt>
-      <dd>The remaining duration of the effect on the unit in seconds. `-1` if the effect is not found.</dd>
-      <dt>stacks</dt>
-      <dd>The number of stacks of the effect applied to the unit. `-1` if the effect is not found, and `0` if the effect is found but does not stack.</dd>
-    </dl>
+*****
 
-* `Pet()`
+### `Effect(spellName, unit)`
 
-  Gets information about the currently active pet.
+Gets the buff or debuff effect from the specified unit.
 
-  Returns a table containing the following:
-  <dl>
-    <dt>isActive</dt>
-    <dd>A boolean value representing if a pet is currently summoned.</dd>
-    <dt>currentPet</dt>
-    <dd>The type of pet that is currently active. `nil` if no active pet is found</dd>
-  </dl>
+**Parameters**:
 
+Parameter | Description
+:-- | :--
+`spellName` | The name of the buff or debuff effect you wish to query.
+`unit` | The unit you want to search for the effect.
 
-* `Spell(spellName)`
+**Returns** (table containing the following keys):
 
-  Gets information about the specified spell.
+Key | Value
+:-- | :--
+`isActive` | A boolean value representing if the effect is active on the unit.
+`remainingDuration` | The remaining duration of the effect on the unit in seconds. `-1` if the effect is not found.
+`stacks` | The number of stacks of the effect applied to the unit. `-1` if the effect is not found, and `0` if the effect is found but does not stack.
 
-  Parameters:
-  <dl>
-    <dt>spellName</dt>
-    <dd>The name of the spell you wish to query.</dd>
-  </dl>
+**Example**:
 
-  Returns a table containing the following:
-  <dl>
-    <dt>isReady</dt>
-    <dd>A boolean value representing if the spell is ready for use.</dd>
-    <dt>isCasting</dt>
-    <dd>A boolean value representing if the spell is currently being cast.</dd>
-    <dt>isTraveling</dt>
-    <dd>A boolean value representing if a cast of the spell is currently traveling towards a target.</dd>
-    <dt>charges</dt>
-    <dd>The current number of charges of the spell ready for use. `nil` if the spell does not use charges.</dd>
-    <dt>maxCharges</dt>
-    <dd>The maximum number of charges of the spell. `nil` if the spell does not use charges.</dd>
-    <dt>castTime</dt>
-    <dd>The cast time of the spell in seconds.</dd>
-    <dt>remainingCooldown</dt>
-    <dd>The remaining cooldown before the spell can be used in seconds, or if the spell uses charges, before another charge is generated in seconds.</dd>
-  </dl>
+```lua
+function(api)
+  local corruption = api.Effect("Corruption", "target")
+  return corruption.remainingDuration < 7.2
+end
+```
 
-* `Status(unit)`
+*****
 
-  Gets the status (health amounts, power amounts and combo points) of the specificed unit.
+### `Pet()`
 
-  Parameters:
-  <dl>
-    <dt>unit</dt>
-    <dd>The unit you wish to query.</dd>
-  </dl>
+Gets information about the currently active pet.
 
-  Returns a table containing the following:
-  <dl>
-    <dt>currentHealth</dt>
-    <dd>The current health of the unit.</dd>
-    <dt>maxHealth</dt>
-    <dd>The maximum health of the unit.</dd>
-    <dt>currentPower</dt>
-    <dd>The current power of the unit.</dd>
-    <dt>maxPower</dt>
-    <dd>The maximum power of the unit.</dd>
-    <dt>comboPoints</dt>
-    <dd>The current amount of combo points available to the unit</dd>
-  </dl>
+**Returns**:
 
-* `Talent(talentName)`
+Key | Value
+:-- | :--
+`currentPet` | The type of pet that is currently active. `nil` if no active pet is found.
+`isActive` | A boolean value representing if a pet is currently summoned.
 
-  Gets the current status of a specific talent.
+**Example**:
 
-  Parameters:
-  <dl>
-    <dt>talentName</dt>
-    <dd>The name of the talent you wish to query.</dd>
-  </dl>
+```lua
+function(api)
+  local pet = api.Pet()
+  return pet.currentPet == "Felhunter" or pet.currentPet == "Observer"
+end
+```
 
-  Returns a table containing the following:
-  <dl>
-    <dt>isActive</dt>
-    <dd>A boolean representing if the specified talent is selected.</dd>
-  </dl>
+### `Spell(spellName)`
 
-* `Totem(totemName)`
+Gets information about the specified spell.
 
-  Gets information about a specific totem.
+**Parameters**:
 
-  Parameters:
-  <dl>
-    <dt>totemName</dt>
-    <dd>The name of the totem you wish to query.</dd>
-  </dl>
+Parameter | Description
+:-- | :--
+`spellName` | The name of the spell you wish to query.
 
-  Returns a table containing the following:
-  <dl>
-    <dt>isActive</dt>
-    <dd>A boolean representing if a totem with the specified name is currently summoned.</dd>
-    <dt>remainingDuration</dt>
-    <dd>The remaining duration of the totem in seconds. `-1` if the totem is not summoned.</dd>
-  </dl>
+**Returns** (table containing the following keys):
+
+Key | Value
+:-- | :--
+`castTime` | The cast time of the spell in seconds.
+`charges` | The current number of charges of the spell ready for use. `nil` if the spell does not use charges.
+`isReady` | A boolean value representing if the spell is ready for use.
+`isCasting` | A boolean value representing if the spell is currently being cast.
+`isTraveling` | A boolean value representing if a cast of the spell is currently traveling towards a target.
+`maxCharges` | The maximum number of charges of the spell. `nil` if the spell does not use charges.
+`remainingCooldown` | The remaining cooldown before the spell can be used in seconds, or if the spell uses charges, before another charge is generated in seconds.
+
+**Example**:
+
+```lua
+function(api)
+  local spell = api.Speel("Chaos Bolt")
+  return (not spell.isCasting) and (not spell.isTraveling) and spell.isReady
+end
+```
+
+### `Status(unit)`
+
+Gets the status (health amounts, power amounts and combo points) of the specificed unit.
+
+**Parameters**:
+Parameter | Description
+--: | --:
+`unit` | The unit you wish to query.
+
+**Returns** (table containing the following keys):
+
+Key | Value
+--: | --:
+`comboPoints` | The current amount of combo points available to the unit
+`currentHealth` | The current health of the unit.
+`currentPower` | The current power of the unit.
+`maxHealth` | The maximum health of the unit.
+`maxPower` | The maximum power of the unit.
+
+**Example**:
+
+```lua
+function(api)
+  local target = api.Status("target")
+  local player = api.Status("player")
+  return
+    (target.currentHealth / target.maxHealth) < 0.25 and
+    player.comboPoints == 5
+end
+```
+
+### `Talent(talentName)`
+
+Gets the current status of a specific talent.
+
+**Parameters**:
+
+Parameter | Description
+--: | --:
+`talentName` | The name of the talent you wish to query.
+
+**Returns** (table containing the following keys):
+
+Key | Value
+--: | --:
+`isActive` | A boolean representing if the specified talent is selected.
+
+**Example**:
+
+```lua
+function(api)
+  return api.Talent("Soulburn: Haunt").isActive
+end
+```
+
+### `Totem(totemName)`
+
+Gets information about a specific totem.
+
+**Parameters**:
+
+Parameter | Description
+--: | --:
+`totemName` | The name of the totem you wish to query.
+
+**Returns** (table containing the following keys):
+
+Key | Value
+--: | --:
+`isActive` | A boolean representing if a totem with the specified name is currently summoned.
+`remainingDuration` | The remaining duration of the totem in seconds. `-1` if the totem is not summoned.
+
+**Example**:
+
+```lua
+function(api)
+  local totem = api.Totem("Searing Totem")
+  return totem.remainingDuration > 5
+end
+```
