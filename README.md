@@ -12,7 +12,7 @@ That's it. You, in turn, try to keep up with Protipper's suggestions, while it k
 
 ## FAQ
 
-> ### How does Protipper know what to suggest?
+> #### How does Protipper know what to suggest?
 
 It's a wizard.
 
@@ -24,7 +24,7 @@ No, in all seriousness Protipper relies on priority lists which can be expressed
 
 Protipper then traverses this list until it finds an ability with a true condition. Having found and displayed one, it starts all over again. While this may seem very simplistic and limiting, it makes for pretty good rotations if the conditions and ordering are chosen sensibly. Keeping priority lists for all specs up to date is hard work, and you should check the state of the spec you're intending to play to ensure we can actually help you, specifically. It is not currently possible for the two of us to keep all specs for all classes updated, but if we find people who can help out with the classes we do not master, it is definitely a future goal.
 
-> ### Doesn't this ruin the joy of the game by making it too easy?
+> #### Doesn't this ruin the joy of the game by making it too easy?
 
 Why don't you find out? I personally really enjoy it, and "really enjoy" is quite far from "ruin the joy" by most standards. It only helps with your basic rotation (which doesn't include when to use raid-wide cooldowns), and you still have the arduous task of not standing in the fire. It's like having a seasoned player looking over your shoulder, whispering suggestions in your ear. You'll frequently have to disobey them, but having a fallback when the fights are stressful can be very helpful.
 
