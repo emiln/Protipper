@@ -140,7 +140,7 @@ Key | Value
 
 ```lua
 function(api)
-  local spell = api.Speel("Chaos Bolt")
+  local spell = api.Spell("Chaos Bolt")
   return (not spell.isCasting) and (not spell.isTraveling) and spell.isReady
 end
 ```
