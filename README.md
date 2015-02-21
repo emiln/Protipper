@@ -28,7 +28,7 @@ Protipper then traverses this list until it finds an ability with a true conditi
 
 Why don't you find out? I personally really enjoy it, and "really enjoy" is quite far from "ruin the joy" by most standards. It only helps with your basic rotation (which doesn't include when to use raid-wide cooldowns), and you still have the arduous task of not standing in the fire. It's like having a seasoned player looking over your shoulder, whispering suggestions in your ear. You'll frequently have to disobey them, but having a fallback when the fights are stressful can be very helpful.
 
-![Protipper in action](http://i.imgur.com/fLXmMXl.png)
+![Protipper in action](https://i.imgur.com/7e9wVhN.png)
 
 
 ## API functions
