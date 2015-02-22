@@ -12,6 +12,7 @@
 
 locales.lua
 Protipper.lua
+Helpers.lua
 Protipper.xml
 defaults\ProtipperDeathKnight.lua
 defaults\ProtipperDruid.lua

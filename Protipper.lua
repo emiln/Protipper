@@ -35,6 +35,7 @@ Protipper.TRIVIAL_HEALTH = 45000
 Protipper.TOTEM_MAP = {}
 Protipper.POWER_MAP = {}
 Protipper.API = {}
+Protipper.API.Helpers = {}
 local api = Protipper.API
 
 --  When loaded, create the fanciful frame.
