@@ -251,6 +251,9 @@ api.Spell = function(spellName)
   local name, rank, icon, castingTime,
       minRange, maxRange = GetSpellInfo(spellName)
   local spellCharges, spellMaxCharges, chargeStart, chargeDuration = GetSpellCharges(spellName)
+  if castingTime == nil then
+    castingTime = 0
+  end
 
   -- Current cooldown status
   local start, duration, enable = GetSpellCooldown(spellName)
@@ -274,7 +277,7 @@ api.Spell = function(spellName)
   if (spellMaxCharges ~= nil and chargeStart < (2^32/1000 - chargeDuration))  then
     spell.remainingCooldown = chargeDuration - (GetTime() - chargeStart)
   else
-    if(start > 0) then
+    if start ~= nil and start > 0 then
       spell.remainingCooldown = duration - (GetTime() - start)
     else
       spell.remainingCooldown = 0
