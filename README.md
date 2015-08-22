@@ -82,6 +82,7 @@ Key | Value
 `isActive` | A boolean value representing if the effect is active on the unit.
 `remainingDuration` | The remaining duration of the effect on the unit in seconds. `-1` if the effect is not found.
 `stacks` | The number of stacks of the effect applied to the unit. `-1` if the effect is not found, and `0` if the effect is found but does not stack.
+`totalTime` | The full duration of the effect on the unit in seconds. `-1` if the effect is not found.
 
 **Example**:
 

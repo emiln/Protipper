@@ -201,7 +201,8 @@ end
 --[[Returns the following:
     isActive - A boolean representing if the effect is applied to the unit.
     remainingDuration - A double representing the remaining duration of the effect on the unit. -1 if the effect is not applied to the unit.
-    stacks - A double representing the number of stacks of the effect applied to the unit. -1 if the effect is not applied to the unit. 0 if this effect does not stack.]]
+    stacks - A double representing the number of stacks of the effect applied to the unit. -1 if the effect is not applied to the unit. 0 if this effect does not stack.
+    totalTime - A double reprenseting the total duration of the effect on the unit. -1 if the effect is not applied to the unit.]]
 api.Effect = function(spellName, unit)
   local effect = {}
   effect.isActive, effect.remainingDuration, effect.stacks = false, -1, -1
@@ -216,6 +217,7 @@ api.Effect = function(spellName, unit)
     effect.isActive = true
     effect.remainingDuration = expires - GetTime()
     effect.stacks = count
+    effect.totalTime = duration
   end
   return effect
 end
