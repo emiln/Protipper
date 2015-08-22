@@ -60,6 +60,36 @@ Protipper.SPEC_LIST["Affliction"] = {
       end
     },
     {
+      "Soul Swap",
+      function(api)
+        local soulburn = api.Effect("Soulburn", "player")
+        local shards = api.AlternativePower("Soul Shards", "player")
+        local agony = api.Effect("Agony", "target")
+        local corruption = api.Effect("Corruption", "target")
+        local unstable = api.Effect("Unstable Affliction", "target")
+
+        return soulburn.isActive and shards.current >= 1 and
+          agony.remainingDuration < 7.2 and
+          corruption.remainingDuration < 5.4 and
+          unstable.remainingDuration < 4.2
+      end
+    },
+    {
+      "Soulburn",
+      function(api)
+        local soulburn = api.Effect("Soulburn", "player")
+        local shards = api.AlternativePower("Soul Shards", "player")
+        local agony = api.Effect("Agony", "target")
+        local corruption = api.Effect("Corruption", "target")
+        local unstable = api.Effect("Unstable Affliction", "target")
+
+        return (not soulburn.isActive) and shards.current >= 2 and
+          agony.remainingDuration < 7.2 and
+          corruption.remainingDuration < 5.4 and
+          unstable.remainingDuration < 4.2
+      end
+    },
+    {
       "Agony",
       function(api)
         return api.Effect("Agony", "target").remainingDuration < 7.2
