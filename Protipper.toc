@@ -1,13 +1,14 @@
-## Interface: 60100
+## Author: Ethrain, Binky
+## Interface: 60200
+## LastUpdate: 2015-08-22
+## Notes: A helping hand in keeping track of your DPS rotation.
 ## Title: Protipper
-## Notes: A World of Warcraft Addon for the DPS-engrossed damage dealer.
-## Author: Ethrain of Defias Brotherhood
-## LastUpdate: 2013-10-27T18:26:00Z
 ## Version: 0.1.0
 
 ## SavedVariables: ProtipperOptions
 
 ## X-Category: Buffs & Debuffs, Combat
+## X-Email: ethrain@nauerby.com, binky@kragbaek.com
 ## X-Licence: GPLv3
 
 locales.lua
