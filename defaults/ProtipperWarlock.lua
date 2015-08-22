@@ -152,7 +152,7 @@ Protipper.SPEC_LIST["Affliction"] = {
       "Drain Soul",
       function(api)
         channel = api.Effect("Drain Soul", "target")
-        return channel.remainingDuration < 0.75
+        return channel.remainingDuration < (channel.totalDuration / 4)
       end
     },
     {

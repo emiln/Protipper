@@ -205,7 +205,8 @@ end
     totalTime - A double reprenseting the total duration of the effect on the unit. -1 if the effect is not applied to the unit.]]
 api.Effect = function(spellName, unit)
   local effect = {}
-  effect.isActive, effect.remainingDuration, effect.stacks = false, -1, -1
+  effect.isActive, effect.remainingDuration, effect.stacks, effect.totalDuration
+    = false, -1, -1, -1
   local name, rank, icon, count, dispelType, duration, expires, caster,
         isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff,
         value1, value2, value3 = UnitAura(unit, spellName)
@@ -217,7 +218,7 @@ api.Effect = function(spellName, unit)
     effect.isActive = true
     effect.remainingDuration = expires - GetTime()
     effect.stacks = count
-    effect.totalTime = duration
+    effect.totalDuration = duration
   end
   return effect
 end
